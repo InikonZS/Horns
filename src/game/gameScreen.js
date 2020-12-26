@@ -35,6 +35,66 @@ class Timer{
   }
 }
 
+/*class Weapon{
+  constructor(){
+    this.bullet = new GraphicPoint(new Vector(0, 0), 5, '#000');
+  }
+
+  shot(){
+
+  }
+}
+*/
+class PhysicPoint {
+  constructor (position){
+    this.position = position.clone();
+    this.speed = new Vector(0,0);
+    this.acceleration = new Vector(0,0);
+    this.forceList = [];
+    this.friction = 1;
+  }
+
+  get x(){
+    return this.position.x;
+  }
+  get y(){
+    return this.position.y;
+  }
+  set x(value){
+    this.position.x = value;
+  }
+  set y(value){
+    this.position.y = value;
+  }
+
+  getNextPosition(deltaTime) {
+    let resultAcceleration = this.acceleration.clone();
+    this.forceList.forEach(it=>resultAcceleration.add(it));
+    this.speed.clone().add(resultAcceleration.clone().scale(deltaTime)).scale(this.friction);
+    return this.position.clone().add(this.speed.clone().scale(deltaTime));  
+  }
+
+  process(deltaTime) {
+    let resultAcceleration = this.acceleration.clone();
+    this.forceList.forEach(it=>resultAcceleration.add(it));
+    this.speed.add(resultAcceleration.clone().scale(deltaTime)).scale(this.friction);
+    this.position.add(this.speed.clone().scale(deltaTime));  
+  }
+}
+
+class Physical{
+  constructor(pos, radius, color){
+    this.graphic = new GraphicPoint(pos, radius, color);
+    this.physic = new PhysicPoint(pos); 
+  }
+
+  render(context, deltaTime){
+    this.physic.process(deltaTime);
+    this.graphic.position = this.physic.position;
+    this.graphic.render(context, deltaTime);
+  }
+}
+
 class Player{
   constructor(name, health, pos, color){
     this.name = name;
@@ -44,6 +104,10 @@ class Player{
     this.shotDirection;
 
     this.graphic = new GraphicPoint(pos, 10, color);
+    this.angle = 0;
+    this.target = new GraphicPoint(pos, 5, color);
+    
+    this.bullets = [];
   }
 
   hurt(damage){
@@ -63,10 +127,19 @@ class Player{
       this.currentWeapon.shot();
       this.onShot();
     }
+
+    let bullet = new Physical(this.graphic.position, 5, '#000');
+    bullet.physic.speed = new Vector(Math.cos(this.angle / 100), Math.sin(this.angle / 100)).scale(10.1);
+    this.bullets.push(bullet);
   }
 
   render(context, deltaTime){
+    this.target.position = new Vector(Math.cos(this.angle / 100), Math.sin(this.angle / 100)).scale(100).add(this.graphic.position)
     this.graphic.render(context, deltaTime);
+    this.bullets.forEach(it=>it.render(context, deltaTime));
+    if (this.isActive){
+      this.target.render(context, deltaTime);
+    }
   }
 }
 
@@ -110,6 +183,7 @@ class Game{
     this.timer.onTimeout = ()=>{
       this.next();
     }
+    this.pow=0;
   }
 
   addTeam(team){
@@ -121,8 +195,12 @@ class Game{
       this.timer.start(45);
       this.currentTeam = this.teams[0];
       let currentPlayer = this.currentTeam.nextPlayer();
-      this.teams.forEach(it=>it.players.forEach(jt=>jt.graphic.radius=10));
+      this.teams.forEach(it=>it.players.forEach(jt=>{
+        jt.graphic.radius=10;
+        jt.isActive = false;
+      }));
       currentPlayer.graphic.radius = 15;
+      currentPlayer.isActive = true;
       console.log('start turn to ',this.currentTeam.name, currentPlayer);
     }
   }
@@ -134,8 +212,12 @@ class Game{
       let nextTeamIndex = (this.teams.indexOf(this.currentTeam)+1) % this.teams.length;
       this.currentTeam = this.teams[nextTeamIndex];
       let currentPlayer = this.currentTeam.nextPlayer();
-      this.teams.forEach(it=>it.players.forEach(jt=>jt.graphic.radius=10));
+      this.teams.forEach(it=>it.players.forEach(jt=>{
+        jt.graphic.radius=10;
+        jt.isActive = false;
+      }));
       currentPlayer.graphic.radius = 15;
+      currentPlayer.isActive = true;
       //this.currentPlayer = this.currentTeam.players
       console.log('turn to ',this.currentTeam.name, currentPlayer);
     } else {
@@ -157,21 +239,28 @@ class Game{
     })
   }
 
-  processKeyboard(keyboardState){
+  processKeyboard(keyboardState, deltaTime){
     let c = this.currentTeam.currentPlayer.graphic.position;
+    let t = this.currentTeam.currentPlayer;
+
     if (keyboardState['KeyW']){c.y+=-1;}
     if (keyboardState['KeyS']){c.y+=1;}
     if (keyboardState['KeyA']){c.x+=-1;}
     if (keyboardState['KeyD']){c.x+=1;}
 
+    if (keyboardState['KeyQ']){t.angle+=-1;}
+    if (keyboardState['KeyE']){t.angle+=1;}
+    
     
     if (!this.nextLock && keyboardState['Space']){
       this.nextLock = true;
-      this.currentTeam.currentPlayer.shot();
-      this.next();
+      this.pow+=deltaTime;
     }
     if (this.nextLock && !keyboardState['Space']){
       this.nextLock = false; 
+      this.currentTeam.currentPlayer.shot(this.pow);
+      this.pow = 0;
+      this.next();
     }
   }
 }
@@ -231,14 +320,15 @@ class GameScreen extends Control{
       let menu = new MainMenu(this.panel.node);
       menu.onFight = () =>{
         this.panel.node.innerHTML = '';
-        new PlayPanel(this.panel.node);
+        let playPanel = new PlayPanel(this.panel.node);
         this.game = newGame();
       
         this.renderer.onRenderFrame = (deltaTime) =>{
           this.game.tick(deltaTime/100);
+          playPanel.timeIndicator.node.textContent = Math.trunc(this.game.timer.counter);
           this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
           this.game.render(this.context, deltaTime/100);
-          this.game.processKeyboard(this.keyboardState);
+          this.game.processKeyboard(this.keyboardState, deltaTime/100);
         }
         this.game.start();
       }

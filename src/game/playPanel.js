@@ -1,5 +1,17 @@
 const Control = require('common/control.js');
 
+class TimeIndicator extends Control{
+  constructor(parentNode){
+    super(parentNode, 'div', 'gamescreen_clock', '');
+  }
+}
+
+class TeamIndicator extends Control{
+  constructor(parentNode){
+    super(parentNode, 'div', 'gamescreen_clock', '');
+  }
+}
+
 class PlayPanel extends Control{
   constructor(parentNode, config){
     super(parentNode, 'div', 'gamescreen_wrapper', `
@@ -12,10 +24,8 @@ class PlayPanel extends Control{
       </div>
     </div>
     <div class="gamescreen_bottom">
-      <div class="gamescreen_panel">
-        <div class="gamescreen_clock">
-          45
-        </div> 
+      <div id="gclock" class="gamescreen_panel">
+
       </div> 
       <div class="gamescreen_panel">
         <div class="teams_wrapper">
@@ -56,6 +66,7 @@ class PlayPanel extends Control{
       </div> 
     </div>   
     `);
+    this.timeIndicator = new TimeIndicator(this.node.querySelector('#gclock'));
   }
 }
 
