@@ -6,6 +6,8 @@ const Renderer = require('common/renderer.js');
 const Vector = require('common/vector.js');
 const Preloader = require('./preloader.js');
 
+
+let bullets = [];
 class Timer{
   constructor(){
     this.counter = 0;
@@ -110,7 +112,7 @@ class Player{
     this.angle = 0;
     this.target = new GraphicPoint(pos, 5, color);
     
-    this.bullets = [];
+   // this.bullets = [];
   }
 
   hurt(damage){
@@ -131,18 +133,24 @@ class Player{
       this.onShot();
     }
 
-    let bullet = new Physical(this.graphic.position, 5, '#000');
-    bullet.physic.speed = new Vector(Math.cos(this.angle / 100), Math.sin(this.angle / 100)).scale(10.1);
-    this.bullets.push(bullet);
+    let dir = new Vector(Math.cos(this.angle / 100), Math.sin(this.angle / 100));
+    let bullet = new Physical(this.graphic.position.clone().add(dir.clone().scale(11)), 5, '#000');
+    bullet.physic.speed = dir.clone().scale(10.1);
+    bullets.push(bullet);
     bullet.timer.onTimeout=()=>{
-      this.bullets = this.bullets.filter(it=>it!==bullet);
+      bullets = bullets.filter(it=>it!==bullet);
     }
   }
 
   render(context, deltaTime){
     this.target.position = new Vector(Math.cos(this.angle / 100), Math.sin(this.angle / 100)).scale(100).add(this.graphic.position)
     this.graphic.render(context, deltaTime);
-    this.bullets.forEach(it=>it.render(context, deltaTime));
+    bullets.forEach(it=>{
+      //it.render(context, deltaTime);
+      if (it.graphic.position.clone().sub(this.graphic.position).abs()<10){
+        this.hurt(100);
+      }
+    });
     if (this.isActive){
       this.target.render(context, deltaTime);
     }
@@ -172,6 +180,12 @@ class Team{
 
   addPlayer(player){
     this.players.push(player);
+    player.onKilled = ()=>{
+      this.players = this.players.filter(it=>it!=player);
+      if (this.players.length==0){
+        this.onKilled && this.onKilled();
+      }
+    }
   }
 
   render(context, deltaTime){
@@ -195,6 +209,13 @@ class Game{
 
   addTeam(team){
     this.teams.push(team);
+    team.onKilled = ()=>{
+      this.teams = this.teams.filter(it=>it!=team);
+      if (this.teams.length<=1){
+        console.log('win');
+        this.onFinish && this.onFinish();
+      }
+    }
   }
 
   start(){
@@ -266,21 +287,23 @@ class Game{
       this.nextLock = true;
       this.pow+=deltaTime;
     }
-    if (this.nextLock && !keyboardState['Space']){
-      this.timer.pause();
+    if (this.nextLock && !keyboardState['Space']){ 
       this.nextLock = false; 
       if (!this.shoted){
+        this.timer.pause();
+       
+        
         this.shoted = true;
         this.currentTeam.currentPlayer.shot(this.pow);
+        
+        this.pow = 0;
+        this.afterTimer.start(10);
+        this.afterTimer.onTimeout = ()=>{
+          this.afterTimer.pause();
+          this.shoted = false;
+          this.next();  
+        }
       }
-      this.pow = 0;
-      this.afterTimer.start(10);
-      this.afterTimer.onTimeout = ()=>{
-        this.afterTimer.pause();
-        this.shoted = false;
-        this.next();  
-      }
-      
     }
   }
 }
@@ -288,9 +311,9 @@ class Game{
 function newGame(){
   let colors = ['#f00', '#fc0', '#090', '#00f', '#909'];
   let game = new Game();
-  for (let j=0; j<3; j++){
+  for (let j=0; j<2; j++){
     let team = new Team('team'+j);
-    for (let i=0; i<5; i++){
+    for (let i=0; i<2; i++){
       let pl = new Player('pl'+i+'team'+j, 100, new Vector(Math.random()*700+50, Math.random()*500+50), colors[j]);  
       team.addPlayer(pl);
     }
@@ -342,13 +365,19 @@ class GameScreen extends Control{
         this.panel.node.innerHTML = '';
         let playPanel = new PlayPanel(this.panel.node);
         this.game = newGame();
-      
+        this.game.onFinish = ()=>{
+          //this.panel.node.innerHTML = '';
+          //this.preloader = new Preloader(this.panel.node);  
+        }
         this.renderer.onRenderFrame = (deltaTime) =>{
           this.game.tick(deltaTime/100);
           playPanel.timeIndicator.node.textContent = Math.trunc(this.game.timer.counter);
           this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
           this.game.render(this.context, deltaTime/100);
           this.game.processKeyboard(this.keyboardState, deltaTime/100);
+          bullets.forEach(it=>{
+            it.render(this.context, deltaTime/100);
+          })
         }
         this.game.start();
       }
