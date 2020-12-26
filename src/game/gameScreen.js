@@ -1,7 +1,10 @@
 const Control = require('common/control.js');
 const GamePanel = require('./gamePanel.js');
+const PlayPanel = require('./playPanel.js');
+const MainMenu = require('./mainMenu.js');
 const Renderer = require('common/renderer.js');
 const Vector = require('common/vector.js');
+const Preloader = require('./preloader.js');
 
 class Timer{
   constructor(){
@@ -220,15 +223,27 @@ class GameScreen extends Control{
     this.canvas.node.height = 600;
     this.context = this.canvas.node.getContext('2d');
     this.panel = new GamePanel(this.node, 'div');
-    this.game = newGame();
     this.renderer = new Renderer();
-    this.renderer.onRenderFrame = (deltaTime) =>{
-      this.game.tick(deltaTime/100);
-      this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
-      this.game.render(this.context, deltaTime/100);
-      this.game.processKeyboard(this.keyboardState);
+
+    this.preloader = new Preloader(this.panel.node);
+    this.preloader.onStart = ()=>{
+      this.panel.node.innerHTML = '';
+      let menu = new MainMenu(this.panel.node);
+      menu.onFight = () =>{
+        this.panel.node.innerHTML = '';
+        new PlayPanel(this.panel.node);
+        this.game = newGame();
+      
+        this.renderer.onRenderFrame = (deltaTime) =>{
+          this.game.tick(deltaTime/100);
+          this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
+          this.game.render(this.context, deltaTime/100);
+          this.game.processKeyboard(this.keyboardState);
+        }
+        this.game.start();
+      }
     }
-    this.game.start();
+
     this.renderer.start();
 
     this.keyboardState = {};
