@@ -1,16 +1,30 @@
+const Weapon = require('./weapon.js');
+const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
+const Vector = require('common/vector.js');
+
+class GraphicPlayer extends GraphicPoint{
+  constructor (position, radius, color = '#f00'){
+    super(position, radius, color);
+  }
+
+  render(context, deltaTime, data){
+    context.fillStyle = '#000';
+    context.fillText(data.health, this.position.x, this.position.y-15);
+    super.render(context, deltaTime);
+  }
+}
+
 class Player{
   constructor(name, health, pos, color){
     this.name = name;
     this.health = health;
-    this.weapons = [];
-    this.currentWeapon = null;
-    this.shotDirection;
+    this.weapons = [new Weapon(10)];
+    this.currentWeapon = this.weapons[0];
+    this.angle = 0;
 
     this.graphic = new GraphicPlayer(pos, 10, color);
-    this.angle = 0;
     this.target = new GraphicPoint(pos, 5, color);
     
-   // this.bullets = [];
   }
 
   hurt(damage){
@@ -25,34 +39,29 @@ class Player{
     this.health += damage;
   }
 
-  shot(){
+  shot(bullets){
+    let direction = new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
     if (this.currentWeapon){
-      this.currentWeapon.shot();
-      this.onShot();
-    }
-
-    let dir = new Vector(Math.cos(this.angle / 100), Math.sin(this.angle / 100));
-    let bullet = new Physical(this.graphic.position.clone().add(dir.clone().scale(11)), 5, '#000');
-    bullet.physic.speed = dir.clone().scale(10.1);
-    bullets.push(bullet);
-    bullet.timer.onTimeout=()=>{
-      bullets = bullets.filter(it=>it!==bullet);
+      this.currentWeapon.shot(bullets, this.graphic.position, direction);
+      this.onShot && this.onShot();
     }
   }
 
-  render(context, deltaTime){
-    this.target.position = new Vector(Math.cos(this.angle / 100), Math.sin(this.angle / 100)).scale(100).add(this.graphic.position)
-    this.graphic.render(context, deltaTime, {health:this.health});
+  react(bullets, deltaTime){
     bullets.forEach(it=>{
-      //it.render(context, deltaTime);
       if (it.graphic.position.clone().sub(this.graphic.position).abs()<10){
         if (!it.isDeleted){
           it.isDeleted = true;
           this.hurt(70);
         }
       }
-    });
-    bullets = bullets.filter(it=>!it.isDeleted)
+    });  
+  }
+
+  render(context, deltaTime){
+    this.target.position = new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30)).scale(100).add(this.graphic.position)
+    this.graphic.render(context, deltaTime, {health:this.health});
+    
     if (this.isActive){
       this.target.render(context, deltaTime);
     }
