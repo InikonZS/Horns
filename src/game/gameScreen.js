@@ -108,7 +108,7 @@ class Player{
     this.currentWeapon = null;
     this.shotDirection;
 
-    this.graphic = new GraphicPoint(pos, 10, color);
+    this.graphic = new GraphicPlayer(pos, 10, color);
     this.angle = 0;
     this.target = new GraphicPoint(pos, 5, color);
     
@@ -144,13 +144,17 @@ class Player{
 
   render(context, deltaTime){
     this.target.position = new Vector(Math.cos(this.angle / 100), Math.sin(this.angle / 100)).scale(100).add(this.graphic.position)
-    this.graphic.render(context, deltaTime);
+    this.graphic.render(context, deltaTime, {health:this.health});
     bullets.forEach(it=>{
       //it.render(context, deltaTime);
       if (it.graphic.position.clone().sub(this.graphic.position).abs()<10){
-        this.hurt(100);
+        if (!it.isDeleted){
+          it.isDeleted = true;
+          this.hurt(70);
+        }
       }
     });
+    bullets = bullets.filter(it=>!it.isDeleted)
     if (this.isActive){
       this.target.render(context, deltaTime);
     }
@@ -342,6 +346,18 @@ class GraphicPoint {
     context.fill();
     context.stroke();
     //super.render(context, deltaTime);
+  }
+}
+
+class GraphicPlayer extends GraphicPoint{
+  constructor (position, radius, color = '#f00'){
+    super(position, radius, color);
+  }
+
+  render(context, deltaTime, data){
+    context.fillStyle = '#000';
+    context.fillText(data.health, this.position.x, this.position.y-15);
+    super.render(context, deltaTime);
   }
 }
 
