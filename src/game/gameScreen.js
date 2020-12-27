@@ -6,47 +6,25 @@ const Renderer = require('common/renderer.js');
 const Vector = require('common/vector.js');
 const Preloader = require('./preloader.js');
 
+const Timer = require('./core/timer.js');
 
 let bullets = [];
-class Timer{
-  constructor(){
-    this.counter = 0;
-    this.isPaused = true;
+
+class Weapon{
+  constructor(bulletSpeed){
+    this.bulletSpeed = bulletSpeed;   
   }
 
-  tick(deltaTime){
-    if (this.isPaused == false){
-      this.counter-=deltaTime;
-      if (this.counter<=0){
-        this.onTimeout();
-      }
+  shot(bullets, point, direction){
+    let bullet = new Physical(point.clone().add(direction.clone().scale(11)), 5, '#000');
+    bullet.physic.speed = direction.clone().scale(10);
+    bullets.push(bullet);
+    bullet.timer.onTimeout=()=>{
+      bullets = bullets.filter(it=>it!==bullet);
     }
   }
-
-  pause(){
-    this.isPaused = true;
-  }
-
-  resume(){
-    this.isPaused = false;
-  }
-
-  start(counter){
-    this.isPaused = false;
-    this.counter = counter;
-  }
 }
 
-/*class Weapon{
-  constructor(){
-    this.bullet = new GraphicPoint(new Vector(0, 0), 5, '#000');
-  }
-
-  shot(){
-
-  }
-}
-*/
 class PhysicPoint {
   constructor (position){
     this.position = position.clone();
@@ -104,9 +82,9 @@ class Player{
   constructor(name, health, pos, color){
     this.name = name;
     this.health = health;
-    this.weapons = [];
-    this.currentWeapon = null;
-    this.shotDirection;
+    this.weapons = [new Weapon(10)];
+    this.currentWeapon = this.weapons[0];//null;
+    //this.shotDirection;
 
     this.graphic = new GraphicPlayer(pos, 10, color);
     this.angle = 0;
@@ -127,34 +105,29 @@ class Player{
     this.health += damage;
   }
 
-  shot(){
+  shot(bullets){
+    let direction = new Vector(Math.cos(this.angle / 100), Math.sin(this.angle / 100));
     if (this.currentWeapon){
-      this.currentWeapon.shot();
-      this.onShot();
-    }
-
-    let dir = new Vector(Math.cos(this.angle / 100), Math.sin(this.angle / 100));
-    let bullet = new Physical(this.graphic.position.clone().add(dir.clone().scale(11)), 5, '#000');
-    bullet.physic.speed = dir.clone().scale(10.1);
-    bullets.push(bullet);
-    bullet.timer.onTimeout=()=>{
-      bullets = bullets.filter(it=>it!==bullet);
+      this.currentWeapon.shot(bullets, this.graphic.position, direction);
+      this.onShot && this.onShot();
     }
   }
 
-  render(context, deltaTime){
-    this.target.position = new Vector(Math.cos(this.angle / 100), Math.sin(this.angle / 100)).scale(100).add(this.graphic.position)
-    this.graphic.render(context, deltaTime, {health:this.health});
+  react(bullets, deltaTime){
     bullets.forEach(it=>{
-      //it.render(context, deltaTime);
       if (it.graphic.position.clone().sub(this.graphic.position).abs()<10){
         if (!it.isDeleted){
           it.isDeleted = true;
           this.hurt(70);
         }
       }
-    });
-    bullets = bullets.filter(it=>!it.isDeleted)
+    });  
+  }
+
+  render(context, deltaTime){
+    this.target.position = new Vector(Math.cos(this.angle / 100), Math.sin(this.angle / 100)).scale(100).add(this.graphic.position)
+    this.graphic.render(context, deltaTime, {health:this.health});
+    
     if (this.isActive){
       this.target.render(context, deltaTime);
     }
@@ -190,6 +163,12 @@ class Team{
         this.onKilled && this.onKilled();
       }
     }
+  }
+
+  react(bullets, deltaTime){
+    this.players.forEach(it=>{
+      it.react(bullets, deltaTime);
+    })  
   }
 
   render(context, deltaTime){
@@ -268,6 +247,12 @@ class Game{
     this.afterTimer.tick(deltaTime);
   }
 
+  react(bullets, deltaTime){
+    this.teams.forEach(it=>{
+      it.react(bullets, deltaTime);
+    })  
+  }
+
   render(context, deltaTime){
     this.teams.forEach(it=>{
       it.render(context, deltaTime);
@@ -298,7 +283,7 @@ class Game{
        
         
         this.shoted = true;
-        this.currentTeam.currentPlayer.shot(this.pow);
+        this.currentTeam.currentPlayer.shot(bullets, this.pow);
         
         this.pow = 0;
         this.afterTimer.start(10);
@@ -391,9 +376,11 @@ class GameScreen extends Control{
           this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
           this.game.render(this.context, deltaTime/100);
           this.game.processKeyboard(this.keyboardState, deltaTime/100);
+          this.game.react(bullets, deltaTime);
           bullets.forEach(it=>{
             it.render(this.context, deltaTime/100);
           })
+          bullets = bullets.filter(it=>!it.isDeleted);
         }
         this.game.start();
       }
