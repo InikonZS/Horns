@@ -40,18 +40,36 @@ class GameScreen extends Control{
     this.renderer = new Renderer();
 
     this.preloader = new Preloader(this.panel.node);
+    //this.preloader.hide()
     this.preloader.onStart = ()=>{
-      this.panel.node.innerHTML = '';
-      let menu = new MainMenu(this.panel.node);
+     // this.panel.node.innerHTML = '';
+     this.preloader.hide();
+     this.menu.show();
+    }
+    let playPanel = new PlayPanel(this.panel.node);
+    this.playPanel = playPanel;
+    this.playPanel.hide();
+    
+    this.game = newGame();
+    this.game.onFinish = ()=>{
+      this.playPanel.hide();
+      this.preloader.show();
+      //this.panel.node.innerHTML = '';
+      //this.preloader = new Preloader(this.panel.node);  
+    }
+
+    let menu = new MainMenu(this.panel.node);
+    this.menu=menu;
+    this.menu.hide();
       menu.onFight = () =>{
-        this.panel.node.innerHTML = '';
-        let playPanel = new PlayPanel(this.panel.node);
-        this.game = newGame();
-        this.game.onFinish = ()=>{
-          //this.panel.node.innerHTML = '';
-          //this.preloader = new Preloader(this.panel.node);  
-        }
-        this.renderer.onRenderFrame = (deltaTime) =>{
+        this.menu.hide();
+        this.playPanel.show();
+        this.game.start();
+
+        this.renderer.start();
+      }
+
+      this.renderer.onRenderFrame = (deltaTime) =>{
           this.game.tick(deltaTime/100);
           playPanel.timeIndicator.node.textContent = Math.trunc(this.game.timer.counter);
           this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
@@ -63,11 +81,8 @@ class GameScreen extends Control{
           })
           this.game.bullets = this.game.bullets.filter(it=>!it.isDeleted);
         }
-        this.game.start();
-      }
-    }
 
-    this.renderer.start();
+    console.log('fgdfg')
 
     this.keyboardState = {};
     window.addEventListener('keydown', ev=>{

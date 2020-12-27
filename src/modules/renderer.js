@@ -18,9 +18,11 @@ class Renderer {
     };
 
     this.start = () => {
-      this.isStarted = true;
-      lastTime = 0;
-      requestAnimationFrame(renderFrame);
+      if (this.isStarted == false){
+        this.isStarted = true;
+        lastTime = 0;
+        requestAnimationFrame(renderFrame);
+      }
     };
 
     this.stop = () => {

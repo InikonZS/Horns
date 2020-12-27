@@ -6,6 +6,15 @@ class Control {
     parentNode.appendChild(el);
     this.node = el;
   }
+
+  hide(){
+    this.node.style.display = 'none';
+  }
+
+  show(){
+    this.node.style.display = '';
+  }
+
 }
 
 module.exports = Control;
