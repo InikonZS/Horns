@@ -61,26 +61,26 @@ class GameScreen extends Control{
     let menu = new MainMenu(this.panel.node);
     this.menu=menu;
     this.menu.hide();
-      menu.onFight = () =>{
-        this.menu.hide();
-        this.playPanel.show();
-        this.game.start();
+    menu.onFight = () =>{
+      this.menu.hide();
+      this.playPanel.show();
+      this.game.start();
 
-        this.renderer.start();
-      }
+      this.renderer.start();
+    }
 
-      this.renderer.onRenderFrame = (deltaTime) =>{
-          this.game.tick(deltaTime/100);
-          playPanel.timeIndicator.node.textContent = Math.trunc(this.game.timer.counter);
-          this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
-          this.game.render(this.context, deltaTime/100);
-          this.game.processKeyboard(this.keyboardState, deltaTime/100);
-          this.game.react(this.game.bullets, deltaTime);
-          this.game.bullets.forEach(it=>{
-            it.render(this.context, deltaTime/100);
-          })
-          this.game.bullets = this.game.bullets.filter(it=>!it.isDeleted);
-        }
+    this.renderer.onRenderFrame = (deltaTime) =>{
+      this.game.tick(deltaTime/100);
+      playPanel.timeIndicator.node.textContent = Math.trunc(this.game.timer.counter);
+      this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
+      this.game.render(this.context, deltaTime/100);
+      this.game.processKeyboard(this.keyboardState, deltaTime/100);
+      this.game.react(this.game.bullets, deltaTime);
+      this.game.bullets.forEach(it=>{
+        it.render(this.context, deltaTime/100);
+      })
+      this.game.bullets = this.game.bullets.filter(it=>!it.isDeleted);
+    }
 
     console.log('fgdfg')
 
