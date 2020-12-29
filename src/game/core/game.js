@@ -43,8 +43,6 @@ class Game{
     if (this.teams.length>1){
       this.timer.start(45);
 
-      
-      
       let nextTeamIndex = (this.teams.indexOf(this.currentTeam)+1) % this.teams.length;
       this.currentTeam = this.teams[nextTeamIndex];
       let currentPlayer = this.currentTeam.nextPlayer();
@@ -73,7 +71,7 @@ class Game{
   react(bullets, deltaTime){
     this.teams.forEach(it=>{
       it.react(bullets, deltaTime);
-    })  
+    })
   }
 
   render(context, deltaTime){
@@ -83,6 +81,7 @@ class Game{
   }
 
   processKeyboard(keyboardState, deltaTime){
+
     let c = this.currentTeam.currentPlayer.graphic.position;
     let t = this.currentTeam.currentPlayer;
 
@@ -93,27 +92,27 @@ class Game{
 
     if (keyboardState['KeyQ']){t.angle+=-1;}
     if (keyboardState['KeyE']){t.angle+=1;}
-    
-    
+
+
     if (!this.nextLock && keyboardState['Space']){
       this.nextLock = true;
       this.pow+=deltaTime;
     }
-    if (this.nextLock && !keyboardState['Space']){ 
-      this.nextLock = false; 
+    if (this.nextLock && !keyboardState['Space']){
+      this.nextLock = false;
       if (!this.shoted){
         this.timer.pause();
-       
-        
+
+
         this.shoted = true;
         this.currentTeam.currentPlayer.shot(this.bullets, this.pow);
-        
+
         this.pow = 0;
         this.afterTimer.start(10);
         this.afterTimer.onTimeout = ()=>{
           this.afterTimer.pause();
           this.shoted = false;
-          this.next();  
+          this.next();
         }
       }
     }

@@ -1,5 +1,6 @@
 const Timer = require('./timer.js');
 const Vector = require('common/vector.js');
+const Animation = require('./animation');
 
 class GraphicPoint {
   constructor(position, radius, color = '#f00') {
@@ -8,6 +9,9 @@ class GraphicPoint {
     //this.physic = new PhysicPoint(position);
     this.radius = radius;
     this.color = color;
+    let spritesheet = new Image();
+    spritesheet.src = '../../assets/worm-walks-100.png';
+    this.animation = new Animation(spritesheet, 1442, 100, 15);
   }
 
   render(context, deltaTime) {
@@ -20,6 +24,8 @@ class GraphicPoint {
     context.closePath();
     context.fill();
     context.stroke();
+    this.animation.update();
+    this.animation.draw(context, this.position.x, this.position.y)
     //super.render(context, deltaTime);
   }
 }
@@ -50,21 +56,21 @@ class PhysicPoint {
     let resultAcceleration = this.acceleration.clone();
     this.forceList.forEach(it=>resultAcceleration.add(it));
     this.speed.clone().add(resultAcceleration.clone().scale(deltaTime)).scale(this.friction);
-    return this.position.clone().add(this.speed.clone().scale(deltaTime));  
+    return this.position.clone().add(this.speed.clone().scale(deltaTime));
   }
 
   process(deltaTime) {
     let resultAcceleration = this.acceleration.clone();
     this.forceList.forEach(it=>resultAcceleration.add(it));
     this.speed.add(resultAcceleration.clone().scale(deltaTime)).scale(this.friction);
-    this.position.add(this.speed.clone().scale(deltaTime));  
+    this.position.add(this.speed.clone().scale(deltaTime));
   }
 }
 
 class Physical{
   constructor(pos, radius, color){
     this.graphic = new GraphicPoint(pos, radius, color);
-    this.physic = new PhysicPoint(pos); 
+    this.physic = new PhysicPoint(pos);
     this.timer = new Timer();
     this.timer.start(10);
   }
