@@ -1,0 +1,132 @@
+*{
+  box-sizing: border-box;
+}
+
+body{
+  margin:0px;
+  background-color: rgb(217, 230, 241);
+}
+
+.page_wrapper{
+
+}
+
+.gamescreen_wrapper{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+}
+
+.menu_wrapper{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
+
+.weaponscreen_wrapper{
+  margin: auto;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center; 
+  margin-top: 40px;
+}
+
+.weaponscreen_item{
+  user-select: none;  
+  width: calc(20%);
+  height: calc(20%);
+  border: 1px solid dimgrey;
+  background-color: rgb(190, 161, 162);    
+  background-size: cover;  
+  margin: 0;  
+}
+.weapon_contain {
+  cursor: pointer;
+  background-image: url(./assets/granata.png);
+}
+
+
+.weapon_amount_available {  
+  font-size: 20px;
+  font-weight: 600;
+  color:  rgb(97, 73, 68);
+  text-align: right;
+  margin: 0;
+}
+.weaponscreen_item:hover {
+  opacity: 0.8;  
+}
+
+.weaponscreen_item_unavailable {
+  cursor: auto;
+  filter: grayscale(100%); 
+}
+
+.weaponscreen_item:active {
+  border: 2px solid yellow;
+  transition: background 0s;
+
+}
+
+.menu_item{
+  user-select: none;
+  width: calc(50% - 20px);
+  height: calc(50% - 20px);
+  background-color: rgb(190, 161, 162);
+  border-radius: 30px;
+  font-size: 60px;
+  font-family: 'Andika New Basic', sans-serif;  
+  letter-spacing: 20px;
+  text-align: center;
+  vertical-align: middle;
+  color: rgb(104, 50, 16);
+  box-shadow: 0 5px 0 rgb(97, 73, 68);
+  margin: 10px;
+  padding: 10px;
+}
+.menu_item:hover {  
+  transform: scale(1.03);
+  opacity: 0.9;
+  transition: 0.2s;
+}
+
+@media only screen and (max-width:767px){
+  .menu_item{
+    width: calc(100% - 20px);
+    height: calc(25% - 20px);
+  }  
+}
+
+.gamescreen_header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo_main{
+  font-size: 50px;
+  letter-spacing: 5px;
+  font-weight: 900;
+}
+
+.logo_second{
+  font-size: 18px;
+  letter-spacing: 5px;
+}
+
+.logo_image {
+  width: 90px;
+  height: 180px;
+}
