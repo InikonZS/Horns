@@ -84,9 +84,9 @@ class Game{
   render(context, deltaTime){
     this.bullets.forEach(it=>{
       
-      if (this.map.map[Math.trunc(it.graphic.position.y/10)] && this.map.map[Math.trunc(it.graphic.position.y/10)][Math.trunc(it.graphic.position.x/10)]){
+      if (this.map.map[Math.trunc(it.graphic.position.y/this.map.size)] && this.map.map[Math.trunc(it.graphic.position.y/this.map.size)][Math.trunc(it.graphic.position.x/this.map.size)]){
         //this.map.map[Math.trunc(it.graphic.position.y/10)][Math.trunc(it.graphic.position.x/10)] = 0; 
-        this.map.round(it.graphic.position.clone().scale(0.1),5);
+        this.map.round(it.graphic.position.clone().scale(1/this.map.size),20);
         it.isDeleted = true;
       }
     });
@@ -110,11 +110,12 @@ class Game{
     if (keyboardState['KeyQ']){t.angle+=-1;}
     if (keyboardState['KeyE']){t.angle+=1;}
     
-    if (this.map.map[Math.trunc(c.y/10)] && !this.map.map[Math.trunc(c.y/10)][Math.trunc(c.x/10)]){
+    let size = this.map.size;
+    if (!this.map.map[Math.trunc(c.y/size)] || (this.map.map[Math.trunc(c.y/size)] && !this.map.map[Math.trunc(c.y/size)][Math.trunc(c.x/size)])){
       this.currentTeam.currentPlayer.graphic.position = c;  
     } else {
-      if (move && this.map.map[Math.trunc(c.y/10)-1] && !this.map.map[Math.trunc(c.y/10)-1][Math.trunc(c.x/10)]){
-        this.currentTeam.currentPlayer.graphic.position = c.add(new Vector(0,-10));  
+      if (move && this.map.map[Math.trunc(c.y/size)-1] && !this.map.map[Math.trunc(c.y/size)-1][Math.trunc(c.x/size)]){
+        this.currentTeam.currentPlayer.graphic.position = c.add(new Vector(0,-size));  
       }
     }
     

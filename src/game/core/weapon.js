@@ -15,6 +15,7 @@ class Weapon{
     }
     bullet.physic.speed = direction.clone().scale(this.bulletSpeed);
     bullets.push(bullet);
+    bullet.timer.counter = 30;
     bullet.timer.onTimeout=()=>{
       bullet.isDeleted = true;
     }

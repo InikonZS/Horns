@@ -21,7 +21,7 @@ class Player{
   constructor(name, health, pos, color){
     this.name = name;
     this.health = health;
-    this.weapons = [new Weapon(10)];
+    this.weapons = [new Weapon(10, true)];
     this.currentWeapon = this.weapons[0];
     this.angle = 0;
 
