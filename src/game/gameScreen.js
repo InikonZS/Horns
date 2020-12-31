@@ -10,7 +10,7 @@ const Timer = require('./core/timer.js');
 const Team = require('./core/team.js');
 const Game = require('./core/game.js');
 const Player = require('./core/player.js');
-
+const GameMap = require('./core/map.js');
 
 function newGame(){
   let colors = ['#f00', '#fc0', '#090', '#00f', '#909'];
@@ -57,6 +57,7 @@ class GameScreen extends Control{
       //this.panel.node.innerHTML = '';
       //this.preloader = new Preloader(this.panel.node);  
     }
+   // this.map = new GameMap();
 
     let menu = new MainMenu(this.panel.node);
     this.menu=menu;
@@ -80,6 +81,7 @@ class GameScreen extends Control{
         it.render(this.context, deltaTime/100);
       })
       this.game.bullets = this.game.bullets.filter(it=>!it.isDeleted);
+     // this.map.render(this.context);
     }
 
     console.log('fgdfg')

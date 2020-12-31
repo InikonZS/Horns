@@ -1,4 +1,6 @@
 const Timer = require('./timer.js');
+const GameMap = require('./map.js');
+const Vector = require('common/vector.js');
 
 class Game{
   constructor(){
@@ -7,6 +9,7 @@ class Game{
     this.currentTeam = null;
     this.timer = new Timer();
     this.afterTimer = new Timer();
+    this.map = new GameMap();
     this.timer.onTimeout = ()=>{
       this.next();
     }
@@ -73,27 +76,45 @@ class Game{
   react(bullets, deltaTime){
     this.teams.forEach(it=>{
       it.react(bullets, deltaTime);
+      
     })  
+    
   }
 
   render(context, deltaTime){
+    this.bullets.forEach(it=>{
+      
+      if (this.map.map[Math.trunc(it.graphic.position.y/10)] && this.map.map[Math.trunc(it.graphic.position.y/10)][Math.trunc(it.graphic.position.x/10)]){
+        this.map.map[Math.trunc(it.graphic.position.y/10)][Math.trunc(it.graphic.position.x/10)] = 0; 
+      }
+    });
+    this.map.render(context);
     this.teams.forEach(it=>{
       it.render(context, deltaTime);
-    })
+    });
+    
   }
 
   processKeyboard(keyboardState, deltaTime){
-    let c = this.currentTeam.currentPlayer.graphic.position;
+    let c = this.currentTeam.currentPlayer.graphic.position.clone();
     let t = this.currentTeam.currentPlayer;
 
+    let move = false;
     if (keyboardState['KeyW']){c.y+=-1;}
     if (keyboardState['KeyS']){c.y+=1;}
-    if (keyboardState['KeyA']){c.x+=-1;}
-    if (keyboardState['KeyD']){c.x+=1;}
+    if (keyboardState['KeyA']){c.x+=-1; move = true}
+    if (keyboardState['KeyD']){c.x+=1; move = true}
 
     if (keyboardState['KeyQ']){t.angle+=-1;}
     if (keyboardState['KeyE']){t.angle+=1;}
     
+    if (this.map.map[Math.trunc(c.y/10)] && !this.map.map[Math.trunc(c.y/10)][Math.trunc(c.x/10)]){
+      this.currentTeam.currentPlayer.graphic.position = c;  
+    } else {
+      if (move && this.map.map[Math.trunc(c.y/10)-1] && !this.map.map[Math.trunc(c.y/10)-1][Math.trunc(c.x/10)]){
+        this.currentTeam.currentPlayer.graphic.position = c.add(new Vector(0,-10));  
+      }
+    }
     
     if (!this.nextLock && keyboardState['Space']){
       this.nextLock = true;
