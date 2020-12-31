@@ -85,7 +85,9 @@ class Game{
     this.bullets.forEach(it=>{
       
       if (this.map.map[Math.trunc(it.graphic.position.y/10)] && this.map.map[Math.trunc(it.graphic.position.y/10)][Math.trunc(it.graphic.position.x/10)]){
-        this.map.map[Math.trunc(it.graphic.position.y/10)][Math.trunc(it.graphic.position.x/10)] = 0; 
+        //this.map.map[Math.trunc(it.graphic.position.y/10)][Math.trunc(it.graphic.position.x/10)] = 0; 
+        this.map.round(it.graphic.position.clone().scale(0.1),5);
+        it.isDeleted = true;
       }
     });
     this.map.render(context);

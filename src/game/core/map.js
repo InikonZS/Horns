@@ -28,6 +28,19 @@ class GameMap{
       }
     }  
   }
+
+  round(center, radius){
+    for (let i=0; i<radius; i++){
+      for (let a=0; a<100; a++){
+        let cpx = Math.trunc(Math.sin(Math.PI*2/100 *a)*i+center.x);
+        let cpy = Math.trunc(Math.cos(Math.PI*2/100 *a)*i+center.y);
+        if(this.map[cpy]){
+          this.map[cpy][cpx]=0
+        };
+      }
+    }
+    
+  }
 }
 
 module.exports = GameMap;
