@@ -40,12 +40,11 @@ class GameScreen extends Control{
     this.renderer = new Renderer();
 
     this.preloader = new Preloader(this.panel.node);
-    //this.preloader.hide()
     this.preloader.onStart = ()=>{
-     // this.panel.node.innerHTML = '';
      this.preloader.hide();
      this.menu.show();
     }
+
     let playPanel = new PlayPanel(this.panel.node);
     this.playPanel = playPanel;
     this.playPanel.hide();
@@ -54,10 +53,7 @@ class GameScreen extends Control{
     this.game.onFinish = ()=>{
       this.playPanel.hide();
       this.preloader.show();
-      //this.panel.node.innerHTML = '';
-      //this.preloader = new Preloader(this.panel.node);  
     }
-   // this.map = new GameMap();
 
     let menu = new MainMenu(this.panel.node);
     this.menu=menu;
@@ -77,16 +73,7 @@ class GameScreen extends Control{
       this.game.render(this.context, deltaTime/100);
       this.game.processKeyboard(this.keyboardState, deltaTime/100);
       this.game.react(this.game.bullets, deltaTime);
-      /*this.game.bullets.forEach(it=>{
-        if (!it.isDeleted){
-          it.render(this.context, deltaTime/100, this.game.camera);
-        }
-      })*/
-      //this.game.bullets = this.game.bullets.filter(it=>!it.isDeleted);
-     // this.map.render(this.context);
     }
-
-    console.log('fgdfg')
 
     this.keyboardState = {};
     window.addEventListener('keydown', ev=>{

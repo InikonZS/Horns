@@ -10,9 +10,8 @@ class GraphicPlayer extends GraphicPoint{
   render(context, deltaTime, camera, data){
     context.fillStyle = '#000';
     let position = this.position.clone().add(camera);
-    context.fillText(data.health, position.x - context.measureText(data.health).width/2, position.y-15);
-    //context.fillStyle = '#000';
-    context.fillText(data.name, position.x-context.measureText(data.name).width/2, position.y-30);
+    context.fillText(data.health, position.x - context.measureText(data.health).width/2, position.y - 15);
+    context.fillText(data.name, position.x - context.measureText(data.name).width/2, position.y - 30);
     
     super.render(context, deltaTime, camera);
   }
@@ -59,7 +58,6 @@ class Player{
       this.power+=deltaTime;
     }
     this.powerIndicator.position = this.getDirectionVector().scale(this.power*20).add(this.graphic.position);
-    
   }
 
   getDirectionVector(){
@@ -79,7 +77,8 @@ class Player{
     bullets.list.forEach(it=>{
       if (it.graphic.position.clone().sub(this.graphic.position).abs()<10){
         if (!it.isDeleted){
-          it.isDeleted = true;
+          //it.isDeleted = true;
+          it.timer.counter = 0;
           this.hurt(70);
         }
       }

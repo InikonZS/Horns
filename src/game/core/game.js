@@ -24,7 +24,6 @@ class Game{
     this.timer.onTimeout = ()=>{
       this.next();
     }
-    this.pow=0;
   }
 
   addTeam(team){
@@ -57,8 +56,6 @@ class Game{
     if (this.teams.length>1){
       this.timer.start(45);
 
-      
-      
       let nextTeamIndex = (this.teams.indexOf(this.currentTeam)+1) % this.teams.length;
       this.currentTeam = this.teams[nextTeamIndex];
       let currentPlayer = this.currentTeam.nextPlayer();
@@ -68,7 +65,6 @@ class Game{
       }));
       currentPlayer.graphic.radius = 15;
       currentPlayer.isActive = true;
-      //this.currentPlayer = this.currentTeam.players
       console.log('turn to ',this.currentTeam.name, currentPlayer);
     } else {
       this.finish();
@@ -87,7 +83,6 @@ class Game{
   react(bullets, deltaTime){
     this.teams.forEach(it=>{
       it.react(bullets, deltaTime);
-      
     })    
   }
 
@@ -104,6 +99,7 @@ class Game{
         it.render(context, deltaTime, this.camera);
       }
     })
+
     this.bullets.list = this.bullets.list.filter(it=>!it.isDeleted);
     this.map.render(context, deltaTime, this.camera);
     this.teams.forEach(it=>{
@@ -143,12 +139,10 @@ class Game{
       this.nextLock = false; 
       if (!this.shoted){
         this.timer.pause();
-       
-        
+
         this.shoted = true;
         this.currentTeam.currentPlayer.shot(this.bullets, this.pow);
         
-        this.pow = 0;
         this.afterTimer.start(10);
         this.afterTimer.onTimeout = ()=>{
           this.afterTimer.pause();
@@ -160,7 +154,6 @@ class Game{
 
     if (!this.shoted && !this.nextLock && keyboardState['Space']){
       this.nextLock = true;
-      this.pow+=deltaTime;
       this.currentTeam.currentPlayer.powerStart();
     }
     if (this.nextLock && (!keyboardState['Space']||this.currentTeam.currentPlayer.power>5)){ 
