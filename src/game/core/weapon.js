@@ -49,7 +49,7 @@ class WeaponEx{
         bull.timer.onTimeout=()=>{
           bull.isDeleted = true;
         }
-        console.log(bullets);
+        //console.log(bullets);
       }
       bullet.isDeleted = true;
     }

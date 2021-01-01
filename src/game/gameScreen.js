@@ -29,12 +29,12 @@ function newGame(){
 
 class GameScreen extends Control{
   constructor(parentNode, config){
-    super(parentNode);
-    this.node.style.position = 'relative';
+    super(parentNode, 'div', 'gamescreen_wrapper');
+  //this.node.style.position = 'relative';
+   // this.node.style.height = 'calc(100vh - 134px);';
     this.canvas = new Control(this.node, 'canvas');
     this.canvas.node.style.position = 'absolute';
-    this.canvas.node.width = 800;
-    this.canvas.node.height = 600;
+    this.autoSize();
     this.context = this.canvas.node.getContext('2d');
     this.panel = new GamePanel(this.node, 'div');
     this.renderer = new Renderer();
@@ -84,6 +84,14 @@ class GameScreen extends Control{
       this.keyboardState[ev.code] = false;  
     });
 
+    window.addEventListener('resize', ()=>{
+      this.autoSize();  
+    })
+  }
+
+  autoSize(){
+    this.canvas.node.height = this.node.clientHeight;
+    this.canvas.node.width = this.node.offsetWidth;
   }
 }
 

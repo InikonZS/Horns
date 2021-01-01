@@ -65,7 +65,7 @@ class Game{
       }));
       currentPlayer.graphic.radius = 15;
       currentPlayer.isActive = true;
-      console.log('turn to ',this.currentTeam.name, currentPlayer);
+      //console.log('turn to ',this.currentTeam.name, currentPlayer);
     } else {
       this.finish();
     }

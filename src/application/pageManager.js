@@ -5,10 +5,10 @@ const GamePage = require('./game/gamePage.js');
 class PageManager extends Control{
   constructor(parentNode, config){
     super(parentNode);
-    this.logo = new Control(this.node, 'h1', '', 'Logo');
-    this.menu = new Control(this.node, 'div', '', 'типо меню навигации Игра / About');
+    this.logo = new Control(this.node, 'h1', 'logo', 'Logo');
+    this.menu = new Control(this.node, 'div', 'navi', 'типо меню навигации Игра / About');
     const gamePage = new GamePage();
-    this.footer = new Control(this.node, 'div', '', 'типо футер, наши гитхабы');
+    this.footer = new Control(this.node, 'div', 'footer', 'типо футер, наши гитхабы');
   }
 }
 
