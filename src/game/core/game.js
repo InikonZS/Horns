@@ -4,6 +4,7 @@ const Vector = require('common/vector.js');
 
 class Game{
   constructor(){
+    this.camera = new Vector(0, 0);
     this.teams = [];
     this.bullets = [];
     this.currentTeam = null;
@@ -77,27 +78,29 @@ class Game{
     this.teams.forEach(it=>{
       it.react(bullets, deltaTime);
       
-    })  
-    
+    })    
   }
 
   render(context, deltaTime){
     this.bullets.forEach(it=>{
-      
-      if (!this.map.isEmptyByVector(it.graphic.position)){//(this.map.map[Math.trunc(it.graphic.position.y/this.map.size)] && this.map.map[Math.trunc(it.graphic.position.y/this.map.size)][Math.trunc(it.graphic.position.x/this.map.size)]){
-        //this.map.map[Math.trunc(it.graphic.position.y/10)][Math.trunc(it.graphic.position.x/10)] = 0; 
+      if (!this.map.isEmptyByVector(it.graphic.position)){
         this.map.round(it.graphic.position, 30);
         it.isDeleted = true;
       }
     });
-    this.map.render(context);
+    this.map.render(context, deltaTime, this.camera);
     this.teams.forEach(it=>{
-      it.render(context, deltaTime);
+      it.render(context, deltaTime, this.camera);
     });
     
   }
 
   processKeyboard(keyboardState, deltaTime){
+    if (keyboardState['ArrowUp']){this.camera.y-=-1;}
+    if (keyboardState['ArrowDown']){this.camera.y-=1;}
+    if (keyboardState['ArrowLeft']){this.camera.x-=-1;}
+    if (keyboardState['ArrowRight']){this.camera.x-=1;}
+
     let c = this.currentTeam.currentPlayer.graphic.position.clone();
     let t = this.currentTeam.currentPlayer;
 
@@ -111,10 +114,10 @@ class Game{
     if (keyboardState['KeyE']){t.angle+=1;}
     
     let size = this.map.size;
-    if (this.map.isEmptyByVector(c)){//(!this.map.map[Math.trunc(c.y/size)] || (this.map.map[Math.trunc(c.y/size)] && !this.map.map[Math.trunc(c.y/size)][Math.trunc(c.x/size)])){
+    if (this.map.isEmptyByVector(c)){
       this.currentTeam.currentPlayer.graphic.position = c;  
     } else {
-      if (this.map.isEmptyByVector(c.clone().add(new Vector(0,-size)))){//(move && this.map.map[Math.trunc(c.y/size)-1] && !this.map.map[Math.trunc(c.y/size)-1][Math.trunc(c.x/size)]){
+      if (this.map.isEmptyByVector(c.clone().add(new Vector(0,-size)))){
         this.currentTeam.currentPlayer.graphic.position = c.add(new Vector(0,-size));  
       }
     }

@@ -20,7 +20,7 @@ function mapToImage(map){
 class GameMap{
   constructor(){
     this.map = [];
-    this.size = 1;
+    this.size = 2;
     this.image = new Image();
     loadBitmap('./assets/bitmap2.png', (data)=>{
       for (let i=0; i<data.height; i++){
@@ -54,9 +54,20 @@ class GameMap{
     return this.isEmpty(v.x, v.y); 
   }
 
-  render(context){
+  render(context, deltaTime, camera){
     try{
-      context.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, this.image.width*this.size, this.image.height*this.size);
+      //context.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, this.image.width*this.size, this.image.height*this.size);
+      context.drawImage(
+        this.image, 
+        0, 
+        0, 
+        this.image.width, 
+        this.image.height, 
+        0 + camera.x, 
+        0 + camera.y, 
+        (this.image.width)*this.size , 
+        (this.image.height)*this.size 
+      );
     }catch(e){
 
     }

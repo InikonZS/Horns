@@ -78,7 +78,7 @@ class GameScreen extends Control{
       this.game.processKeyboard(this.keyboardState, deltaTime/100);
       this.game.react(this.game.bullets, deltaTime);
       this.game.bullets.forEach(it=>{
-        it.render(this.context, deltaTime/100);
+        it.render(this.context, deltaTime/100, this.game.camera);
       })
       this.game.bullets = this.game.bullets.filter(it=>!it.isDeleted);
      // this.map.render(this.context);

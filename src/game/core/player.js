@@ -7,13 +7,14 @@ class GraphicPlayer extends GraphicPoint{
     super(position, radius, color);
   }
 
-  render(context, deltaTime, data){
+  render(context, deltaTime, camera, data){
     context.fillStyle = '#000';
-    context.fillText(data.health, this.position.x - context.measureText(data.health).width/2, this.position.y-15);
+    let position = this.position.clone().add(camera);
+    context.fillText(data.health, position.x - context.measureText(data.health).width/2, position.y-15);
     //context.fillStyle = '#000';
-    context.fillText(data.name, this.position.x-context.measureText(data.name).width/2, this.position.y-30);
+    context.fillText(data.name, position.x-context.measureText(data.name).width/2, position.y-30);
     
-    super.render(context, deltaTime);
+    super.render(context, deltaTime, camera);
   }
 }
 
@@ -61,12 +62,12 @@ class Player{
     });  
   }
 
-  render(context, deltaTime){
+  render(context, deltaTime, camera){
     this.target.position = new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30)).scale(100).add(this.graphic.position)
-    this.graphic.render(context, deltaTime, {health:this.health, name:this.name});
+    this.graphic.render(context, deltaTime, camera, {health:this.health, name:this.name});
     
     if (this.isActive){
-      this.target.render(context, deltaTime);
+      this.target.render(context, deltaTime, camera);
     }
   }
 }

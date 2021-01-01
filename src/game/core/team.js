@@ -35,9 +35,9 @@ class Team{
     })  
   }
 
-  render(context, deltaTime){
+  render(context, deltaTime, camera){
     this.players.forEach(it=>{
-      it.render(context, deltaTime);
+      it.render(context, deltaTime, camera);
     })
   }
 }

@@ -10,13 +10,13 @@ class GraphicPoint {
     this.color = color;
   }
 
-  render(context, deltaTime) {
-
+  render(context, deltaTime, camera) {
+    let position = this.position.clone().add(camera)
     context.fillStyle = this.color;
     context.strokeStyle = '#FFF';
     context.lineWidth = 3;
     context.beginPath();
-    context.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
+    context.arc(position.x, position.y, this.radius, 0, Math.PI * 2);
     context.closePath();
     context.fill();
     context.stroke();
@@ -69,11 +69,11 @@ class Physical{
     this.timer.start(10);
   }
 
-  render(context, deltaTime){
+  render(context, deltaTime, camera){
     this.timer.tick(deltaTime);
     this.physic.process(deltaTime);
     this.graphic.position = this.physic.position;
-    this.graphic.render(context, deltaTime);
+    this.graphic.render(context, deltaTime, camera);
   }
 }
 
