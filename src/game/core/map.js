@@ -2,7 +2,7 @@ const {inBox, loadBitmap, readImageData} = require('common/utils.js');
 
 function mapToImage(map){
   let canvas = document.createElement('canvas');
-  canvas.width = map.width;//map[0].length;
+  canvas.width = map.width;
   canvas.height = map.height;
   ctx = canvas.getContext('2d');
   ctx.fillStyle = '#cc3';
@@ -22,7 +22,6 @@ class GameMap{
     this.map = [];
     this.size = 1;
     this.image = new Image();
-    //this.image.src = './assets/bitmap2.png';
     loadBitmap('./assets/bitmap2.png', (data)=>{
       for (let i=0; i<data.height; i++){
         let row = [];
@@ -56,21 +55,11 @@ class GameMap{
   }
 
   render(context){
-    //let map = this.map;
-    //let size = this.size;
-    this.context = context;
     try{
       context.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, this.image.width*this.size, this.image.height*this.size);
     }catch(e){
 
     }
-    /* for (let i=0; i<map.length; i++){
-      for (let j=0; j<map[0].length; j++){
-        if (map[i][j]==1){
-          context.fillRect(j*size, i*size, size, size);
-        }
-      }
-    }  */
   }
 
   round(center, radius){
