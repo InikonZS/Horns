@@ -122,11 +122,7 @@ class Game{
       }
     }
     
-    if (!this.nextLock && keyboardState['Space']){
-      this.nextLock = true;
-      this.pow+=deltaTime;
-    }
-    if (this.nextLock && !keyboardState['Space']){ 
+    const shotFunc =()=>{
       this.nextLock = false; 
       if (!this.shoted){
         this.timer.pause();
@@ -142,7 +138,16 @@ class Game{
           this.shoted = false;
           this.next();  
         }
-      }
+      }  
+    }
+
+    if (!this.shoted && !this.nextLock && keyboardState['Space']){
+      this.nextLock = true;
+      this.pow+=deltaTime;
+      this.currentTeam.currentPlayer.powerStart();
+    }
+    if (this.nextLock && (!keyboardState['Space']||this.currentTeam.currentPlayer.power>5)){ 
+      shotFunc();  
     }
   }
 }

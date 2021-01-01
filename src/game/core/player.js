@@ -28,7 +28,8 @@ class Player{
 
     this.graphic = new GraphicPlayer(pos, 10, color);
     this.target = new GraphicPoint(pos, 5, color);
-    
+    this.powerIndicator = new GraphicPoint(pos, 5, color);
+    this.power = 0;
   }
 
   hurt(damage){
@@ -43,11 +44,34 @@ class Player{
     this.health += damage;
   }
 
+  powerStart(){
+    this.isPower = true;
+    this.power = 0;
+  }
+
+  powerEnd(){
+    this.isPower = false;
+    this.power = 0;
+  }
+
+  powerUp(deltaTime){
+    if (this.isPower){
+      this.power+=deltaTime;
+    }
+    this.powerIndicator.position = this.getDirectionVector().scale(this.power*20).add(this.graphic.position);
+    
+  }
+
+  getDirectionVector(){
+    return new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
+  }
+
   shot(bullets){
-    let direction = new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
+    let direction = this.getDirectionVector();
     if (this.currentWeapon){
-      this.currentWeapon.shot(bullets, this.graphic.position, direction);
+      this.currentWeapon.shot(bullets, this.graphic.position, direction, this.power);
       this.onShot && this.onShot();
+      this.powerEnd();
     }
   }
 
@@ -63,9 +87,10 @@ class Player{
   }
 
   render(context, deltaTime, camera){
+    this.powerUp(deltaTime);
     this.target.position = new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30)).scale(100).add(this.graphic.position)
     this.graphic.render(context, deltaTime, camera, {health:this.health, name:this.name});
-    
+    this.powerIndicator.render(context, deltaTime, camera);
     if (this.isActive){
       this.target.render(context, deltaTime, camera);
     }
