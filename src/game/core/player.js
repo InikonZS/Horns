@@ -76,7 +76,7 @@ class Player{
   }
 
   react(bullets, deltaTime){
-    bullets.forEach(it=>{
+    bullets.list.forEach(it=>{
       if (it.graphic.position.clone().sub(this.graphic.position).abs()<10){
         if (!it.isDeleted){
           it.isDeleted = true;
@@ -88,7 +88,7 @@ class Player{
 
   render(context, deltaTime, camera){
     this.powerUp(deltaTime);
-    this.target.position = new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30)).scale(100).add(this.graphic.position)
+    this.target.position = this.getDirectionVector().scale(100).add(this.graphic.position)
     this.graphic.render(context, deltaTime, camera, {health:this.health, name:this.name});
     this.powerIndicator.render(context, deltaTime, camera);
     if (this.isActive){

@@ -2,11 +2,21 @@ const Timer = require('./timer.js');
 const GameMap = require('./map.js');
 const Vector = require('common/vector.js');
 
+class SilentWatcher{
+  constructor(){
+    this.events = [];
+  }
+
+  add(event){
+
+  }
+}
+
 class Game{
   constructor(){
     this.camera = new Vector(0, 0);
     this.teams = [];
-    this.bullets = [];
+    this.bullets = {list:[]};
     this.currentTeam = null;
     this.timer = new Timer();
     this.afterTimer = new Timer();
@@ -82,12 +92,19 @@ class Game{
   }
 
   render(context, deltaTime){
-    this.bullets.forEach(it=>{
-      if (!this.map.isEmptyByVector(it.graphic.position)){
+    this.bullets.list.forEach(it=>{
+      if (!it.isDeleted && !this.map.isEmptyByVector(it.graphic.position)){
         this.map.round(it.graphic.position, 30);
         it.isDeleted = true;
       }
     });
+
+    this.bullets.list.forEach(it=>{
+      if (!it.isDeleted){
+        it.render(context, deltaTime, this.camera);
+      }
+    })
+    this.bullets.list = this.bullets.list.filter(it=>!it.isDeleted);
     this.map.render(context, deltaTime, this.camera);
     this.teams.forEach(it=>{
       it.render(context, deltaTime, this.camera);
