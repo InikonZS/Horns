@@ -49,11 +49,7 @@ class GameScreen extends Control{
     this.playPanel = playPanel;
     this.playPanel.hide();
     
-    this.game = newGame();
-    this.game.onFinish = ()=>{
-      this.playPanel.hide();
-      this.preloader.show();
-    }
+    
 
     let menu = new MainMenu(this.panel.node);
     this.menu=menu;
@@ -61,6 +57,13 @@ class GameScreen extends Control{
     menu.onFight = () =>{
       this.menu.hide();
       this.playPanel.show();
+      
+      this.game = newGame();
+      this.game.onFinish = ()=>{
+        this.playPanel.hide();
+        this.preloader.show();
+        this.renderer.stop();
+      }
       this.game.start();
 
       this.renderer.start();
