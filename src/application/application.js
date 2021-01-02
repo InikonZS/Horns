@@ -19,8 +19,8 @@ class Application extends Control{
     this.anotherScreen = new AnotherScreen(this.node);
     this.pageManager.add(this.anotherScreen, 'Something');
     this.pageManager.select(0);
-
-    this.footer = new Control(this.node, 'div', 'footer', 'типо футер, наши гитхабы');
+    //<a href="https://github.com/InikonZS">Inikon</a>
+    this.footer = new Control(this.node, 'div', 'footer', 'Inikon');
     
   }
 }
