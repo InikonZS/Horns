@@ -40,7 +40,7 @@ class Game{
 
   start(){
     if (this.teams.length>1){
-      this.timer.start(45);
+      this.timer.start(85);
       this.currentTeam = this.teams[0];
       let currentPlayer = this.currentTeam.nextPlayer();
       this.teams.forEach(it=>it.players.forEach(jt=>{
@@ -55,7 +55,7 @@ class Game{
 
   next(){
     if (this.teams.length>1){
-      this.timer.start(45);
+      this.timer.start(85);
 
       let nextTeamIndex = (this.teams.indexOf(this.currentTeam)+1) % this.teams.length;
       this.currentTeam = this.teams[nextTeamIndex];
@@ -92,6 +92,19 @@ class Game{
       if (!it.isDeleted && !this.map.isEmptyByVector(it.graphic.position)){
         this.map.round(it.graphic.position, 30);
         it.isDeleted = true;
+        this.teams.forEach(team=>team.players.forEach(jt=>{
+          let lvec = jt.physic.position.clone().sub(it.graphic.position);
+          if (lvec.abs()<20){
+            jt.physic.speed.add(lvec.normalize().scale(7));
+            jt.hurt(20);
+          } else if (lvec.abs()<40){
+            jt.physic.speed.add(lvec.normalize().scale(4));  
+            jt.hurt(10);
+          } else if (lvec.abs()<80){
+            jt.physic.speed.add(lvec.normalize().scale(3)); 
+            jt.hurt(3); 
+          }
+        }));
       }
     });
 
@@ -100,6 +113,19 @@ class Game{
         it.render(context, deltaTime, this.camera);
       }
     })
+
+    this.teams.forEach(team=>team.players.forEach(it=>{
+      it.physic.acceleration.y=1;
+      if (this.map.isEmptyByVector(it.physic.getNextPosition(deltaTime))){
+        it.physic.process(deltaTime);
+       // this.map.round(it.graphic.position, 30);
+       // it.isDeleted = true;
+      } else {
+        it.physic.speed.y=0;
+        it.physic.speed.x=0;
+        it.physic.acceleration.y=0;
+      }
+    }));
 
     this.bullets.list = this.bullets.list.filter(it=>!it.isDeleted);
     this.map.render(context, deltaTime, this.camera);
@@ -151,13 +177,15 @@ class Game{
       }
       let s = physic.getNextPosition(deltaTime);
       if (this.map.isEmptyByVector(s)){
-        physic.process(deltaTime); 
+       // physic.process(deltaTime); 
       } else {
         if (move && this.map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
-          physic.process(deltaTime);
+          //physic.process(deltaTime);
           physic.position.add(new Vector(0,-size*2)); 
         } else {
+          physic.acceleration.y=0;
           physic.speed.y=0;  
+          physic.speed.x=0;
           this.jumped=false;
         }
       }
@@ -166,7 +194,7 @@ class Game{
     const shotFunc =()=>{
       this.nextLock = false; 
       if (!this.shoted){
-        this.timer.pause();
+        //this.timer.pause();
 
         this.shoted = true;
         this.currentTeam.currentPlayer.shot(this.bullets, this.pow);
@@ -187,6 +215,7 @@ class Game{
     if (!this.shoted && !this.nextLock && keyboardState['Space']){
       this.nextLock = true;
       this.currentTeam.currentPlayer.powerStart();
+      this.timer.pause();
     }
     if (this.nextLock && (!keyboardState['Space']||this.currentTeam.currentPlayer.power>5)){ 
       shotFunc();  
