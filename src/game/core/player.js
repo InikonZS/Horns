@@ -25,6 +25,7 @@ class Player{
     this.currentWeapon = this.weapons[0];
     this.angle = 0;
 
+    this.physic = new PhysicPoint(pos);
     this.graphic = new GraphicPlayer(pos, 10, color);
     this.target = new GraphicPoint(pos, 5, color);
     this.powerIndicator = new GraphicPoint(pos, 5, color);
@@ -86,6 +87,9 @@ class Player{
   }
 
   render(context, deltaTime, camera){
+    //this.physic.acceleration.y=0.1;
+    //this.physic.process(deltaTime);
+    this.graphic.position = this.physic.position;
     this.powerUp(deltaTime);
     this.target.position = this.getDirectionVector().scale(100).add(this.graphic.position)
     this.graphic.render(context, deltaTime, camera, {health:this.health, name:this.name});

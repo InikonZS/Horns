@@ -34,10 +34,11 @@ class WeaponEx{
     let bullet = new Physical(point.clone().add(direction.clone().scale(11)), 5, '#000');
     if (this.gravitable){
       bullet.physic.acceleration.y = 1;
+      //wind //bullet.physic.acceleration.x = Math.random()*12-6;
     }
     bullet.physic.speed = direction.clone().scale(this.bulletSpeed*(power+1));
     bullets.list.push(bullet);
-    bullet.timer.counter = 3;
+    bullet.timer.counter = 10;
     bullet.timer.onTimeout=()=>{
       for (let i = 0; i<5; i++){
         //let bull = new Physical(point.clone().add(direction.clone().scale(11)), 5, '#000');

@@ -114,9 +114,10 @@ class Game{
     if (keyboardState['ArrowLeft']){this.camera.x-=-1;}
     if (keyboardState['ArrowRight']){this.camera.x-=1;}
 
-    let c = this.currentTeam.currentPlayer.graphic.position.clone();
+    //let c = this.currentTeam.currentPlayer.graphic.position.clone();
+    
     let t = this.currentTeam.currentPlayer;
-
+    let c = new Vector(0,0);
     let move = false;
     if (keyboardState['KeyW']){c.y+=-1;}
     if (keyboardState['KeyS']){c.y+=1;}
@@ -127,11 +128,31 @@ class Game{
     if (keyboardState['KeyE']){t.angle+=1;}
     
     let size = this.map.size;
-    if (this.map.isEmptyByVector(c)){
-      this.currentTeam.currentPlayer.graphic.position = c;  
+    let freeMovement = false;
+    if (freeMovement){
+      let physic = this.currentTeam.currentPlayer.physic;
+      let s = physic.position.clone().add(c);
+      if (this.map.isEmptyByVector(s)){
+        physic.position = s;  
+      } else {
+        if (this.map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
+          physic.position = s.clone().add(new Vector(0,-size*2));  
+        }
+      }  
     } else {
-      if (this.map.isEmptyByVector(c.clone().add(new Vector(0,-size)))){
-        this.currentTeam.currentPlayer.graphic.position = c.add(new Vector(0,-size));  
+      let physic = this.currentTeam.currentPlayer.physic;
+      physic.acceleration.y=1;
+      physic.speed.x = c.normalize().scale(5).x;
+      let s = physic.getNextPosition(deltaTime);
+      if (this.map.isEmptyByVector(s)){
+        physic.process(deltaTime); 
+      } else {
+        if (move && this.map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
+          physic.process(deltaTime);
+          physic.position.add(new Vector(0,-size*2)); 
+        } else {
+          physic.speed.y=0;  
+        }
       }
     }
     
