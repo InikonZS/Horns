@@ -47,6 +47,11 @@ class GameScreen extends Control{
     this.menu.onFight = () =>{
       this.panel.selectByScene(this.playPanel);
       this.game = newGame();
+      this.playPanel.teamIndicator.clear();
+      this.game.teams.forEach((it, i)=>{
+        this.playPanel.teamIndicator.addTeam({name:it.name, avatar:i, color: ['#f00', '#fc0', '#090', '#00f', '#909'][i]});  
+      })
+      
       this.game.onFinish = ()=>{
         this.panel.selectByScene(this.menu);
         this.renderer.stop();
@@ -63,6 +68,14 @@ class GameScreen extends Control{
       this.game.render(this.context, deltaTime/100);
       this.game.processKeyboard(this.keyboardState, deltaTime/100);
       this.game.react(this.game.bullets, deltaTime);
+
+      let allHealth = 0;
+      this.game.teams.forEach(team=>allHealth+=team.getSumHealth());
+      this.game.teams.forEach((it, i)=>{
+        let tm = this.playPanel.teamIndicator.teams.find(jt=>jt.name == it.name); 
+        //console.log(it.getSumHealth(), allHealth); 
+        tm.setHealth(100* it.getSumHealth()/allHealth, ''+it.getSumHealth()+'/'+ allHealth);
+      })
     }
 
     this.keyboardState = {};
