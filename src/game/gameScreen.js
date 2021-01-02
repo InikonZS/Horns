@@ -1,16 +1,14 @@
 const Control = require('common/control.js');
-const GamePanel = require('./gamePanel.js');
+const SceneManager = require('./sceneManager.js');
 const PlayPanel = require('./playPanel.js');
 const MainMenu = require('./mainMenu.js');
 const Renderer = require('common/renderer.js');
 const Vector = require('common/vector.js');
 const Preloader = require('./preloader.js');
 
-const Timer = require('./core/timer.js');
 const Team = require('./core/team.js');
 const Game = require('./core/game.js');
 const Player = require('./core/player.js');
-const GameMap = require('./core/map.js');
 
 function newGame(){
   let colors = ['#f00', '#fc0', '#090', '#00f', '#909'];
@@ -26,55 +24,15 @@ function newGame(){
   return game;
 }
 
-class SceneManager extends Control{
-  constructor (parentNode){
-    super(parentNode);
-    this.node.style.position = 'relative';
-    this.scenes = [];
-    this.currentScene = null;
-    this.currentIndex = -1;
-  }
-
-  add(scene){
-    scene.hide();
-    this.scenes.push(scene);
-  }
-
-  selectByName(name){
-    let index = this.scenes.findIndex(it=>it.name == name);
-    this.select(index);
-  }
-
-  selectByScene(scene){
-    let index = this.scenes.indexOf(scene);
-    this.select(index);
-  }
-
-  select(index){
-    this.scenes.forEach((it, i)=>{
-      if (i!=index){
-        it.hide();
-      } else {
-        it.show();
-        this.currentScene = it;
-        this.currentIndex = i;
-      }
-    });
-  }
-}
-
-
 class GameScreen extends Control{
   constructor(parentNode, config){
     super(parentNode, 'div', 'gamescreen_wrapper');
-  //this.node.style.position = 'relative';
-   // this.node.style.height = 'calc(100vh - 134px);';
     this.canvas = new Control(this.node, 'canvas');
     this.canvas.node.style.position = 'absolute';
     this.autoSize();
     this.context = this.canvas.node.getContext('2d');
     this.renderer = new Renderer();
-    this.panel = new SceneManager(this.node);//new GamePanel(this.node, 'div');
+    this.panel = new SceneManager(this.node);
     
     this.preloader = new Preloader(this.panel.node);
     this.panel.add(this.preloader);
@@ -94,7 +52,6 @@ class GameScreen extends Control{
         this.renderer.stop();
       }
       this.game.start();
-
       this.renderer.start();
     }
     this.panel.selectByScene(this.preloader);
