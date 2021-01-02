@@ -26,6 +26,43 @@ function newGame(){
   return game;
 }
 
+class SceneManager extends Control{
+  constructor (parentNode){
+    super(parentNode);
+    this.node.style.position = 'relative';
+    this.scenes = [];
+    this.currentScene = null;
+    this.currentIndex = -1;
+  }
+
+  add(scene){
+    scene.hide();
+    this.scenes.push(scene);
+  }
+
+  selectByName(name){
+    let index = this.scenes.findIndex(it=>it.name == name);
+    this.select(index);
+  }
+
+  selectByScene(scene){
+    let index = this.scenes.indexOf(scene);
+    this.select(index);
+  }
+
+  select(index){
+    this.scenes.forEach((it, i)=>{
+      if (i!=index){
+        it.hide();
+      } else {
+        it.show();
+        this.currentScene = it;
+        this.currentIndex = i;
+      }
+    });
+  }
+}
+
 
 class GameScreen extends Control{
   constructor(parentNode, config){
@@ -36,42 +73,35 @@ class GameScreen extends Control{
     this.canvas.node.style.position = 'absolute';
     this.autoSize();
     this.context = this.canvas.node.getContext('2d');
-    this.panel = new GamePanel(this.node, 'div');
     this.renderer = new Renderer();
-
+    this.panel = new SceneManager(this.node);//new GamePanel(this.node, 'div');
+    
     this.preloader = new Preloader(this.panel.node);
+    this.panel.add(this.preloader);
     this.preloader.onStart = ()=>{
-     this.preloader.hide();
-     this.menu.show();
+      this.panel.selectByScene(this.menu);
     }
 
-    let playPanel = new PlayPanel(this.panel.node);
-    this.playPanel = playPanel;
-    this.playPanel.hide();
-    
-    
-
-    let menu = new MainMenu(this.panel.node);
-    this.menu=menu;
-    this.menu.hide();
-    menu.onFight = () =>{
-      this.menu.hide();
-      this.playPanel.show();
-      
+    this.playPanel = new PlayPanel(this.panel.node);
+    this.panel.add(this.playPanel);
+    this.menu = new MainMenu(this.panel.node);
+    this.panel.add(this.menu);
+    this.menu.onFight = () =>{
+      this.panel.selectByScene(this.playPanel);
       this.game = newGame();
       this.game.onFinish = ()=>{
-        this.playPanel.hide();
-        this.preloader.show();
+        this.panel.selectByScene(this.menu);
         this.renderer.stop();
       }
       this.game.start();
 
       this.renderer.start();
     }
+    this.panel.selectByScene(this.preloader);
 
     this.renderer.onRenderFrame = (deltaTime) =>{
       this.game.tick(deltaTime/100);
-      playPanel.timeIndicator.node.textContent = Math.trunc(this.game.timer.counter);
+      this.playPanel.timeIndicator.node.textContent = Math.trunc(this.game.timer.counter);
       this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
       this.game.render(this.context, deltaTime/100);
       this.game.processKeyboard(this.keyboardState, deltaTime/100);
