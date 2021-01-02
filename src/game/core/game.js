@@ -8,7 +8,7 @@ class SilentWatcher{
   }
 
   add(event){
-
+    this.events.push(event);
   }
 }
 
@@ -21,6 +21,7 @@ class Game{
     this.timer = new Timer();
     this.afterTimer = new Timer();
     this.map = new GameMap();
+    this.silentWatcher = new SilentWatcher();
     this.timer.onTimeout = ()=>{
       this.next();
     }
@@ -119,7 +120,8 @@ class Game{
     let t = this.currentTeam.currentPlayer;
     let c = new Vector(0,0);
     let move = false;
-    if (keyboardState['KeyW']){c.y+=-1;}
+    let tryJump = false;
+    if (keyboardState['KeyW']){c.y+=-1; tryJump = true;}
     if (keyboardState['KeyS']){c.y+=1;}
     if (keyboardState['KeyA']){c.x+=-1; move = true}
     if (keyboardState['KeyD']){c.x+=1; move = true}
@@ -143,6 +145,10 @@ class Game{
       let physic = this.currentTeam.currentPlayer.physic;
       physic.acceleration.y=1;
       physic.speed.x = c.normalize().scale(5).x;
+      if (tryJump && !this.jumped){
+        this.jumped = true;
+        physic.speed.y=c.y*2;
+      }
       let s = physic.getNextPosition(deltaTime);
       if (this.map.isEmptyByVector(s)){
         physic.process(deltaTime); 
@@ -152,6 +158,7 @@ class Game{
           physic.position.add(new Vector(0,-size*2)); 
         } else {
           physic.speed.y=0;  
+          this.jumped=false;
         }
       }
     }
@@ -166,9 +173,13 @@ class Game{
         
         this.afterTimer.start(10);
         this.afterTimer.onTimeout = ()=>{
-          this.afterTimer.pause();
-          this.shoted = false;
-          this.next();  
+          if (!this.bullets.list.length){
+            this.afterTimer.pause();
+            this.shoted = false;
+            this.next();  
+          } else {
+            this.afterTimer.start(10);
+          }
         }
       }  
     }
