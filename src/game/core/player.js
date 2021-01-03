@@ -1,4 +1,4 @@
-const Weapon = require('./weapon.js');
+const {Weapon, WeaponEx} = require('./weapon.js');
 const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
 const Vector = require('common/vector.js');
 
@@ -21,7 +21,7 @@ class Player{
   constructor(name, health, pos, color){
     this.name = name;
     this.health = health;
-    this.weapons = [new Weapon(10, true)];
+    this.weapons = [new WeaponEx(10, true), new Weapon(10, true)];
     this.currentWeapon = this.weapons[0];
     this.angle = 0;
 
@@ -30,6 +30,10 @@ class Player{
     this.target = new GraphicPoint(pos, 5, color);
     this.powerIndicator = new GraphicPoint(pos, 5, color);
     this.power = 0;
+  }
+
+  setWeapon(index){
+    this.currentWeapon = this.weapons[index];
   }
 
   hurt(damage){
@@ -89,6 +93,9 @@ class Player{
   render(context, deltaTime, camera){
     //this.physic.acceleration.y=0.1;
     //this.physic.process(deltaTime);
+    if (this.physic.position.y>1000){
+      this.hurt(1000);
+    }
     this.graphic.position = this.physic.position;
     this.powerUp(deltaTime);
     this.target.position = this.getDirectionVector().scale(100).add(this.graphic.position)

@@ -13,9 +13,10 @@ class Weapon{
     if (this.gravitable){
       bullet.physic.acceleration.y = 1;
     }
-    bullet.physic.speed = direction.clone().scale(this.bulletSpeed*(power+1));
+    bullet.physic.speed = direction.clone().scale(this.bulletSpeed*((power+1)/2));
     bullets.list.push(bullet);
-    bullet.timer.counter = 30;
+    bullet.timer.counter = 80;
+    bullet.magnitude = 50;
     bullet.timer.onTimeout=()=>{
       bullet.isDeleted = true;
     }
@@ -58,4 +59,4 @@ class WeaponEx{
 }
 
 
-module.exports = WeaponEx;
+module.exports = {WeaponEx, Weapon};

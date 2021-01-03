@@ -1,4 +1,5 @@
 const Control = require('common/control.js');
+const Group = require('common/group.js');
 
 class TimeIndicator extends Control{
   constructor(parentNode){
@@ -49,6 +50,16 @@ class TeamIndicator extends Control{
   }
 }
 
+/*class WeaponMenu extends Control{
+  constructor(parentNode){
+    super(parentNode);
+    this.items = [];
+    let item = new Control(this.node, 'div', '', 'w');
+    item.node.onclick = ()=>
+    ]
+  }
+}*/
+
 class PlayPanel extends Control{
   constructor(parentNode, config){
     super(parentNode, 'div', 'gamescreen_wrapper', `
@@ -75,6 +86,9 @@ class PlayPanel extends Control{
     `);
     this.timeIndicator = new TimeIndicator(this.node.querySelector('#gclock'));
     this.teamIndicator = new TeamIndicator(this.node.querySelector('#tm'));
+    this.weaponMenu = new Group(this.node.querySelector('.gamescreen_weapons'), '','weapon_item weapon_item__selected', 'weapon_item' );
+    this.weaponMenu.addButton('w1');
+    this.weaponMenu.addButton('w2');
     /*this.teamIndicator.addTeam({name:'sdfsdf', avatar:'G'});
     this.teamIndicator.addTeam({name:'sdfssdff', avatar:'H'});
     this.teamIndicator.addTeam({name:'sdf4334sdf', avatar:'K'});*/

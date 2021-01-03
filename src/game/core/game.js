@@ -40,6 +40,7 @@ class Game{
 
   start(){
     if (this.teams.length>1){
+      
       this.timer.start(85);
       this.currentTeam = this.teams[0];
       let currentPlayer = this.currentTeam.nextPlayer();
@@ -50,6 +51,8 @@ class Game{
       currentPlayer.graphic.radius = 15;
       currentPlayer.isActive = true;
       console.log('start turn to ',this.currentTeam.name, currentPlayer);
+      
+      this.onNext && this.onNext(currentPlayer);
     }
   }
 
@@ -67,6 +70,7 @@ class Game{
       currentPlayer.graphic.radius = 15;
       currentPlayer.isActive = true;
       //console.log('turn to ',this.currentTeam.name, currentPlayer);
+      this.onNext && this.onNext(currentPlayer);
     } else {
       this.finish();
     }
@@ -88,9 +92,10 @@ class Game{
   }
 
   render(context, deltaTime){
+    this.map.render(context, deltaTime, this.camera);
     this.bullets.list.forEach(it=>{
       if (!it.isDeleted && !this.map.isEmptyByVector(it.graphic.position)){
-        this.map.round(it.graphic.position, 30);
+        this.map.round(it.graphic.position, it.magnitude || 30);
         it.isDeleted = true;
         this.teams.forEach(team=>team.players.forEach(jt=>{
           let lvec = jt.physic.position.clone().sub(it.graphic.position);
@@ -128,7 +133,7 @@ class Game{
     }));
 
     this.bullets.list = this.bullets.list.filter(it=>!it.isDeleted);
-    this.map.render(context, deltaTime, this.camera);
+    
     this.teams.forEach(it=>{
       it.render(context, deltaTime, this.camera);
     });
@@ -136,10 +141,10 @@ class Game{
   }
 
   processKeyboard(keyboardState, deltaTime){
-    if (keyboardState['ArrowUp']){this.camera.y-=-1;}
-    if (keyboardState['ArrowDown']){this.camera.y-=1;}
-    if (keyboardState['ArrowLeft']){this.camera.x-=-1;}
-    if (keyboardState['ArrowRight']){this.camera.x-=1;}
+    if (keyboardState['ArrowUp']){this.camera.y-=-4;}
+    if (keyboardState['ArrowDown']){this.camera.y-=4;}
+    if (keyboardState['ArrowLeft']){this.camera.x-=-4;}
+    if (keyboardState['ArrowRight']){this.camera.x-=4;}
 
     //let c = this.currentTeam.currentPlayer.graphic.position.clone();
     

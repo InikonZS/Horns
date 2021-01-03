@@ -1,12 +1,12 @@
 const {inBox, loadBitmap, readImageData} = require('common/utils.js');
 
-function mapToImage(map){
+function mapToImage(map, color){
   let canvas = document.createElement('canvas');
-  canvas.width = map.width;
-  canvas.height = map.height;
+  canvas.width = map.width*2;
+  canvas.height = map.height*2;
   ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#cc3';
-  let size=1;
+  ctx.fillStyle = color;
+  let size=2;
   for (let i=0; i<map.map.length; i++){
     for (let j=0; j<map.map[0].length; j++){
       if (map.map[i][j]==1){
@@ -21,8 +21,15 @@ class GameMap{
   constructor(){
     this.map = [];
     this.size = 2;
+    this.waterImage = new Image();
+    this.waterImage.src = './assets/water.png';
+    this.waterNImage = new Image();
+    this.waterNImage.src = './assets/water_nt.png';
+    this.backImage = new Image();
+    this.backImage.src = './assets/back.png';
     this.image = new Image();
-    loadBitmap('./assets/bitmap2.png', (data)=>{
+    this.hImage = new Image();
+    loadBitmap('./assets/bitmap3.png', (data)=>{
       for (let i=0; i<data.height; i++){
         let row = [];
         for (let j=0; j<data.width; j++){
@@ -33,7 +40,8 @@ class GameMap{
       readImageData(data, (x, y, color)=>{
         this.map[y][x] = color[0]?0:1;    
       });
-      this.image.src = mapToImage(this);  
+      this.image.src = mapToImage(this, '#cc3');  
+      this.hImage.src = mapToImage(this, '#663');  
     }) 
   }
 
@@ -56,7 +64,42 @@ class GameMap{
 
   render(context, deltaTime, camera){
     try{
+      for (let i=-5; i<5; i++){
+        context.drawImage(this.backImage, 
+          0, 
+          0, 
+          this.backImage.width, 
+          this.backImage.height, 
+          i*this.backImage.width + camera.x/2, 
+          400 + camera.y, 
+          (this.backImage.width) , 
+          (this.backImage.height) 
+        ); 
+      }
+      for (let i=-5; i<5; i++){
+      context.drawImage(this.waterNImage, 
+          0, 
+          0, 
+          this.backImage.width, 
+          this.backImage.height, 
+          i*this.backImage.width + camera.x, 
+          600 + camera.y, 
+          (this.backImage.width) , 
+          (this.backImage.height) 
+        );
+      }
       //context.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, this.image.width*this.size, this.image.height*this.size);
+      context.drawImage(
+        this.hImage, 
+        0, 
+        0, 
+        this.hImage.width, 
+        this.image.height, 
+        0 + camera.x, 
+        0 + camera.y, 
+        (this.hImage.width)*1 , 
+        (this.hImage.height)*1 
+      );
       context.drawImage(
         this.image, 
         0, 
@@ -65,9 +108,22 @@ class GameMap{
         this.image.height, 
         0 + camera.x, 
         0 + camera.y, 
-        (this.image.width)*this.size , 
-        (this.image.height)*this.size 
+        (this.image.width)*1 , 
+        (this.image.height)*1 
       );
+
+      for (let i=-5; i<5; i++){
+        context.drawImage(this.waterImage, 
+          0, 
+          0, 
+          this.backImage.width, 
+          this.backImage.height, 
+          i*this.backImage.width + camera.x, 
+          600 + camera.y, 
+          (this.backImage.width) , 
+          (this.backImage.height) 
+        );
+      }
     }catch(e){
 
     }
@@ -84,7 +140,7 @@ class GameMap{
         };
       }
     }
-    this.image.src = mapToImage(this);
+    this.image.src = mapToImage(this, '#cc3');
   }
 }
 
