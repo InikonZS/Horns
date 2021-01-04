@@ -90,6 +90,8 @@ class PlayPanel extends Control{
     this.weaponMenu.addButton('w1');
     this.weaponMenu.addButton('w2');
     this.weaponMenu.addButton('w3');
+
+    this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'),'div', '', '0');
     /*this.teamIndicator.addTeam({name:'sdfsdf', avatar:'G'});
     this.teamIndicator.addTeam({name:'sdfssdff', avatar:'H'});
     this.teamIndicator.addTeam({name:'sdf4334sdf', avatar:'K'});*/

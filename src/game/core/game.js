@@ -2,6 +2,7 @@ const Timer = require('./timer.js');
 const Box = require('./box.js');
 const GameMap = require('./map.js');
 const Vector = require('common/vector.js');
+const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
 
 class SilentWatcher{
   constructor(){
@@ -16,6 +17,7 @@ class SilentWatcher{
 class Game{
   constructor(){
     this.camera = new Vector(0, 0);
+    this.wind = 0;
     this.teams = [];
     this.boxes = [];
     this.bullets = {list:[]};
@@ -26,6 +28,12 @@ class Game{
     this.silentWatcher = new SilentWatcher();
     this.timer.onTimeout = ()=>{
       this.next();
+    }
+    this.parts = [];
+    for (let i=0;i<100; i++){
+      let part = new Physical(new Vector(Math.random()*2500, Math.random()*1000), 5, "#0f0");
+      part.physic.speed.y=5;
+      this.parts.push(part);
     }
   }
 
@@ -62,7 +70,7 @@ class Game{
     if (this.teams.length>1){
       this.boxes.push (new Box(new Vector(Math.random()*700+50, Math.random()*500+50)));
       this.timer.start(85);
-
+      this.wind = Math.random()*11-5;
       let nextTeamIndex = (this.teams.indexOf(this.currentTeam)+1) % this.teams.length;
       this.currentTeam = this.teams[nextTeamIndex];
       let currentPlayer = this.currentTeam.nextPlayer();
@@ -95,6 +103,20 @@ class Game{
   }
 
   render(context, deltaTime){
+    this.parts.forEach(it=>{
+      if (it.physic.position.y>1000){
+        it.physic.position.y=0;
+      }
+      if (it.physic.position.x>2500){
+        it.physic.position.x=0;
+      }
+      if (it.physic.position.x<-100){
+        it.physic.position.x=2400;
+      }
+      it.physic.speed.x = 5*this.wind+Math.random()*4;
+      it.render(context, deltaTime, this.camera);
+    });
+
     this.map.render(context, deltaTime, this.camera);
     this.bullets.list.forEach(it=>{
       let nearest = this.map.getNearIntersection(it.physic.position, it.physic.getNextPosition(deltaTime));
@@ -207,7 +229,7 @@ class Game{
         //this.timer.pause();
 
         this.shoted = true;
-        this.currentTeam.currentPlayer.shot(this.bullets, this.pow);
+        this.currentTeam.currentPlayer.shot(this.bullets, this.wind);
         
         this.afterTimer.start(10);
         this.afterTimer.onTimeout = ()=>{
