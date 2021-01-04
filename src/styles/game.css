@@ -2,6 +2,14 @@
 
 }
 
+.weapon_item{
+  
+}
+
+.weapon_item__selected{
+  background-color: #900;
+}
+
 .footer{
   background-color: #000;
   height: 30px;
