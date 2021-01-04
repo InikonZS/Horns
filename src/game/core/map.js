@@ -17,6 +17,27 @@ function mapToImage(map, color){
   return ctx.canvas.toDataURL();
 }
 
+function imageToCanvas(image){
+  let canvas = document.createElement('canvas');
+  canvas.width = image.width;
+  canvas.height = image.height;
+  ctx = canvas.getContext('2d');
+  //ctx.fillStyle = color;
+  ctx.drawImage(image,0,0);
+  return ctx;
+}
+
+function roundImage(image, center, radius){
+  let context = imageToCanvas(image);
+  context.beginPath();
+  context.arc(center.x, center.y, radius, 0, Math.PI * 2);
+  context.closePath();
+  context.globalCompositeOperation='destination-out';
+  context.fillStyle = '#fff';
+  context.fill();
+  image.src = context.canvas.toDataURL();
+}
+
 class GameMap{
   constructor(){
     this.map = [];
@@ -154,7 +175,8 @@ class GameMap{
         };
       }
     }
-    this.image.src = mapToImage(this, '#cc3');
+    roundImage(this.image, center, radius);
+    //this.image.src = mapToImage(this, '#cc3');
   }
 }
 
