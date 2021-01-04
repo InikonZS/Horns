@@ -89,6 +89,7 @@ class PlayPanel extends Control{
     this.weaponMenu = new Group(this.node.querySelector('.gamescreen_weapons'), '','weapon_item weapon_item__selected', 'weapon_item' );
     this.weaponMenu.addButton('w1');
     this.weaponMenu.addButton('w2');
+    this.weaponMenu.addButton('w3');
     /*this.teamIndicator.addTeam({name:'sdfsdf', avatar:'G'});
     this.teamIndicator.addTeam({name:'sdfssdff', avatar:'H'});
     this.teamIndicator.addTeam({name:'sdf4334sdf', avatar:'K'});*/

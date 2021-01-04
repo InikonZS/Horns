@@ -1,4 +1,4 @@
-const {Weapon, WeaponEx} = require('./weapon.js');
+const {Weapon, WeaponEx, WeaponS} = require('./weapon.js');
 const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
 const Vector = require('common/vector.js');
 
@@ -21,7 +21,7 @@ class Player{
   constructor(name, health, pos, color){
     this.name = name;
     this.health = health;
-    this.weapons = [new WeaponEx(10, true), new Weapon(10, true)];
+    this.weapons = [new WeaponEx(10, true), new Weapon(10, true), new WeaponS(10, true)];
     this.currentWeapon = this.weapons[0];
     this.angle = 0;
 

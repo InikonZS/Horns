@@ -1,4 +1,5 @@
 const Timer = require('./timer.js');
+const Box = require('./box.js');
 const GameMap = require('./map.js');
 const Vector = require('common/vector.js');
 
@@ -16,6 +17,7 @@ class Game{
   constructor(){
     this.camera = new Vector(0, 0);
     this.teams = [];
+    this.boxes = [];
     this.bullets = {list:[]};
     this.currentTeam = null;
     this.timer = new Timer();
@@ -58,6 +60,7 @@ class Game{
 
   next(){
     if (this.teams.length>1){
+      this.boxes.push (new Box(new Vector(Math.random()*700+50, Math.random()*500+50)));
       this.timer.start(85);
 
       let nextTeamIndex = (this.teams.indexOf(this.currentTeam)+1) % this.teams.length;
@@ -134,6 +137,7 @@ class Game{
 
     this.bullets.list = this.bullets.list.filter(it=>!it.isDeleted);
     
+    this.boxes.forEach(it=>it.render(context, deltaTime, this.camera, this.map, this.teams));
     this.teams.forEach(it=>{
       it.render(context, deltaTime, this.camera);
     });
