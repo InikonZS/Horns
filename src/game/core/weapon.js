@@ -15,7 +15,7 @@ class Weapon{
       if (this.gravitable){
         bullet.physic.acceleration.y = 0.5;
       }
-      bullet.physic.speed = direction.clone().scale(this.bulletSpeed*((2+1+Math.random())/2));
+      bullet.physic.speed = direction.clone().scale(this.bulletSpeed*((5+1+Math.random())/2));
       bullets.list.push(bullet);
       bullet.timer.counter = 40;
       bullet.magnitude = 5;

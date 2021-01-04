@@ -62,6 +62,20 @@ class GameMap{
     return this.isEmpty(v.x, v.y); 
   }
 
+  getNearIntersection(a, b){
+    let v = b.clone().sub(a);
+    let va = v.abs();
+    let vn = v.clone().normalize();
+    let tc = a.clone();
+    for (let i = 0; i<=va; i++){
+      let np = tc.add(vn)
+      if (!this.isEmptyByVector(np)){
+        return np
+      }
+    }
+    return null;
+  }
+
   render(context, deltaTime, camera){
     try{
       for (let i=-5; i<5; i++){

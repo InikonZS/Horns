@@ -97,11 +97,12 @@ class Game{
   render(context, deltaTime){
     this.map.render(context, deltaTime, this.camera);
     this.bullets.list.forEach(it=>{
-      if (!it.isDeleted && !this.map.isEmptyByVector(it.graphic.position)){
-        this.map.round(it.graphic.position, it.magnitude || 30);
+      let nearest = this.map.getNearIntersection(it.physic.position, it.physic.getNextPosition(deltaTime));
+      if (!it.isDeleted && nearest){//this.map.isEmptyByVector(it.graphic.position)){
+        this.map.round(/*it.graphic.position*/nearest, it.magnitude || 30);
         it.isDeleted = true;
         this.teams.forEach(team=>team.players.forEach(jt=>{
-          let lvec = jt.physic.position.clone().sub(it.graphic.position);
+          let lvec = jt.physic.position.clone().sub(/*it.graphic.position*/nearest);
           if (lvec.abs()<20){
             jt.physic.speed.add(lvec.normalize().scale(7));
             jt.hurt(20);
