@@ -7,6 +7,7 @@ class Timer{
 
   tick(deltaTime){
     if (this.isPaused == false){
+      this.onTick && this.onTick(this.counter);
       this.counter-=deltaTime;
       if (this.counter<=0){
         this.pause();

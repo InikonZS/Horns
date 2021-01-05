@@ -1,10 +1,10 @@
 const Control = require('common/control.js');
 
-class AboutPage extends Control{
+class AnotherPage extends Control{
   constructor(parentNode, config){
     super(parentNode, 'div', 'gamescreen_wrapper');
-    new Control(this.node, 'div', '', 'in development')
+    new Control(this.node, 'div', '', 'page in development')
   }
 }
 
-module.exports =  AboutPage;
+module.exports =  AnotherPage;

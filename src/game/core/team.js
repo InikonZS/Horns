@@ -16,7 +16,7 @@ class Team{
   }
 
   getSumHealth(){
-    return this.players.reduce((a, it)=>a+=it.health);
+    return this.players.reduce((a, it)=>a+=+it.health, 0);
   }
 
   addPlayer(player){
@@ -35,9 +35,9 @@ class Team{
     })  
   }
 
-  render(context, deltaTime){
+  render(context, deltaTime, camera){
     this.players.forEach(it=>{
-      it.render(context, deltaTime);
+      it.render(context, deltaTime, camera);
     })
   }
 }

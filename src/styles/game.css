@@ -2,15 +2,88 @@
 
 }
 
-.gamescreen_wrapper{
-  width: 100%;
+.weapon_item{
+  
+}
+
+.weapon_item__selected{
+  background-color: #900;
+}
+
+.footer{
+  background-color: #000;
+  height: 30px;
+  color: #fff;
+}
+
+.navi{
+  background-color: #000;
+  height: 30px;
+  color: #fff;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.navi_item{
   height: 100%;
   display: flex;
+  align-items: center;
+  margin-right: 30px;
+  padding: 0px 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.navi_item:hover{
+  background-color: #fff5;
+}
+
+.logo{
+  background-color: #000;
+  height: 50px;
+  color: #fff;
+  font-size: 35px;
+}
+
+.load_button{
+  border-radius: 5px;
+  border: solid 3px #000;
+  padding: 5px;
+  font-size: 43px;
+  background-color: #cc0;
+  cursor: pointer;
+  user-select: none;
+  transition-duration: 200ms;
+}
+
+.load_button:hover{
+  transform: scale(1.1);
+}
+
+.gamescreen_wrapper{
+  width: 100%;
+  display: flex;
   justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 110px);
+  position: relative;
+  overflow: hidden;
+}
+
+.gamescreen_wrapper_centred{
+  width: 100%;
+  display: flex;
+  justify-content: center;
   align-items: center;
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 110px);
+  position: relative;
+  background-color: #fc9;
 }
+
 
 .gamescreen_top{
   width: 100%;

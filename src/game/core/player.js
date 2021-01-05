@@ -1,4 +1,4 @@
-const Weapon = require('./weapon.js');
+const {Weapon, WeaponEx, WeaponS} = require('./weapon.js');
 const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
 const Vector = require('common/vector.js');
 const Animation = require('./animation');
@@ -11,10 +11,13 @@ class GraphicPlayer extends GraphicPoint{
     this.animation = new Animation(spritesheet, 1442, 100, 15);
   }
 
-  render(context, deltaTime, data){
+  render(context, deltaTime, camera, data){
     context.fillStyle = '#000';
-    context.fillText(data.health, this.position.x, this.position.y-15);
-    super.render(context, deltaTime);
+    let position = this.position.clone().add(camera);
+    context.fillText(data.health, position.x - context.measureText(data.health).width/2, position.y - 15);
+    context.fillText(data.name, position.x - context.measureText(data.name).width/2, position.y - 30);
+
+    super.render(context, deltaTime, camera);
     this.animation.update();
     this.animation.draw(context, this.position.x, this.position.y);
   }
@@ -24,13 +27,19 @@ class Player{
   constructor(name, health, pos, color){
     this.name = name;
     this.health = health;
-    this.weapons = [new Weapon(10)];
+    this.weapons = [new WeaponEx(10, true), new Weapon(10, true), new WeaponS(10, true)];
     this.currentWeapon = this.weapons[0];
     this.angle = 0;
 
+    this.physic = new PhysicPoint(pos);
     this.graphic = new GraphicPlayer(pos, 10, color);
     this.target = new GraphicPoint(pos, 5, color);
+    this.powerIndicator = new GraphicPoint(pos, 5, color);
+    this.power = 0;
+  }
 
+  setWeapon(index){
+    this.currentWeapon = this.weapons[index];
   }
 
   hurt(damage){
@@ -45,31 +54,61 @@ class Player{
     this.health += damage;
   }
 
-  shot(bullets){
-    let direction = new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
+  powerStart(){
+    this.isPower = true;
+    this.power = 0;
+  }
+
+  powerEnd(){
+    this.isPower = false;
+    this.power = 0;
+  }
+
+  powerUp(deltaTime){
+    if (this.isPower){
+      this.power+=deltaTime;
+    }
+    this.powerIndicator.position = this.getDirectionVector().scale(this.power*20).add(this.graphic.position);
+  }
+
+  getDirectionVector(){
+    return new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
+  }
+
+  shot(bullets, wind){
+    let direction = this.getDirectionVector();
     if (this.currentWeapon){
-      this.currentWeapon.shot(bullets, this.graphic.position, direction);
+      this.currentWeapon.shot(bullets, this.graphic.position, direction, this.power, wind);
       this.onShot && this.onShot();
+      this.powerEnd();
     }
   }
 
   react(bullets, deltaTime){
-    bullets.forEach(it=>{
+    bullets.list.forEach(it=>{
       if (it.graphic.position.clone().sub(this.graphic.position).abs()<10){
         if (!it.isDeleted){
-          it.isDeleted = true;
+          //it.isDeleted = true;
+          it.timer.counter = 0;
           this.hurt(70);
         }
       }
     });
   }
 
-  render(context, deltaTime){
-    this.target.position = new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30)).scale(100).add(this.graphic.position)
-    this.graphic.render(context, deltaTime, {health:this.health});
-
+  render(context, deltaTime, camera){
+    //this.physic.acceleration.y=0.1;
+    //this.physic.process(deltaTime);
+    if (this.physic.position.y>1000){
+      this.hurt(1000);
+    }
+    this.graphic.position = this.physic.position;
+    this.powerUp(deltaTime);
+    this.target.position = this.getDirectionVector().scale(100).add(this.graphic.position)
+    this.graphic.render(context, deltaTime, camera, {health:this.health, name:this.name});
+    this.powerIndicator.render(context, deltaTime, camera);
     if (this.isActive){
-      this.target.render(context, deltaTime);
+      this.target.render(context, deltaTime, camera);
     }
   }
 }
