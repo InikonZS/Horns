@@ -56,7 +56,8 @@ class GameScreen extends Control{
       this.panel.selectByScene(this.playPanel);
       this.game = newGame();
       this.game.onNext = (player)=>{
-        this.playPanel.weaponMenu.select(player.weapons.indexOf(player.currentWeapon), true)
+        this.playPanel.weaponMenu.select(player.weapons.indexOf(player.currentWeapon), true);
+        this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2);
       }
       this.playPanel.teamIndicator.clear();
       this.game.teams.forEach((it, i)=>{

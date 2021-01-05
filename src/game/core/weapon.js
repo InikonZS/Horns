@@ -15,7 +15,7 @@ class Weapon{
       if (this.gravitable){
         bullet.physic.acceleration.y = 0.5;
       }
-      bullet.physic.speed = direction.clone().scale(this.bulletSpeed*((2+1+Math.random())/2));
+      bullet.physic.speed = direction.clone().scale(this.bulletSpeed*((5+1+Math.random()*3)/2));
       bullets.list.push(bullet);
       bullet.timer.counter = 40;
       bullet.magnitude = 5;
@@ -62,12 +62,12 @@ class WeaponEx{
     this.isDeleted = false; 
   }
 
-  shot(bullets, point, direction, power = 5){
+  shot(bullets, point, direction, power = 5, wind){
 
     let bullet = new Physical(point.clone().add(direction.clone().scale(11)), 5, '#000');
     if (this.gravitable){
       bullet.physic.acceleration.y = 1;
-      //wind //bullet.physic.acceleration.x = Math.random()*12-6;
+      bullet.physic.acceleration.x = wind/3;
     }
     bullet.physic.speed = direction.clone().scale(this.bulletSpeed*(power+1));
     bullets.list.push(bullet);
@@ -77,6 +77,7 @@ class WeaponEx{
         //let bull = new Physical(point.clone().add(direction.clone().scale(11)), 5, '#000');
         let bull = new Physical(bullet.graphic.position.clone().add(direction.clone().scale(11)), 5, '#000');
         bull.physic.acceleration.y = 1;
+        bull.physic.acceleration.x = wind/3;
         bull.physic.speed = direction.clone().scale(0.10+2*i);
         bullets.list.push(bull);
         bull.timer.counter=40;

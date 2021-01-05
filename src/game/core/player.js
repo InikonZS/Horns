@@ -69,10 +69,10 @@ class Player{
     return new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
   }
 
-  shot(bullets){
+  shot(bullets, wind){
     let direction = this.getDirectionVector();
     if (this.currentWeapon){
-      this.currentWeapon.shot(bullets, this.graphic.position, direction, this.power);
+      this.currentWeapon.shot(bullets, this.graphic.position, direction, this.power, wind);
       this.onShot && this.onShot();
       this.powerEnd();
     }
