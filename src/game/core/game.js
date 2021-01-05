@@ -50,7 +50,7 @@ class Game{
 
   start(){
     if (this.teams.length>1){
-      
+
       this.timer.start(85);
       this.currentTeam = this.teams[0];
       let currentPlayer = this.currentTeam.nextPlayer();
@@ -61,7 +61,7 @@ class Game{
       currentPlayer.graphic.radius = 15;
       currentPlayer.isActive = true;
       console.log('start turn to ',this.currentTeam.name, currentPlayer);
-      
+
       this.onNext && this.onNext(currentPlayer);
     }
   }
@@ -77,6 +77,7 @@ class Game{
       this.teams.forEach(it=>it.players.forEach(jt=>{
         jt.graphic.radius=10;
         jt.isActive = false;
+        jt.animation.stop();
       }));
       currentPlayer.graphic.radius = 15;
       currentPlayer.isActive = true;
@@ -99,7 +100,7 @@ class Game{
   react(bullets, deltaTime){
     this.teams.forEach(it=>{
       it.react(bullets, deltaTime);
-    })    
+    })
   }
 
   render(context, deltaTime){
@@ -129,11 +130,11 @@ class Game{
             jt.physic.speed.add(lvec.normalize().scale(7));
             jt.hurt(20);
           } else if (lvec.abs()<40){
-            jt.physic.speed.add(lvec.normalize().scale(4));  
+            jt.physic.speed.add(lvec.normalize().scale(4));
             jt.hurt(10);
           } else if (lvec.abs()<80){
-            jt.physic.speed.add(lvec.normalize().scale(3)); 
-            jt.hurt(3); 
+            jt.physic.speed.add(lvec.normalize().scale(3));
+            jt.hurt(3);
           }
         }));
       }
@@ -159,12 +160,12 @@ class Game{
     }));
 
     this.bullets.list = this.bullets.list.filter(it=>!it.isDeleted);
-    
+
     this.boxes.forEach(it=>it.render(context, deltaTime, this.camera, this.map, this.teams));
     this.teams.forEach(it=>{
       it.render(context, deltaTime, this.camera);
     });
-    
+
   }
 
   processKeyboard(keyboardState, deltaTime){
@@ -174,7 +175,7 @@ class Game{
     if (keyboardState['ArrowRight']){this.camera.x-=4;}
 
     //let c = this.currentTeam.currentPlayer.graphic.position.clone();
-    
+
     let t = this.currentTeam.currentPlayer;
     let c = new Vector(0,0);
     let move = false;
@@ -186,19 +187,19 @@ class Game{
 
     if (keyboardState['KeyQ']){t.angle+=-1;}
     if (keyboardState['KeyE']){t.angle+=1;}
-    
+
     let size = this.map.size;
     let freeMovement = false;
     if (freeMovement){
       let physic = this.currentTeam.currentPlayer.physic;
       let s = physic.position.clone().add(c);
       if (this.map.isEmptyByVector(s)){
-        physic.position = s;  
+        physic.position = s;
       } else {
         if (this.map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
-          physic.position = s.clone().add(new Vector(0,-size*2));  
+          physic.position = s.clone().add(new Vector(0,-size*2));
         }
-      }  
+      }
     } else {
       let physic = this.currentTeam.currentPlayer.physic;
       physic.acceleration.y=1;
@@ -209,39 +210,39 @@ class Game{
       }
       let s = physic.getNextPosition(deltaTime);
       if (this.map.isEmptyByVector(s)){
-       // physic.process(deltaTime); 
+       // physic.process(deltaTime);
       } else {
         if (move && this.map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
           //physic.process(deltaTime);
-          physic.position.add(new Vector(0,-size*2)); 
+          physic.position.add(new Vector(0,-size*2));
         } else {
           physic.acceleration.y=0;
-          physic.speed.y=0;  
+          physic.speed.y=0;
           physic.speed.x=0;
           this.jumped=false;
         }
       }
     }
-    
+
     const shotFunc =()=>{
-      this.nextLock = false; 
+      this.nextLock = false;
       if (!this.shoted){
         //this.timer.pause();
 
         this.shoted = true;
         this.currentTeam.currentPlayer.shot(this.bullets, this.wind);
-        
+
         this.afterTimer.start(10);
         this.afterTimer.onTimeout = ()=>{
           if (!this.bullets.list.length){
             this.afterTimer.pause();
             this.shoted = false;
-            this.next();  
+            this.next();
           } else {
             this.afterTimer.start(10);
           }
         }
-      }  
+      }
     }
 
     if (!this.shoted && !this.nextLock && keyboardState['Space']){
@@ -249,8 +250,8 @@ class Game{
       this.currentTeam.currentPlayer.powerStart();
       this.timer.pause();
     }
-    if (this.nextLock && (!keyboardState['Space']||this.currentTeam.currentPlayer.power>5)){ 
-      shotFunc();  
+    if (this.nextLock && (!keyboardState['Space']||this.currentTeam.currentPlayer.power>5)){
+      shotFunc();
     }
   }
 }
