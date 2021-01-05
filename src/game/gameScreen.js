@@ -19,7 +19,7 @@ function newGame(){
   for (let j=0; j<2; j++){
     let team = new Team('team'+j);
     for (let i=0; i<2; i++){
-      let pl = new Player(names[i+j*2], 100, new Vector(Math.random()*700+50, Math.random()*500+50), colors[j]);  
+      let pl = new Player(names[i+j*2], 100, new Vector(Math.random()*700+50, Math.random()*500+50), colors[j]);
       team.addPlayer(pl);
     }
     game.addTeam(team);
@@ -36,7 +36,7 @@ class GameScreen extends Control{
     this.context = this.canvas.node.getContext('2d');
     this.renderer = new Renderer();
     this.panel = new SceneManager(this.node);
-    
+
     this.preloader = new Preloader(this.panel.node);
     this.panel.add(this.preloader);
     this.preloader.onStart = ()=>{
@@ -48,7 +48,7 @@ class GameScreen extends Control{
       this.game.currentTeam.currentPlayer.setWeapon(index);
     }
 
-    
+
     this.panel.add(this.playPanel);
     this.menu = new MainMenu(this.panel.node);
     this.panel.add(this.menu);
@@ -61,9 +61,9 @@ class GameScreen extends Control{
       }
       this.playPanel.teamIndicator.clear();
       this.game.teams.forEach((it, i)=>{
-        this.playPanel.teamIndicator.addTeam({name:it.name, avatar:i, color: ['#f00', '#fc0', '#090', '#00f', '#909'][i]});  
+        this.playPanel.teamIndicator.addTeam({name:it.name, avatar:i, color: ['#f00', '#fc0', '#090', '#00f', '#909'][i]});
       })
-      
+
       this.game.onFinish = ()=>{
         this.panel.selectByScene(this.menu);
         this.renderer.stop();
@@ -85,23 +85,25 @@ class GameScreen extends Control{
       let allHealth = 0;
       this.game.teams.forEach(team=>allHealth+=team.getSumHealth());
       this.game.teams.forEach((it, i)=>{
-        let tm = this.playPanel.teamIndicator.teams.find(jt=>jt.name == it.name); 
-        //console.log(it.getSumHealth(), allHealth); 
+        let tm = this.playPanel.teamIndicator.teams.find(jt=>jt.name == it.name);
+        //console.log(it.getSumHealth(), allHealth);
         tm.setHealth(100* it.getSumHealth()/allHealth, ''+it.getSumHealth()+'/'+ allHealth);
       })
     }
 
     this.keyboardState = {};
     window.addEventListener('keydown', ev=>{
-      this.keyboardState[ev.code] = true;  
+      this.keyboardState[ev.code] = true;
+      this.game.currentTeam.currentPlayer.animation.start();
     });
 
     window.addEventListener('keyup', ev=>{
-      this.keyboardState[ev.code] = false;  
+      this.keyboardState[ev.code] = false;
+      this.game.currentTeam.currentPlayer.animation.stop()
     });
 
     window.addEventListener('resize', ()=>{
-      this.autoSize();  
+      this.autoSize();
     })
   }
 

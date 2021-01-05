@@ -77,6 +77,7 @@ class Game{
       this.teams.forEach(it=>it.players.forEach(jt=>{
         jt.graphic.radius=10;
         jt.isActive = false;
+        jt.animation.stop();
       }));
       currentPlayer.graphic.radius = 15;
       currentPlayer.isActive = true;

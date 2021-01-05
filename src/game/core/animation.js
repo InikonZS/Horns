@@ -10,6 +10,14 @@ class Animation {
     console.log(this.spritesheet);
     this.isStarted = false;
   }
+  start() {
+    this.isStarted = true;
+    this.frameIndex = 0;
+  }
+
+  stop() {
+    this.isStarted = false;
+  }
 
   update() {
     this.frameIndex++;
