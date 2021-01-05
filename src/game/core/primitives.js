@@ -1,6 +1,6 @@
 const Timer = require('./timer.js');
 const Vector = require('common/vector.js');
-const Animation = require('./animation');
+
 
 class GraphicPoint {
   constructor(position, radius, color = '#f00') {
@@ -9,9 +9,6 @@ class GraphicPoint {
     //this.physic = new PhysicPoint(position);
     this.radius = radius;
     this.color = color;
-    let spritesheet = new Image();
-    spritesheet.src = '../../assets/worm-walks-100.png';
-    this.animation = new Animation(spritesheet, 1442, 100, 15);
   }
 
   render(context, deltaTime) {
@@ -24,8 +21,6 @@ class GraphicPoint {
     context.closePath();
     context.fill();
     context.stroke();
-    this.animation.update();
-    this.animation.draw(context, this.position.x, this.position.y)
     //super.render(context, deltaTime);
   }
 }

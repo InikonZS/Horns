@@ -1,16 +1,22 @@
 const Weapon = require('./weapon.js');
 const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
 const Vector = require('common/vector.js');
+const Animation = require('./animation');
 
 class GraphicPlayer extends GraphicPoint{
   constructor (position, radius, color = '#f00'){
     super(position, radius, color);
+    let spritesheet = new Image();
+    spritesheet.src = '../../assets/worm-walks-100.png';
+    this.animation = new Animation(spritesheet, 1442, 100, 15);
   }
 
   render(context, deltaTime, data){
     context.fillStyle = '#000';
     context.fillText(data.health, this.position.x, this.position.y-15);
     super.render(context, deltaTime);
+    this.animation.update();
+    this.animation.draw(context, this.position.x, this.position.y);
   }
 }
 
@@ -24,7 +30,7 @@ class Player{
 
     this.graphic = new GraphicPlayer(pos, 10, color);
     this.target = new GraphicPoint(pos, 5, color);
-    
+
   }
 
   hurt(damage){
@@ -55,13 +61,13 @@ class Player{
           this.hurt(70);
         }
       }
-    });  
+    });
   }
 
   render(context, deltaTime){
     this.target.position = new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30)).scale(100).add(this.graphic.position)
     this.graphic.render(context, deltaTime, {health:this.health});
-    
+
     if (this.isActive){
       this.target.render(context, deltaTime);
     }
