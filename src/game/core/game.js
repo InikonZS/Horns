@@ -180,10 +180,11 @@ class Game{
     let c = new Vector(0,0);
     let move = false;
     let tryJump = false;
-    if (keyboardState['KeyW']){c.y+=-1; tryJump = true;}
+    let keyCode = '';
+    if (keyboardState['KeyW']){c.y+=-1; tryJump = true; keyCode = 'KeyW';}
     if (keyboardState['KeyS']){c.y+=1;}
-    if (keyboardState['KeyA']){c.x+=-1; move = true}
-    if (keyboardState['KeyD']){c.x+=1; move = true}
+    if (keyboardState['KeyA']){c.x+=-1; move = true; keyCode = 'KeyA';}
+    if (keyboardState['KeyD']){c.x+=1; move = true; keyCode = 'KeyD';}
 
     if (keyboardState['KeyQ']){t.angle+=-1;}
     if (keyboardState['KeyE']){t.angle+=1;}
@@ -222,7 +223,7 @@ class Game{
           this.jumped=false;
         }
       }
-      this.currentTeam.currentPlayer.setMoveAnimation(move);
+      this.currentTeam.currentPlayer.setMoveAnimation(move || tryJump, keyCode);
     }
 
     const shotFunc =()=>{

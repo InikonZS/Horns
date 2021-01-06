@@ -1,3 +1,30 @@
+const options = [
+  {
+    name: 'right',
+    keyCode: 'KeyD',
+    src: './assets/worm-walks-100.png',
+    width: 1442,
+    height: 100,
+    numberOfFrames: 15,
+  },
+  {
+    name: 'left',
+    keyCode: 'KeyA',
+    src: './assets/worm-walks-left-100.png',
+    width: 1442,
+    height: 100,
+    numberOfFrames: 15,
+  },
+  {
+    name: 'jump',
+    keyCode: 'KeyW',
+    src: './assets/worm-jump-100.png',
+    width: 107,
+    height: 100,
+    numberOfFrames: 2,
+  },
+]
+
 class Animation {
   constructor(imageURL, width, height, numberOfFrames) {
     let spritesheet = new Image();
@@ -10,9 +37,10 @@ class Animation {
     console.log(this.spritesheet);
     this.isStarted = false;
   }
-  start() {
+  start(keyCode) {
     this.isStarted = true;
     this.frameIndex = 0;
+    this.setOptions(keyCode);
   }
 
   stop() {
@@ -46,6 +74,14 @@ class Animation {
       this.update(deltaTime);
     }
     this.drawCurrentFrame(context, position.x, position.y);
+  }
+
+  setOptions(keyCode) {
+    const currentOptions = options.filter(it => it.keyCode === keyCode)[0];
+    this.spritesheet.src = currentOptions.src;
+    this.width = currentOptions.width;
+    this.height = currentOptions.height;
+    this.numberOfFrames = currentOptions.numberOfFrames;
   }
 }
 

@@ -5,7 +5,7 @@ const Animation = require('./animation');
 
 class GraphicPlayer extends GraphicPoint {
   constructor(position, radius, color = '#f00') {
-    super(position, radius, color);    
+    super(position, radius, color);
     this.animation = new Animation('./assets/worm-walks-100.png', 1442, 100, 15);
   }
 
@@ -48,14 +48,14 @@ class Player {
 
   }
 
-  setMoveAnimation(value){
+  setMoveAnimation(value, keyCode){
     if (value){
       if (!this.graphic.animation.isStarted){
-        this.graphic.animation.start();
-      }  
+        this.graphic.animation.start(keyCode);
+      }
     } else {
       this.graphic.animation.stop();
-    }   
+    }
   }
 
   setWeapon(index) {
