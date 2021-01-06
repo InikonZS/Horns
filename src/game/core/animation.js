@@ -63,7 +63,8 @@ class Animation {
                       0,
                       this.width / this.numberOfFrames,
                       this.height,
-                      x, y,
+                      x - (this.width / this.numberOfFrames / this.scale) / 2,
+                      y - (this.height / this.scale) / 2,
                       (this.width / this.numberOfFrames) / this.scale,
                       this.height / this.scale)
   }

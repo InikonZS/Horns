@@ -22,8 +22,8 @@ class GraphicPlayer extends GraphicPoint {
       position.x - context.measureText(data.name).width / 2,
       position.y - 30,
     );
-    this.animation.render(context, deltaTime, this.position.clone().add(camera));
     super.render(context, deltaTime, camera);
+    this.animation.render(context, deltaTime, this.position.clone().add(camera));
 
   }
 }
