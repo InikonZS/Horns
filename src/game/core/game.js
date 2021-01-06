@@ -77,7 +77,7 @@ class Game{
       this.teams.forEach(it=>it.players.forEach(jt=>{
         jt.graphic.radius=10;
         jt.isActive = false;
-        jt.animation.stop();
+        jt.setMoveAnimation(false);
       }));
       currentPlayer.graphic.radius = 15;
       currentPlayer.isActive = true;
@@ -222,6 +222,7 @@ class Game{
           this.jumped=false;
         }
       }
+      this.currentTeam.currentPlayer.setMoveAnimation(move);
     }
 
     const shotFunc =()=>{
