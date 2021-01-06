@@ -26,7 +26,7 @@ const options = [
 ]
 
 class Animation {
-  constructor(imageURL, width, height, numberOfFrames) {
+  constructor(imageURL, width, height, numberOfFrames, scale = 1) {
     let spritesheet = new Image();
     spritesheet.src = imageURL;
     this.spritesheet = spritesheet;
@@ -36,11 +36,14 @@ class Animation {
     this.frameIndex = 0;
     console.log(this.spritesheet);
     this.isStarted = false;
+    this.scale = scale
   }
   start(keyCode) {
     this.isStarted = true;
     this.frameIndex = 0;
-    this.setOptions(keyCode);
+    if (keyCode) {
+      this.setOptions(keyCode);
+    }
   }
 
   stop() {
@@ -61,8 +64,8 @@ class Animation {
                       this.width / this.numberOfFrames,
                       this.height,
                       x, y,
-                      (this.width / this.numberOfFrames) / 3,
-                      this.height / 3)
+                      (this.width / this.numberOfFrames) / this.scale,
+                      this.height / this.scale)
   }
 
   drawCurrentFrame(context, x, y){

@@ -6,7 +6,7 @@ const Animation = require('./animation');
 class GraphicPlayer extends GraphicPoint {
   constructor(position, radius, color = '#f00') {
     super(position, radius, color);
-    this.animation = new Animation('./assets/worm-walks-100.png', 1442, 100, 15);
+    this.animation = new Animation('./assets/worm-walks-100.png', 1442, 100, 15, 3);
   }
 
   render(context, deltaTime, camera, data) {
