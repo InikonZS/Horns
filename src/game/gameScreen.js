@@ -14,7 +14,7 @@ const names = 'Lorem Ipsum Dolor Sit Amet Erat Morbi Lectus Finibus Mollis Mauri
 const colors = ['#f00', '#fc0', '#090', '#00f', '#909', '#099'];
 
 function newGame(){
-  let colors = ['#f00', '#fc0', '#090', '#00f', '#909'];
+  //let colors = ['#f00', '#fc0', '#090', '#00f', '#909'];
   let game = new Game();
   for (let j=0; j<2; j++){
     let team = new Team('team'+j);
@@ -61,7 +61,7 @@ class GameScreen extends Control{
       }
       this.playPanel.teamIndicator.clear();
       this.game.teams.forEach((it, i)=>{
-        this.playPanel.teamIndicator.addTeam({name:it.name, avatar:i, color: ['#f00', '#fc0', '#090', '#00f', '#909'][i]});
+        this.playPanel.teamIndicator.addTeam({name:it.name, avatar:i, color: colors[i]});
       })
 
       this.game.onFinish = ()=>{
@@ -94,12 +94,10 @@ class GameScreen extends Control{
     this.keyboardState = {};
     window.addEventListener('keydown', ev=>{
       this.keyboardState[ev.code] = true;
-      this.game.currentTeam.currentPlayer.animation.start();
     });
 
     window.addEventListener('keyup', ev=>{
       this.keyboardState[ev.code] = false;
-      this.game.currentTeam.currentPlayer.animation.stop()
     });
 
     window.addEventListener('resize', ()=>{

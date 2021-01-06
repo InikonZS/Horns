@@ -5,7 +5,8 @@ const Animation = require('./animation');
 
 class GraphicPlayer extends GraphicPoint {
   constructor(position, radius, color = '#f00') {
-    super(position, radius, color);
+    super(position, radius, color);    
+    this.animation = new Animation('./assets/worm-walks-100.png', 1442, 100, 15);
   }
 
   render(context, deltaTime, camera, data) {
@@ -21,7 +22,7 @@ class GraphicPlayer extends GraphicPoint {
       position.x - context.measureText(data.name).width / 2,
       position.y - 30,
     );
-
+    this.animation.render(context, deltaTime, this.position.clone().add(camera));
     super.render(context, deltaTime, camera);
 
   }
@@ -45,9 +46,16 @@ class Player {
     this.powerIndicator = new GraphicPoint(pos, 5, color);
     this.power = 0;
 
-    let spritesheet = new Image();
-    spritesheet.src = '../../assets/worm-walks-100.png';
-    this.animation = new Animation(spritesheet, 1442, 100, 15);
+  }
+
+  setMoveAnimation(value){
+    if (value){
+      if (!this.graphic.animation.isStarted){
+        this.graphic.animation.start();
+      }  
+    } else {
+      this.graphic.animation.stop();
+    }   
   }
 
   setWeapon(index) {
@@ -134,10 +142,6 @@ class Player {
     this.powerIndicator.render(context, deltaTime, camera);
     if (this.isActive) {
       this.target.render(context, deltaTime, camera);
-    }
-    if (this.animation.isStarted) {
-      this.animation.update();
-      this.animation.draw(context, this.graphic.position.x, this.graphic.position.y);
     }
   }
 }

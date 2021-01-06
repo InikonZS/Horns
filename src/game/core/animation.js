@@ -1,7 +1,7 @@
-'../../assets/worm-walks-100.png'
-
 class Animation {
-  constructor(spritesheet, width, height, numberOfFrames) {
+  constructor(imageURL, width, height, numberOfFrames) {
+    let spritesheet = new Image();
+    spritesheet.src = imageURL;
     this.spritesheet = spritesheet;
     this.width = width;
     this.height = height;
@@ -19,22 +19,33 @@ class Animation {
     this.isStarted = false;
   }
 
-  update() {
-    this.frameIndex++;
+  update(deltaTime) {
+    this.frameIndex+=deltaTime*3;
     if (this.frameIndex >= this.numberOfFrames) {
       this.frameIndex = 0;
     }
   }
 
-  draw(context, x, y) {
+  drawFrame(context, frame, x, y) {
     context.drawImage(this.spritesheet,
-                      this.frameIndex * this.width / this.numberOfFrames,
+                      frame * this.width / this.numberOfFrames,
                       0,
                       this.width / this.numberOfFrames,
                       this.height,
                       x, y,
                       (this.width / this.numberOfFrames) / 3,
                       this.height / 3)
+  }
+
+  drawCurrentFrame(context, x, y){
+    this.drawFrame(context, Math.trunc(this.frameIndex), x, y)
+  }
+
+  render(context, deltaTime, position){
+    if (this.isStarted) {
+      this.update(deltaTime);
+    }
+    this.drawCurrentFrame(context, position.x, position.y);
   }
 }
 
