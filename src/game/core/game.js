@@ -31,7 +31,7 @@ class Game{
     this.timer.onTimeout = ()=>{
       this.next();
     }
-    this.parts = new Particles(100);//= [];
+    this.parts = new Particles(100);
   }
 
   addTeam(team){
@@ -46,39 +46,27 @@ class Game{
   }
 
   start(){
-    if (this.teams.length>1){
-
-      this.timer.start(85);
-      this.currentTeam = this.teams[0];
-      let currentPlayer = this.currentTeam.nextPlayer();
-      this.teams.forEach(it=>it.players.forEach(jt=>{
-        jt.graphic.radius=10;
-        jt.isActive = false;
-      }));
-      currentPlayer.graphic.radius = 15;
-      currentPlayer.isActive = true;
-      console.log('start turn to ',this.currentTeam.name, currentPlayer);
-
-      this.onNext && this.onNext(currentPlayer);
-    }
+    this.next(0);
   }
 
-  next(){
+  next(teamIndex){
     if (this.teams.length>1){
       this.boxes.push (new Box(new Vector(Math.random()*700+50, Math.random()*500+50)));
       this.timer.start(85);
       this.wind = Math.random()*11-5;
-      let nextTeamIndex = (this.teams.indexOf(this.currentTeam)+1) % this.teams.length;
+
+      let nextTeamIndex = teamIndex;
+      if (teamIndex === undefined){
+        nextTeamIndex = (this.teams.indexOf(this.currentTeam)+1) % this.teams.length;
+      }
+
       this.currentTeam = this.teams[nextTeamIndex];
       let currentPlayer = this.currentTeam.nextPlayer();
-      this.teams.forEach(it=>it.players.forEach(jt=>{
-        jt.graphic.radius=10;
-        jt.isActive = false;
-        jt.setMoveAnimation(false);
-      }));
-      currentPlayer.graphic.radius = 15;
-      currentPlayer.isActive = true;
-      //console.log('turn to ',this.currentTeam.name, currentPlayer);
+      this.getPlayerList().forEach(jt=>{
+        jt.setActive(false);
+      });
+      currentPlayer.setActive(true);
+
       this.onNext && this.onNext(currentPlayer);
     } else {
       this.finish();
@@ -106,11 +94,11 @@ class Game{
     this.map.render(context, deltaTime, this.camera);
     this.bullets.list.forEach(it=>{
       let nearest = this.map.getNearIntersection(it.physic.position, it.physic.getNextPosition(deltaTime));
-      if (!it.isDeleted && nearest){//this.map.isEmptyByVector(it.graphic.position)){
-        this.map.round(/*it.graphic.position*/nearest, it.magnitude || 30);
+      if (!it.isDeleted && nearest){
+        this.map.round(nearest, it.magnitude || 30);
         it.isDeleted = true;
-        this.teams.forEach(team=>team.players.forEach(jt=>{
-          let lvec = jt.physic.position.clone().sub(/*it.graphic.position*/nearest);
+        this.getPlayerList().forEach(jt=>{
+          let lvec = jt.physic.position.clone().sub(nearest);
           if (lvec.abs()<20){
             jt.physic.speed.add(lvec.normalize().scale(7));
             jt.hurt(20);
@@ -121,7 +109,7 @@ class Game{
             jt.physic.speed.add(lvec.normalize().scale(3));
             jt.hurt(3);
           }
-        }));
+        });
       }
     });
 
@@ -131,7 +119,7 @@ class Game{
       }
     })
 
-    this.teams.forEach(team=>team.players.forEach(it=>{
+    this.getPlayerList().forEach(it=>{
       it.physic.acceleration.y=1;
       if (this.map.isEmptyByVector(it.physic.getNextPosition(deltaTime))){
         it.physic.process(deltaTime);
@@ -142,7 +130,7 @@ class Game{
         it.physic.speed.x=0;
         it.physic.acceleration.y=0;
       }
-    }));
+    });
 
     this.bullets.list = this.bullets.list.filter(it=>!it.isDeleted);
 
@@ -159,8 +147,6 @@ class Game{
     if (keyboardState['ArrowLeft']){this.camera.x-=-4;}
     if (keyboardState['ArrowRight']){this.camera.x-=4;}
 
-    //let c = this.getCurrentPlayer().graphic.position.clone();
-
     let t = this.getCurrentPlayer();
     let c = new Vector(0,0);
     let move = false;
@@ -174,7 +160,6 @@ class Game{
     if (keyboardState['KeyQ']){t.angle+=-1;}
     if (keyboardState['KeyE']){t.angle+=1;}
 
-    //let size = this.map.size;
     let freeMovement = false;
     if (freeMovement){
       movePlayerFree(this.getCurrentPlayer(), c, this.map);
@@ -185,8 +170,6 @@ class Game{
     const shotFunc =()=>{
       this.nextLock = false;
       if (!this.shoted){
-        //this.timer.pause();
-
         this.shoted = true;
         this.getCurrentPlayer().shot(this.bullets, this.wind);
 
@@ -216,14 +199,14 @@ class Game{
   getCurrentPlayer(){
     return this.currentTeam.currentPlayer;
   }
+
+  getPlayerList(){
+    let playerList = []
+    this.teams.forEach(team=>team.players.forEach(it=>{playerList.push(it)}));  
+    return playerList;
+  }
 }
 
-/**
- * 
- * @param {Player} player 
- * @param {Vector} moveVector 
- * @param {*} map 
- */
 function movePlayerFree(player, moveVector, map){
   let size = map.size;
   let physic = player.physic;

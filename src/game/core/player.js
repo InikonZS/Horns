@@ -48,6 +48,12 @@ class Player {
     this.jumped = false;
   }
 
+  setActive(isActive){
+    this.graphic.radius= isActive ? 15 : 10;
+    !isActive && this.setMoveAnimation(false);
+    this.isActive = isActive;
+  }
+
   setMoveAnimation(value, keyCode){
     if (value){
       if (!this.graphic.animation.isStarted){
