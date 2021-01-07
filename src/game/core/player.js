@@ -151,13 +151,29 @@ class Player {
     }
   }
 
-  movePlayer(freeMode, moveVector, map, move, tryJump, deltaTime, keyCode){
+  move(freeMode, moveVector, map, move, tryJump, deltaTime, keyCode){
     if(freeMode){
       movePlayerFree(this, moveVector, map);  
     } else {
       movePlayer(this, moveVector, map, move, tryJump, deltaTime, keyCode);
     }
   }
+
+  fall(map, deltaTime){
+    fallPlayer(this, map, deltaTime);
+  }
+}
+
+function fallPlayer(player, map, deltaTime){
+  let it = player;
+  it.physic.acceleration.y=1;
+  if (map.isEmptyByVector(it.physic.getNextPosition(deltaTime))){
+    it.physic.process(deltaTime);
+  } else {
+    it.physic.speed.y=0;
+    it.physic.speed.x=0;
+    it.physic.acceleration.y=0;
+  }  
 }
 
 function movePlayerFree(player, moveVector, map){

@@ -2,6 +2,7 @@ const Control = require('common/control.js');
 const SceneManager = require('./sceneManager.js');
 const PlayPanel = require('./playPanel.js');
 const MainMenu = require('./mainMenu.js');
+const EditorScreen = require('./editorScreen.js');
 const Renderer = require('common/renderer.js');
 const Vector = require('common/vector.js');
 const Preloader = require('./preloader.js');
@@ -37,6 +38,8 @@ class GameScreen extends Control{
     this.renderer = new Renderer();
     this.panel = new SceneManager(this.node);
 
+    
+
     this.preloader = new Preloader(this.panel.node);
     this.panel.add(this.preloader);
     this.preloader.onStart = ()=>{
@@ -48,10 +51,18 @@ class GameScreen extends Control{
       this.game.currentTeam.currentPlayer.setWeapon(index);
     }
 
+    this.editorScreen = new EditorScreen(this.panel.node, this.panel);
+    this.panel.add(this.editorScreen);
 
     this.panel.add(this.playPanel);
     this.menu = new MainMenu(this.panel.node);
     this.panel.add(this.menu);
+
+    this.menu.onEditor = () =>{
+      this.panel.selectByScene(this.editorScreen);
+    }
+
+
     this.menu.onFight = () =>{
       this.panel.selectByScene(this.playPanel);
       this.game = newGame();

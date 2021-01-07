@@ -119,17 +119,8 @@ class Game{
       }
     })
 
-    this.getPlayerList().forEach(it=>{
-      it.physic.acceleration.y=1;
-      if (this.map.isEmptyByVector(it.physic.getNextPosition(deltaTime))){
-        it.physic.process(deltaTime);
-       // this.map.round(it.graphic.position, 30);
-       // it.isDeleted = true;
-      } else {
-        it.physic.speed.y=0;
-        it.physic.speed.x=0;
-        it.physic.acceleration.y=0;
-      }
+    this.getPlayerList().forEach(player=>{
+      player.fall(this.map, deltaTime);  
     });
 
     this.bullets.list = this.bullets.list.filter(it=>!it.isDeleted);
@@ -147,21 +138,20 @@ class Game{
     if (keyboardState['ArrowLeft']){this.camera.x-=-4;}
     if (keyboardState['ArrowRight']){this.camera.x-=4;}
 
-    let t = this.getCurrentPlayer();
     let c = new Vector(0,0);
     let move = false;
     let tryJump = false;
     let keyCode = '';
     if (keyboardState['KeyW']){c.y+=-1; tryJump = true; keyCode = 'KeyW';}
-    if (keyboardState['KeyS']){c.y+=1;}
+//    if (keyboardState['KeyS']){c.y+=1;}
     if (keyboardState['KeyA']){c.x+=-1; move = true; keyCode = 'KeyA';}
     if (keyboardState['KeyD']){c.x+=1; move = true; keyCode = 'KeyD';}
 
-    if (keyboardState['KeyQ']){t.angle+=-1;}
-    if (keyboardState['KeyE']){t.angle+=1;}
+    if (keyboardState['KeyQ']){this.getCurrentPlayer().angle+=-1;}
+    if (keyboardState['KeyE']){this.getCurrentPlayer().angle+=1;}
 
     let freeMovement = false;
-    this.getCurrentPlayer().movePlayer(freeMovement, c, this.map, move, tryJump, deltaTime, keyCode);
+    this.getCurrentPlayer().move(freeMovement, c, this.map, move, tryJump, deltaTime, keyCode);
 
     const shotFunc =()=>{
       this.nextLock = false;
