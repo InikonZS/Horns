@@ -161,11 +161,7 @@ class Game{
     if (keyboardState['KeyE']){t.angle+=1;}
 
     let freeMovement = false;
-    if (freeMovement){
-      movePlayerFree(this.getCurrentPlayer(), c, this.map);
-    } else {
-      movePlayer(this.getCurrentPlayer(), c, this.map, move, tryJump, deltaTime, keyCode);
-    }
+    this.getCurrentPlayer().movePlayer(freeMovement, c, this.map, move, tryJump, deltaTime, keyCode);
 
     const shotFunc =()=>{
       this.nextLock = false;
@@ -205,45 +201,6 @@ class Game{
     this.teams.forEach(team=>team.players.forEach(it=>{playerList.push(it)}));  
     return playerList;
   }
-}
-
-function movePlayerFree(player, moveVector, map){
-  let size = map.size;
-  let physic = player.physic;
-  let s = physic.position.clone().add(moveVector);
-  if (map.isEmptyByVector(s)){
-    physic.position = s;
-  } else {
-    if (map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
-      physic.position = s.clone().add(new Vector(0,-size*2));
-    }
-  }  
-}
-
-function movePlayer(player, moveVector, map, move, tryJump, deltaTime, keyCode){
-  let size = map.size;
-  let physic = player.physic;
-  physic.acceleration.y=1;
-  physic.speed.x = moveVector.normalize().scale(5).x;
-  if (tryJump && !player.jumped){
-    player.jumped = true;
-    physic.speed.y=moveVector.y*2;
-  }
-  let s = physic.getNextPosition(deltaTime);
-  if (map.isEmptyByVector(s)){
-   // physic.process(deltaTime);
-  } else {
-    if (move && map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
-      //physic.process(deltaTime);
-      physic.position.add(new Vector(0,-size*2));
-    } else {
-      physic.acceleration.y=0;
-      physic.speed.y=0;
-      physic.speed.x=0;
-      player.jumped=false;
-    }
-  }
-  player.setMoveAnimation(move || tryJump, keyCode);
 }
 
 module.exports = Game;

@@ -150,6 +150,51 @@ class Player {
       this.target.render(context, deltaTime, camera);
     }
   }
+
+  movePlayer(freeMode, moveVector, map, move, tryJump, deltaTime, keyCode){
+    if(freeMode){
+      movePlayerFree(this, moveVector, map);  
+    } else {
+      movePlayer(this, moveVector, map, move, tryJump, deltaTime, keyCode);
+    }
+  }
+}
+
+function movePlayerFree(player, moveVector, map){
+  let size = map.size;
+  let physic = player.physic;
+  let s = physic.position.clone().add(moveVector);
+  if (map.isEmptyByVector(s)){
+    physic.position = s;
+  } else {
+    if (map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
+      physic.position = s.clone().add(new Vector(0,-size*2));
+    }
+  }  
+}
+
+function movePlayer(player, moveVector, map, move, tryJump, deltaTime, keyCode){
+  let size = map.size;
+  let physic = player.physic;
+  physic.acceleration.y=1;
+  physic.speed.x = moveVector.normalize().scale(5).x;
+  if (tryJump && !player.jumped){
+    player.jumped = true;
+    physic.speed.y=moveVector.y*2;
+  }
+  let s = physic.getNextPosition(deltaTime);
+  if (map.isEmptyByVector(s)){
+  } else {
+    if (move && map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
+      physic.position.add(new Vector(0,-size*2));
+    } else {
+      physic.acceleration.y=0;
+      physic.speed.y=0;
+      physic.speed.x=0;
+      player.jumped=false;
+    }
+  }
+  player.setMoveAnimation(move || tryJump, keyCode);
 }
 
 module.exports = Player;
