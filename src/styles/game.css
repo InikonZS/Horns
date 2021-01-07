@@ -6,6 +6,16 @@
   
 }
 
+.menu_wrapper{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;  
+  align-items: center;
+  padding: 10px;
+}
+
 .weapon_item__selected{
   background-color: #900;
 }
@@ -17,9 +27,9 @@
 }
 
 .navi{
-  background-color: #000;
+  background-color:rgb(190, 161, 162);
   height: 30px;
-  color: #fff;
+  color: rgb(97, 73, 68);
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -33,6 +43,9 @@
   padding: 0px 10px;
   cursor: pointer;
   user-select: none;
+  font-size: 20px;
+  color: #000;
+  letter-spacing: 8px;
 }
 
 .navi_item:hover{
@@ -40,13 +53,39 @@
 }
 
 .logo{
-  background-color: #000;
+  background-color: rgba(165, 163, 161, 0.746);
+  background-image: url(/src/assets/draw_svg20200611-26544-gjkffg.png); 
+  background-size: contain;
+  background-repeat: no-repeat;  
   height: 50px;
-  color: #fff;
-  font-size: 35px;
+  color: rgb(56, 42, 39);;
+  font-size: 45px;
+  font-weight: bold;
+  text-shadow: 0px 0px 3px #fff, 0px 0px 2px #fff, 0px 0px 1px #fff, 0px 0px 1px #fff;    
+  /* text-align: center; */
+  padding-left: 70px;
+  letter-spacing: 10px;
 }
 
-.load_button{
+.menu_item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(35% - 30px);
+  height: calc(40% - 10px);
+  background-color: rgb(190, 161, 162);
+  border-radius: 30px;
+  font-size: 60px;
+  font-weight: bold;
+  /* font-family: 'Andika New Basic', sans-serif;  
+  letter-spacing: 20px; */ 
+  color: rgb(104, 50, 16);
+  box-shadow: 0 5px 0 rgb(97, 73, 68);
+  margin: 10px;
+  padding: 10px;
+
+}
+.load_button{  
   border-radius: 5px;
   border: solid 3px #000;
   padding: 5px;
@@ -58,7 +97,7 @@
 }
 
 .load_button:hover{
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .gamescreen_wrapper{
@@ -81,14 +120,14 @@
   flex-direction: column;
   height: calc(100vh - 110px);
   position: relative;
-  background-color: #fc9;
+  background-color: rgb(179, 48, 48);
 }
 
 
 .gamescreen_top{
   width: 100%;
   height: 100px;
-  background-color: #0004;
+  /* background-color: #0004; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -97,7 +136,7 @@
 .gamescreen_bottom{
   width: 100%;
   height: 100px;
-  background-color: #0004;
+  /* background-color: #0004; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -106,13 +145,13 @@
 .gamescreen_panel{
   width: 100%;
   height: 100%;
-  background-color: #0004;
-  padding: 10px;
+  /* background-color: #0004; */
+  padding: 5px;
 }
 
 .gamescreen_clock{
-  width: 100px;
-  height: 100%;
+  width: 60px;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -125,42 +164,55 @@
 
 }
 
-.teams_item{
+.teams_item{ 
   display: flex;
   justify-content: center;
+  font-size: 12px;
 }
 
 .team_block{
-  margin: 5px;
-  width: 100%;
+  margin: 1px;
+  width: 100%;  
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.team_name{
-  
+.team_name{  
   justify-content:flex-end;
 }
 
-.team_avatar{
-  padding: 5px;
+.team_avatar{  
+  padding: 1px;
   min-width: 35px;
-  border: solid 1px #fff;
-  width: 35px;
+  border: solid 1px rgb(97, 73, 68);
+  width: 45px;
 }
 
-.team_health{
+.team_health{  
   justify-content:flex-start;
 }
 
-.team_name-text{
-  padding: 5px;
-  border: solid 1px #fff;
+.team_name-text{  
+  padding: 1px;
+  border: solid 1px rgb(97, 73, 68);
 }
 
 .team_health-value{
-  padding: 5px;
-  border: solid 1px #fff;
+  padding: 1px;
+  border: solid 1px rgb(97, 73, 68);
   height: 100%;
+}
+.weapon_btn {
+  display: flex;
+  width: 25px;
+  height: 25px;
+  border: solid 2px rgb(0, 0, 0);
+  background-color: rgb(122, 117, 117);
+}
+
+.gamescreen_weapons {
+  display: flex;
+  justify-content: flex-end;
+
 }

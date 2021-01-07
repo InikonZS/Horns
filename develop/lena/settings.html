@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Setting</title>
+</head>
+
+<body>
+    <div class="settings_wrapper">
+        <div class="settings_item settings_team">
+            <div class="settings_item_title">Команды</div>
+            <div class="settings_team_inner">
+                <div class="settings_team_block team_name">
+                    1-UP
+                </div>
+                <div class="settings_team_block team_status">
+                    X
+                </div>
+                <div class="settings_team_block team_color">
+                    c
+                </div>
+                <div class="settings_team_block">
+                    111
+                </div>
+            </div>
+            <div class="settings_team_inner">
+                <div class="settings_team_block team_name">
+                    2-UP
+                </div>
+                <div class="settings_team_block">
+                    X
+                </div>
+                <div style="background-color: blue;" class="settings_team_block team_color">
+                    c
+                </div>
+                <div class="settings_team_block team_amout_worms">
+                    222
+                </div>
+            </div>
+            <div class="settings_team_inner">
+                <div class="settings_team_block team_name">
+                    Чемпионы
+                </div>
+                <div class="settings_team_block">
+                    X
+                </div>
+                <div style="background-color: rgb(255, 81, 0);" class="settings_team_block team_color">
+                    c
+                </div>
+                <div class="settings_team_block team_amout_worms">
+                    33333
+                </div>
+            </div>
+        </div>
+
+        <div class="settings_item settings_map">
+            <div class="settings_item_title">Карта</div>
+            <div class="settings_map_inner">
+                <div style="background-image: url(/src/assets/bitmap1.png);" class="settings_map_block">
+                </div>
+                <select name="select_map">
+                    <option selected="selected">Выберите карту</option>
+                    <option>Пустыня</option>
+                    <option>Лаборатория</option>
+                    <option>Город</option>
+                    <option>Острова</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="settings_item settings_team_selection">
+            <div class=" settings_item_title">Казарма</div>
+            <div class="">
+                <table>
+                    <tbody>
+                        <tr class="table_title">
+                            <td>Имя команды</td>
+                            <td>Очки</td>
+                        </tr>
+                        <tr>
+                            <td>CPU1</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>CPU2</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>DreamTeam</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>Horns</td>
+                            <td>200</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="settings_item settings_chart">
+            <div class="settings_item_title">Настройки схемы</div>
+            <div class="settings_chart_inner">
+                <div title="Настройки вооружения" style="width: 200px; height: 150px; margin: 1px; background-image: url(/src/assets/menuChartWeapon.png);
+                     background-repeat: no-repeat; background-size: contain; background-color: black;">
+
+                </div>
+                <div title="Настройки игры" style="width: 200px; height: 150px; margin: 1px; background-image: url(/src/assets/settingsChart.png);
+                     background-repeat: no-repeat; background-size: contain; background-color: black;">
+                </div>
+            </div>
+            <select name="select_shart">
+                <option selected="selected">Профи</option>
+                <option>Турнирная</option>
+                <option>Классическая</option>
+                <option>Внезапное наводнение</option>
+                <option>Армагедон</option>
+                <option>Зона разрушения</option>
+            </select>
+        </div>
+    </div>
+
+</body>
+
+</html>

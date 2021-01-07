@@ -1,15 +1,15 @@
 const Control = require('common/control.js');
 const Group = require('common/group.js');
 
-class TimeIndicator extends Control{
-  constructor(parentNode){
+class TimeIndicator extends Control {
+  constructor(parentNode) {
     super(parentNode, 'div', 'gamescreen_clock', '');
   }
 }
 
-class TeamIndicatorItem extends Control{
-  constructor(parentNode, data){
-    super(parentNode, 'div', 'teams_item', ''); 
+class TeamIndicatorItem extends Control {
+  constructor(parentNode, data) {
+    super(parentNode, 'div', 'teams_item', '');
     this.name = data.name;
     let nameBlock = new Control(this.node, 'div', "team_block team_name");
     this.teamName = new Control(nameBlock.node, 'div', "team_name-text", data.name);
@@ -17,32 +17,32 @@ class TeamIndicatorItem extends Control{
     let healthBlock = new Control(this.node, 'div', "team_block team_health");
     this.teamHealth = new Control(healthBlock.node, 'div', "team_health-value");
     this.setHealth(100);
-    this.teamHealth.node.style['background-color']=data.color;
+    this.teamHealth.node.style['background-color'] = data.color;
   }
 
-  setHealth(health, absHealth){
+  setHealth(health, absHealth) {
     this.teamHealth.node.style.width = `${health}%`;
-    this.teamHealth.node.innerHTML=absHealth;
+    this.teamHealth.node.innerHTML = absHealth;
   }
 
-  clear(){
-    this.node.innerHTML='';
+  clear() {
+    this.node.innerHTML = '';
   }
 }
 
-class TeamIndicator extends Control{
-  constructor(parentNode){
+class TeamIndicator extends Control {
+  constructor(parentNode) {
     super(parentNode, 'div', 'teams_wrapper', '');
     this.teams = [];
   }
 
-  addTeam(data){
+  addTeam(data) {
     let team = new TeamIndicatorItem(this.node, data);
     this.teams.push(team);
   }
 
-  clear(){
-    this.teams.forEach(it=>{
+  clear() {
+    this.teams.forEach(it => {
       it.clear();
     });
     this.teams = [];
@@ -50,25 +50,29 @@ class TeamIndicator extends Control{
   }
 }
 
-/*class WeaponMenu extends Control{
-  constructor(parentNode){
-    super(parentNode);
-    this.items = [];
-    let item = new Control(this.node, 'div', '', 'w');
-    item.node.onclick = ()=>
-    ]
-  }
-}*/
+// class WeaponMenu extends Control {
+//   constructor(parentNode) {
+//     super(parentNode);
+//     let weaponBtn = new Control(this.node, 'div', "weapon_btn");
+//     this.weaponBtn = new Control(weaponBtn.node, 'div', "weapon_btn_open");
+//     // this.items = [];
+//     // let item = new Control(this.node, 'div', '', 'w');
+//     // item.node.onclick = ()=>
+//     // ]
+//   }
+// }
 
-class PlayPanel extends Control{
-  constructor(parentNode, config){
+class PlayPanel extends Control {
+  constructor(parentNode, config) {
     super(parentNode, 'div', 'gamescreen_wrapper', `
     <div class="gamescreen_top">
       <div class="gamescreen_panel gamescreen_burger">
     
       </div>
       <div class="gamescreen_panel gamescreen_weapons">
-    
+      <div class="weapon_btn">
+                
+            </div>   
       </div>
     </div>
     <div class="gamescreen_bottom">
@@ -86,12 +90,15 @@ class PlayPanel extends Control{
     `);
     this.timeIndicator = new TimeIndicator(this.node.querySelector('#gclock'));
     this.teamIndicator = new TeamIndicator(this.node.querySelector('#tm'));
-    this.weaponMenu = new Group(this.node.querySelector('.gamescreen_weapons'), '','weapon_item weapon_item__selected', 'weapon_item' );
-    this.weaponMenu.addButton('w1');
-    this.weaponMenu.addButton('w2');
-    this.weaponMenu.addButton('w3');
 
-    this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'),'div', '', '0');
+    this.weaponMenu = new Group(this.node.querySelector('.weapon_btn'), '', 'weapon_item weapon_item__selected', 'weapon_item');
+
+    this.weaponMenu.addButton('W');
+    // this.weaponMenu.addButton('w2');
+    // this.weaponMenu.addButton('w3');
+
+
+    this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'), 'div', '', '0');
     /*this.teamIndicator.addTeam({name:'sdfsdf', avatar:'G'});
     this.teamIndicator.addTeam({name:'sdfssdff', avatar:'H'});
     this.teamIndicator.addTeam({name:'sdf4334sdf', avatar:'K'});*/
