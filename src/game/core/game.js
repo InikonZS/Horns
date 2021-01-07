@@ -3,6 +3,7 @@ const Box = require('./box.js');
 const GameMap = require('./map.js');
 const Player = require('./player.js');
 const Vector = require('common/vector.js');
+const Particles = require('./particles.js');
 const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
 
 class SilentWatcher{
@@ -30,12 +31,7 @@ class Game{
     this.timer.onTimeout = ()=>{
       this.next();
     }
-    this.parts = [];
-    for (let i=0;i<100; i++){
-      let part = new Physical(new Vector(Math.random()*2500, Math.random()*1000), 5, "#0f0");
-      part.physic.speed.y=5;
-      this.parts.push(part);
-    }
+    this.parts = new Particles(100);//= [];
   }
 
   addTeam(team){
@@ -105,19 +101,7 @@ class Game{
   }
 
   render(context, deltaTime){
-    this.parts.forEach(it=>{
-      if (it.physic.position.y>1000){
-        it.physic.position.y=0;
-      }
-      if (it.physic.position.x>2500){
-        it.physic.position.x=0;
-      }
-      if (it.physic.position.x<-100){
-        it.physic.position.x=2400;
-      }
-      it.physic.speed.x = 5*this.wind+Math.random()*4;
-      it.render(context, deltaTime, this.camera);
-    });
+    this.parts.render(context, deltaTime, this.camera, this.wind);
 
     this.map.render(context, deltaTime, this.camera);
     this.bullets.list.forEach(it=>{
@@ -190,7 +174,7 @@ class Game{
     if (keyboardState['KeyQ']){t.angle+=-1;}
     if (keyboardState['KeyE']){t.angle+=1;}
 
-    let size = this.map.size;
+    //let size = this.map.size;
     let freeMovement = false;
     if (freeMovement){
       movePlayerFree(this.getCurrentPlayer(), c, this.map);
