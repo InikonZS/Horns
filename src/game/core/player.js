@@ -45,7 +45,7 @@ class Player {
     this.target = new GraphicPoint(pos, 5, color);
     this.powerIndicator = new GraphicPoint(pos, 5, color);
     this.power = 0;
-
+    this.jumped = false;
   }
 
   setMoveAnimation(value, keyCode){

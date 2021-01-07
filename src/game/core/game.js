@@ -1,6 +1,7 @@
 const Timer = require('./timer.js');
 const Box = require('./box.js');
 const GameMap = require('./map.js');
+const Player = require('./player.js');
 const Vector = require('common/vector.js');
 const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
 
@@ -174,9 +175,9 @@ class Game{
     if (keyboardState['ArrowLeft']){this.camera.x-=-4;}
     if (keyboardState['ArrowRight']){this.camera.x-=4;}
 
-    //let c = this.currentTeam.currentPlayer.graphic.position.clone();
+    //let c = this.getCurrentPlayer().graphic.position.clone();
 
-    let t = this.currentTeam.currentPlayer;
+    let t = this.getCurrentPlayer();
     let c = new Vector(0,0);
     let move = false;
     let tryJump = false;
@@ -192,38 +193,9 @@ class Game{
     let size = this.map.size;
     let freeMovement = false;
     if (freeMovement){
-      let physic = this.currentTeam.currentPlayer.physic;
-      let s = physic.position.clone().add(c);
-      if (this.map.isEmptyByVector(s)){
-        physic.position = s;
-      } else {
-        if (this.map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
-          physic.position = s.clone().add(new Vector(0,-size*2));
-        }
-      }
+      movePlayerFree(this.getCurrentPlayer(), c, this.map);
     } else {
-      let physic = this.currentTeam.currentPlayer.physic;
-      physic.acceleration.y=1;
-      physic.speed.x = c.normalize().scale(5).x;
-      if (tryJump && !this.jumped){
-        this.jumped = true;
-        physic.speed.y=c.y*2;
-      }
-      let s = physic.getNextPosition(deltaTime);
-      if (this.map.isEmptyByVector(s)){
-       // physic.process(deltaTime);
-      } else {
-        if (move && this.map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
-          //physic.process(deltaTime);
-          physic.position.add(new Vector(0,-size*2));
-        } else {
-          physic.acceleration.y=0;
-          physic.speed.y=0;
-          physic.speed.x=0;
-          this.jumped=false;
-        }
-      }
-      this.currentTeam.currentPlayer.setMoveAnimation(move || tryJump, keyCode);
+      movePlayer(this.getCurrentPlayer(), c, this.map, move, tryJump, deltaTime, keyCode);
     }
 
     const shotFunc =()=>{
@@ -232,7 +204,7 @@ class Game{
         //this.timer.pause();
 
         this.shoted = true;
-        this.currentTeam.currentPlayer.shot(this.bullets, this.wind);
+        this.getCurrentPlayer().shot(this.bullets, this.wind);
 
         this.afterTimer.start(10);
         this.afterTimer.onTimeout = ()=>{
@@ -249,13 +221,62 @@ class Game{
 
     if (!this.shoted && !this.nextLock && keyboardState['Space']){
       this.nextLock = true;
-      this.currentTeam.currentPlayer.powerStart();
+      this.getCurrentPlayer().powerStart();
       this.timer.pause();
     }
-    if (this.nextLock && (!keyboardState['Space']||this.currentTeam.currentPlayer.power>5)){
+    if (this.nextLock && (!keyboardState['Space']||this.getCurrentPlayer().power>5)){
       shotFunc();
     }
   }
+
+  getCurrentPlayer(){
+    return this.currentTeam.currentPlayer;
+  }
+}
+
+/**
+ * 
+ * @param {Player} player 
+ * @param {Vector} moveVector 
+ * @param {*} map 
+ */
+function movePlayerFree(player, moveVector, map){
+  let size = map.size;
+  let physic = player.physic;
+  let s = physic.position.clone().add(moveVector);
+  if (map.isEmptyByVector(s)){
+    physic.position = s;
+  } else {
+    if (map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
+      physic.position = s.clone().add(new Vector(0,-size*2));
+    }
+  }  
+}
+
+function movePlayer(player, moveVector, map, move, tryJump, deltaTime, keyCode){
+  let size = map.size;
+  let physic = player.physic;
+  physic.acceleration.y=1;
+  physic.speed.x = moveVector.normalize().scale(5).x;
+  if (tryJump && !player.jumped){
+    player.jumped = true;
+    physic.speed.y=moveVector.y*2;
+  }
+  let s = physic.getNextPosition(deltaTime);
+  if (map.isEmptyByVector(s)){
+   // physic.process(deltaTime);
+  } else {
+    if (move && map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
+      //physic.process(deltaTime);
+      physic.position.add(new Vector(0,-size*2));
+    } else {
+      physic.acceleration.y=0;
+      physic.speed.y=0;
+      physic.speed.x=0;
+      player.jumped=false;
+    }
+  }
+  player.setMoveAnimation(move || tryJump, keyCode);
 }
 
 module.exports = Game;
