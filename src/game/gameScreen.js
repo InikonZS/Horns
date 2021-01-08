@@ -63,6 +63,7 @@ class GameScreen extends Control{
     this.renderer = new Renderer();
     this.panel = new SceneManager(this.node);
 
+    this.fps =0;
     
 
     this.preloader = new Preloader(this.panel.node);
@@ -128,9 +129,13 @@ class GameScreen extends Control{
           tm.setHealth(100* it.getSumHealth()/allHealth, ''+it.getSumHealth()+'/'+ allHealth);
         });
       }
+     // this.context.stroke();
      /* this.playPanel.teamIndicator.teams = this.playPanel.teamIndicator.teams.filter(it=>{
         this.game.teams.find(jt=>jt.name == it.name);
       });*/
+      let averager = 128;
+      this.fps = (this.fps*(averager-1) + deltaTime) / averager;
+      this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2) + ' ' + (1/this.fps*1000).toFixed(2);
     }
 
     this.keyboardState = {};
@@ -148,8 +153,11 @@ class GameScreen extends Control{
   }
 
   autoSize(){
-    this.canvas.node.height = this.node.clientHeight;
-    this.canvas.node.width = this.node.offsetWidth;
+    let scaler = 1.4;
+    this.canvas.node.height = this.node.clientHeight/scaler;
+    this.canvas.node.width = this.node.offsetWidth/scaler;
+    this.canvas.node.style.width = '100%';
+    this.canvas.node.style.height = '100%';
   }
 }
 

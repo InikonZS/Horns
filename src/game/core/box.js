@@ -12,6 +12,7 @@ class Box{
   }
 
   render(context, deltaTime, camera, map, teams){
+    if (this.physic.position.y>1000){ return;}
     if (this.isDeleted){ return false;}
     teams.forEach(team=>team.players.forEach(it=>{
       let lvec = this.physic.position.clone().sub(it.graphic.position);

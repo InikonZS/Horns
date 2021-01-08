@@ -39,6 +39,7 @@ class Player {
     ];
     this.currentWeapon = this.weapons[0];
     this.angle = 0;
+    this.angleSpeed = 0;
 
     this.physic = new PhysicPoint(pos);
     this.graphic = new GraphicPlayer(pos, 10, color);
@@ -138,6 +139,11 @@ class Player {
     }
     this.graphic.position = this.physic.position;
     this.powerUp(deltaTime);
+    
+    if (Math.abs(this.angleSpeed)>10){
+      this.angleSpeed = Math.sign(this.angleSpeed)*10;
+    }
+    this.angle = this.angle + this.angleSpeed * deltaTime;
     this.target.position = this.getDirectionVector()
       .scale(100)
       .add(this.graphic.position);

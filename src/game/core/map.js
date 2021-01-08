@@ -2,11 +2,11 @@ const {inBox, loadBitmap, readImageData} = require('common/utils.js');
 
 function mapToImage(map, color){
   let canvas = document.createElement('canvas');
-  canvas.width = map.width*2;
-  canvas.height = map.height*2;
+  let size=2;
+  canvas.width = map.width*size;
+  canvas.height = map.height*size;
   ctx = canvas.getContext('2d');
   ctx.fillStyle = color;
-  let size=2;
   for (let i=0; i<map.map.length; i++){
     for (let j=0; j<map.map[0].length; j++){
       if (map.map[i][j]==1){
@@ -145,7 +145,7 @@ class GameMap{
         0, 
         0, 
         this.hImage.width, 
-        this.image.height, 
+        this.hImage.height, 
         0 + camera.x, 
         0 + camera.y, 
         (this.hImage.width)*1 , 

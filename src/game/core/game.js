@@ -2,9 +2,10 @@ const Timer = require('./timer.js');
 const Box = require('./box.js');
 const GameMap = require('./map.js');
 const Player = require('./player.js');
+const Camera = require('./camera.js');
 const Vector = require('common/vector.js');
 const Particles = require('./particles.js');
-const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
+//const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
 const Team = require('./team.js');
 
 class SilentWatcher{
@@ -14,42 +15,6 @@ class SilentWatcher{
 
   add(event){
     this.events.push(event);
-  }
-}
-
-class Camera extends PhysicPoint{
-  constructor (pos){
-    super(pos);
-    this.targetVector = null;
-    this.cameraAutoMode = 0;
-    this.scaler = 1;
-  }
-
-  setTargetVector(targetVector, mode, scaler){
-    this.targetVector = targetVector;  
-    this.cameraAutoMode = mode;
-    this.scaler = scaler;
-  }
-
-  process(context, deltaTime){
-    if (this.targetVector){
-      let cameraAutoMode = this.cameraAutoMode;
-      let toTarget = this.position.clone().scale(-1).sub(this.targetVector);
-      if (toTarget.abs()<20+this.scaler){
-        this.speed.scale(0.25);
-      } else {
-        if (cameraAutoMode == 1){
-          this.speed = toTarget.normalize().scale(this.scaler);
-        } else if (cameraAutoMode == 2) {
-          this.speed = toTarget.scale(this.scaler);
-        } else {
-          this.speed.scale(0);  
-        }
-      }
-    } else {
-      this.speed.scale(0);  
-    }
-    super.process(deltaTime);
   }
 }
 
@@ -93,7 +58,7 @@ class Game{
         let pl = new Player(
           options.nameList[i+j*options.teams.length], 
           options.teams[j].playersHealts, 
-          new Vector(Math.random()*700+50, Math.random()*500+50), 
+          new Vector(Math.random()*1700+50, Math.random()*500+50), 
           options.colorList[j]
         );
         team.addPlayer(pl);
@@ -105,7 +70,9 @@ class Game{
 
   next(teamIndex){
     if (this.getActiveTeams().length>1){
-      this.boxes.push (new Box(new Vector(Math.random()*700+50, Math.random()*500+50)));
+      if (Math.random()<0.2){
+        this.boxes.push (new Box(new Vector(Math.random()*1700+50, Math.random()*500+50)));
+      }
       this.timer.start(85);
       this.wind = Math.random()*11-5;
 
@@ -153,7 +120,7 @@ class Game{
     } else {
       this.camera.setTargetVector(this.getCurrentPlayer().physic.position.clone().sub(this.getCenterVector(context)), 2, 0.25);  
     }
-    this.camera.process(context, deltaTime);
+    this.camera.process(deltaTime);
 
     this.parts.render(context, deltaTime, this.camera, this.wind);
 
@@ -199,22 +166,20 @@ class Game{
   }
 
   processKeyboard(keyboardState, deltaTime){
-    if (keyboardState['ArrowUp']){this.camera.y-=-4;}
-    if (keyboardState['ArrowDown']){this.camera.y-=4;}
-    if (keyboardState['ArrowLeft']){this.camera.x-=-4;}
-    if (keyboardState['ArrowRight']){this.camera.x-=4;}
+    this.camera.move(keyboardState, 80, deltaTime);
 
     let c = new Vector(0,0);
     let move = false;
     let tryJump = false;
     let keyCode = '';
-    if (keyboardState['KeyW']){c.y+=-1; tryJump = true; keyCode = 'KeyW';}
-//    if (keyboardState['KeyS']){c.y+=1;}
-    if (keyboardState['KeyA']){c.x+=-1; move = true; keyCode = 'KeyA';}
-    if (keyboardState['KeyD']){c.x+=1; move = true; keyCode = 'KeyD';}
+    if (keyboardState['KeyW']){c.y+=-1; tryJump = true; keyCode = 'KeyW'; this.camera.enableAutoMove=true;}
+    if (keyboardState['KeyA']){c.x+=-1; move = true; keyCode = 'KeyA'; this.camera.enableAutoMove=true;}
+    if (keyboardState['KeyD']){c.x+=1; move = true; keyCode = 'KeyD'; this.camera.enableAutoMove=true;}
 
-    if (keyboardState['KeyQ']){this.getCurrentPlayer().angle+=-1;}
-    if (keyboardState['KeyE']){this.getCurrentPlayer().angle+=1;}
+    if (keyboardState['KeyQ']){this.getCurrentPlayer().angleSpeed+=-1*deltaTime; this.camera.enableAutoMove=true;}
+    else if (keyboardState['KeyE']){this.getCurrentPlayer().angleSpeed+=1*deltaTime; this.camera.enableAutoMove=true;}
+    else {  this.getCurrentPlayer().angleSpeed=0;
+    }
 
     let freeMovement = false;
     this.getCurrentPlayer().move(freeMovement, c, this.map, move, tryJump, deltaTime, keyCode);
