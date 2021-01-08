@@ -59,15 +59,19 @@
         <div class="settings_item settings_map">
             <div class="settings_item_title">Карта</div>
             <div class="settings_map_inner">
-                <div style="background-image: url(/src/assets/bitmap1.png);" class="settings_map_block">
+                <div style="background-image: url(/src/assets/bitmap1.png);  background-size: contain;"
+                    class="settings_map_block">
                 </div>
-                <select name="select_map">
-                    <option selected="selected">Выберите карту</option>
-                    <option>Пустыня</option>
-                    <option>Лаборатория</option>
-                    <option>Город</option>
-                    <option>Острова</option>
-                </select>
+                <div class="styled-select">
+                    <select name="select_map">
+                        <option selected="selected">Выберите карту</option>
+                        <option>Пустыня</option>
+                        <option>Лаборатория</option>
+                        <option>Город</option>
+                        <option>Острова</option>
+                    </select>
+                </div>
+
             </div>
 
         </div>
@@ -112,16 +116,23 @@
                      background-repeat: no-repeat; background-size: contain; background-color: black;">
                 </div>
             </div>
-            <select name="select_shart">
-                <option selected="selected">Профи</option>
-                <option>Турнирная</option>
-                <option>Классическая</option>
-                <option>Внезапное наводнение</option>
-                <option>Армагедон</option>
-                <option>Зона разрушения</option>
-            </select>
+            <div class="styled-select">
+                <select name="select_shart">
+                    <option selected="selected">Профи</option>
+                    <option>Турнирная</option>
+                    <option>Классическая</option>
+                    <option>Внезапное наводнение</option>
+                    <option>Армагедон</option>
+                    <option>Зона разрушения</option>
+                </select>
+
+            </div>
+
         </div>
+        <div class="startGame_btn">Начать игру</div>
+        <div class="exit_btn">Выход</div>
     </div>
+
 
 </body>
 

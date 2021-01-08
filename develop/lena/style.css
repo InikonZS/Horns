@@ -88,13 +88,37 @@ body{
 
 .settings_chart_inner {
     display: flex;
-    flex-direction: row;    
+    flex-direction: row;  
+    margin-bottom: 10px;  
 }
 
-/* .settings_team, .settings_map, .settings_team_selection {
-    display: flex;
-    flex-direction: column;    
-} */
+.styled-select select {
+  
+    width: 268px;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    height: 34px;
+ }
+
+.startGame_btn, .exit_btn {
+    width: auto;
+    padding: 10px;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+    margin: 20px;
+    color:  rgb(97, 73, 68);
+    background-color: rgb(206, 199, 197);
+}
+
+.startGame_btn:hover,.exit_btn:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+    background-color:  rgb(228, 228, 216);
+}
+
 
 .team_color {
     background-color: hotpink;
@@ -126,6 +150,7 @@ body{
     width: 70px;
     height: 70px;    
     border: 1px solid dimgrey; 
+    background-color: rgb(233, 227, 227);
     
     text-shadow: 0px 0px 3px #fff, 0px 0px 2px #fff, 0px 0px 1px #fff, 0px 0px 1px #fff;    
     
@@ -133,6 +158,7 @@ body{
 
 .settings_game_item:hover {
     opacity: 0.85;
+    background-color: rgb(13, 13, 14);
 }
 
 .settings_game_item:active {
@@ -148,7 +174,7 @@ body{
     text-decoration: underline;
 } 
 .main_settings_amount_health {
-    background-image: url(/src/assets/worm.jpg);
+    background-image: url(/src/assets/amountHealth.png);
     font-size: 35px;
     vertical-align: center;
     background-size: cover; 
@@ -157,7 +183,7 @@ body{
 }
 
 .main_settings_amount_rounds {
-    background-image: url(/src/assets/754crossmark_100390.svg);
+    background-image: url(/src/assets/KMines_mines_game_6146.png);
     font-size: 35px;
     vertical-align: center;
     background-size: cover; 
@@ -170,9 +196,73 @@ body{
     justify-content: center;
 }
 
-.object_settings_amount_barrel, .main_settings_choice_worm {
-    background-image: url(/src/assets/756exclamationmark_100528.svg);
+.object_settings_amount_barrel{
+    background-image: url(/src/assets/Bloody-Mary-icon_30349.png);
     background-repeat: no-repeat;
     background-size: cover; 
-    
+}
+
+.main_settings_lose_health {
+    background-image: url(/src/assets/Skeleton_icon-icons.com_75031.png);
+    background-repeat: no-repeat;
+    background-size: cover; 
+}
+
+.main_settings_grow_water {
+    background-image: url(/src/assets/waterBtn.png);
+    background-repeat: no-repeat;
+    background-size: cover; 
+}
+
+.main_settings_run_jump {
+    background-image: url(/src/assets/Footsteps_icon-icons.com_67556.png);
+    background-repeat: no-repeat;
+    background-size: cover; 
+}
+
+.main_settings_choice_worm {
+    background-image: url(/src/assets/settingsChart.png);
+    background-repeat: no-repeat;
+    background-size: cover; 
+}
+
+.main_settings_time_step {
+    background-image: url(/src/assets/Time_icon-icons.com_67501.png);
+    background-repeat: no-repeat;
+    background-size: cover;  
+}
+
+.main_settings_time_round {
+    background-image: url(/src/assets/Historical_icon-icons.com_54175.png);
+    background-repeat: no-repeat;
+    background-size: cover;  
+}
+.main_settings_time_prepare {
+    background-image: url(/src/assets/javawebstart_java_we_13069.png);
+    background-repeat: no-repeat;
+    background-size: cover;  
+}
+
+.main_settings_place_worm {
+    background-image: url(/src/assets/starthere_map_11060.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.main_settings_bullet_update {
+    background-image: url(/src/assets/bullet.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.main_settings_amount_kit {
+    background-image: url(/src/assets/kit.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.main_settings_chance_box_weapon {
+    background-image: url(/src/assets/boxfly.png);
+    background-repeat: no-repeat;
+    background-size: cover; 
 }
