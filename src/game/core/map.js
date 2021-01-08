@@ -100,7 +100,7 @@ class GameMap{
     return this.isEmpty(v.x, v.y);
   }
 
-  getNearIntersection(a, b){
+  getNearIntersection(a, b, prev){
     let v = b.clone().sub(a);
     let va = v.abs();
     let vn = v.clone().normalize();
@@ -108,7 +108,7 @@ class GameMap{
     for (let i = 0; i<=va; i++){
       let np = tc.add(vn)
       if (!this.isEmptyByVector(np)){
-        return np
+        return prev?tc:np
       }
     }
     return null;
@@ -130,13 +130,17 @@ class GameMap{
           continue;
         }
         let v = new Vector(x, y);
-        v.sub(collisionPoint);
         if (this.isEmptyByVector(v)) {
+          v = v.sub(collisionPoint);
           emptyVectors.push(v);
+        } else {
+         // v = v.sub(collisionPoint).scale(-1);
+         // emptyVectors.push(v);
         }
       }
     }
-    return emptyVectors.reduce((n, it) => n.add(it).scale(2)).normalize();
+    //console.log(emptyVectors);
+    return emptyVectors.reduce((n, it) => n.add(it).scale(1/2), new Vector(0,0)).normalize();
   }
 
   render(context, deltaTime, camera){

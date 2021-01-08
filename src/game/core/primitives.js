@@ -71,9 +71,9 @@ class Physical{
     this.isReflectable = true;
   }
 
-  render(context, deltaTime, camera){
+  render(context, deltaTime, camera, proc){
     this.timer.tick(deltaTime);
-    this.physic.process(deltaTime);
+    !proc && this.physic.process(deltaTime);
     this.graphic.position = this.physic.position;
     this.graphic.render(context, deltaTime, camera);
   }

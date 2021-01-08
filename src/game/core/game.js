@@ -144,14 +144,30 @@ class Game {
 
     this.map.render(context, deltaTime, this.camera);
     this.bullets.list.forEach((it) => {
+      let preNearest = this.map.getNearIntersection(
+        it.physic.position.clone(),
+        it.physic.getNextPosition(deltaTime),
+        true
+      );
       let nearest = this.map.getNearIntersection(
         it.physic.position.clone(),
         it.physic.getNextPosition(deltaTime),
       );
       if (!it.isDeleted && nearest) {
         if (it.isReflectable) {
-          let n = this.map.getNormal(nearest);
-          it.physic.speed = nearest.reflect(n).scale(0.5);
+         /* edplode on timeout
+         it.timer.onTimeout =()=>{
+            it.isDeleted = true;
+            this.map.round(it.physic.position, it.magnitude || 30);
+          }*/
+          let n = this.map.getNormal(preNearest);
+          if (n.abs()==0){
+            it.physic.speed.scale(-1);
+            it.render(context, deltaTime, this.camera, false); 
+          } else {
+          //it.physic.position = it.physic.position.sub(it.physic.speed.clone().scale(deltaTime));
+            it.physic.speed = it.physic.speed.reflect(n).scale(1);
+          }
         } else {
           this.map.round(nearest, it.magnitude || 30);
           it.isDeleted = true;
@@ -169,12 +185,14 @@ class Game {
             }
           });
         }
+      } else {
+        it.render(context, deltaTime, this.camera, false);
       }
     });
 
     this.bullets.list.forEach((it) => {
       if (!it.isDeleted) {
-        it.render(context, deltaTime, this.camera);
+        it.render(context, deltaTime, this.camera, true);  
       }
     });
 
