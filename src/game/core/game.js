@@ -5,6 +5,7 @@ const Player = require('./player.js');
 const Vector = require('common/vector.js');
 const Particles = require('./particles.js');
 const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
+const Team = require('./team.js');
 
 class SilentWatcher{
   constructor(){
@@ -34,23 +35,40 @@ class Game{
     this.parts = new Particles(100);
   }
 
+  getActiveTeams(){
+    return this.teams.filter(it=>it.players.length);
+  }
+
   addTeam(team){
     this.teams.push(team);
     team.onKilled = ()=>{
-      this.teams = this.teams.filter(it=>it!=team);
-      if (this.teams.length<=1){
+      //this.teams = this.teams.filter(it=>it!=team);
+      if (this.getActiveTeams().length<=1){
         console.log('win');
         this.onFinish && this.onFinish();
       }
     }
   }
 
-  start(){
+  start(options){
+    for (let j=0; j<options.teams.length; j++){
+      let team = new Team(options.teams[j].name, options.teams[j].avatar);
+      for (let i=0; i<options.teams[j].playersNumber; i++){
+        let pl = new Player(
+          options.nameList[i+j*options.teams.length], 
+          options.teams[j].playersHealts, 
+          new Vector(Math.random()*700+50, Math.random()*500+50), 
+          options.colorList[j]
+        );
+        team.addPlayer(pl);
+      }
+      this.addTeam(team);
+    }
     this.next(0);
   }
 
   next(teamIndex){
-    if (this.teams.length>1){
+    if (this.getActiveTeams().length>1){
       this.boxes.push (new Box(new Vector(Math.random()*700+50, Math.random()*500+50)));
       this.timer.start(85);
       this.wind = Math.random()*11-5;
@@ -58,6 +76,9 @@ class Game{
       let nextTeamIndex = teamIndex;
       if (teamIndex === undefined){
         nextTeamIndex = (this.teams.indexOf(this.currentTeam)+1) % this.teams.length;
+        while(!this.teams[nextTeamIndex].players.length){
+          nextTeamIndex = (nextTeamIndex+1) % this.teams.length;  
+        };
       }
 
       this.currentTeam = this.teams[nextTeamIndex];

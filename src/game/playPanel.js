@@ -21,6 +21,9 @@ class TeamIndicatorItem extends Control{
   }
 
   setHealth(health, absHealth){
+    if (health == 0){
+      this.hide();
+    }
     this.teamHealth.node.style.width = `${health}%`;
     this.teamHealth.node.innerHTML=absHealth;
   }

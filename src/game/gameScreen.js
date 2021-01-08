@@ -14,7 +14,32 @@ const Player = require('./core/player.js');
 const names = 'Lorem Ipsum Dolor Sit Amet Erat Morbi Lectus Finibus Mollis Mauris Eros Sed Felis Dabius Turpis Elemus Genus Proin Covan Grat Coin Jaggo Netus Inos Beler Ogos Frago'.split(' ');
 const colors = ['#f00', '#fc0', '#090', '#00f', '#909', '#099'];
 
-function newGame(){
+const defaultGameConfig = {
+  format: 'easycount',
+  nameList: names,
+  colorList: colors,
+  teams:[
+    {
+      name: 'Progers',
+      avatar: 'PG',
+      playersNumber: 1,
+      playersHealts: 100, 
+    },
+    {
+      name: 'Killers',
+      avatar: 'KI',
+      playersNumber: 1,
+      playersHealts: 50, 
+    },
+    {
+      name: 'Cloners',
+      avatar: 'CR',
+      playersNumber: 1,
+      playersHealts: 200, 
+    },
+  ]
+}
+/*function newGame(){
   //let colors = ['#f00', '#fc0', '#090', '#00f', '#909'];
   let game = new Game();
   for (let j=0; j<2; j++){
@@ -26,7 +51,7 @@ function newGame(){
     game.addTeam(team);
   }
   return game;
-}
+}*/
 
 class GameScreen extends Control{
   constructor(parentNode, config){
@@ -50,11 +75,11 @@ class GameScreen extends Control{
     this.playPanel.weaponMenu.onSelect=index=>{
       this.game.currentTeam.currentPlayer.setWeapon(index);
     }
+    this.panel.add(this.playPanel);
 
     this.editorScreen = new EditorScreen(this.panel.node, this.panel);
     this.panel.add(this.editorScreen);
 
-    this.panel.add(this.playPanel);
     this.menu = new MainMenu(this.panel.node);
     this.panel.add(this.menu);
 
@@ -65,21 +90,21 @@ class GameScreen extends Control{
 
     this.menu.onFight = () =>{
       this.panel.selectByScene(this.playPanel);
-      this.game = newGame();
+      this.game = new Game();//newGame();
       this.game.onNext = (player)=>{
         this.playPanel.weaponMenu.select(player.weapons.indexOf(player.currentWeapon), true);
         this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2);
       }
-      this.playPanel.teamIndicator.clear();
-      this.game.teams.forEach((it, i)=>{
-        this.playPanel.teamIndicator.addTeam({name:it.name, avatar:i, color: colors[i]});
-      })
-
+      
       this.game.onFinish = ()=>{
         this.panel.selectByScene(this.menu);
         this.renderer.stop();
       }
-      this.game.start();
+      this.game.start(defaultGameConfig);
+      this.playPanel.teamIndicator.clear();
+      this.game.teams.forEach((it, i)=>{
+        this.playPanel.teamIndicator.addTeam({name:it.name, avatar:it.avatar||i, color: colors[i]});
+      })
       this.renderer.start();
     }
     this.panel.selectByScene(this.preloader);
@@ -99,7 +124,10 @@ class GameScreen extends Control{
         let tm = this.playPanel.teamIndicator.teams.find(jt=>jt.name == it.name);
         //console.log(it.getSumHealth(), allHealth);
         tm.setHealth(100* it.getSumHealth()/allHealth, ''+it.getSumHealth()+'/'+ allHealth);
-      })
+      });
+     /* this.playPanel.teamIndicator.teams = this.playPanel.teamIndicator.teams.filter(it=>{
+        this.game.teams.find(jt=>jt.name == it.name);
+      });*/
     }
 
     this.keyboardState = {};

@@ -1,7 +1,8 @@
 class Team{
-  constructor(name){
+  constructor(name, avatar){
     this.players = [];
     this.name = name;
+    this.avatar = avatar;
     this.currentPlayer = null;
   }
 
