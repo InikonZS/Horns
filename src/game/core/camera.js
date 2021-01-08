@@ -1,4 +1,5 @@
 const Vector = require('common/vector.js');
+const inBox = require('common/utils.js');
 const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
 
 class Camera extends PhysicPoint{
@@ -16,19 +17,32 @@ class Camera extends PhysicPoint{
     this.scaler = scaler;
   }
 
-  move(keyboardState, moveSpeed=8, deltaTime){
+  move(context, keyboardState, moveSpeed=8, deltaTime){
     let moveVector = new Vector(0, 0);
     if (keyboardState['ArrowUp']){moveVector.y=-4;}
     if (keyboardState['ArrowDown']){moveVector.y=4;}
     if (keyboardState['ArrowLeft']){moveVector.x=-4;}
     if (keyboardState['ArrowRight']){moveVector.x=4;}  
     if (moveVector.abs()>0){
-      this.position.sub(moveVector.normalize().scale(moveSpeed*deltaTime));
+      let nextPosition = this.position.sub(moveVector.normalize().scale(moveSpeed*deltaTime));
+      this.limit(context, nextPosition);
       this.enableAutoMove = false;
     }
   }
 
-  process(deltaTime){
+  limit(context, nextPosition){
+      let minX = 800;
+      if (nextPosition.x>minX){ nextPosition.x = minX }
+      let limX = -800-2000+context.canvas.width;
+      if (nextPosition.x<limX){ nextPosition.x = limX }
+      let limY = -1000+context.canvas.height
+      if (nextPosition.y<limY){ nextPosition.y = limY}
+      let minY = 500;
+      if (nextPosition.y>minY){ nextPosition.y = minY}
+      this.position.from(nextPosition);
+  }
+
+  process(context, deltaTime){
     if (this.enableAutoMove && this.targetVector){
       let cameraAutoMode = this.cameraAutoMode;
       let toTarget = this.position.clone().scale(-1).sub(this.targetVector);
@@ -47,6 +61,7 @@ class Camera extends PhysicPoint{
       this.speed.scale(0);  
     }
     super.process(deltaTime);
+    this.limit(context, this.position);
   }
 }
 

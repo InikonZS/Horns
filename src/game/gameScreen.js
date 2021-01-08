@@ -116,7 +116,7 @@ class GameScreen extends Control{
 
       this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
       this.game.render(this.context, deltaTime/100);
-      this.game.processKeyboard(this.keyboardState, deltaTime/100);
+      this.game.processKeyboard(this.context, this.keyboardState, deltaTime/100);
       this.game.react(this.game.bullets, deltaTime);
 
       let allHealth = 0;

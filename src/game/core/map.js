@@ -113,9 +113,18 @@ class GameMap{
     return null;
   }
 
+  renderGradient(context, deltaTime, camera){
+    gradient = context.createLinearGradient(0, camera.y-500, 0, camera.y+context.canvas.height+100);
+    gradient.addColorStop(0, "blue");
+    gradient.addColorStop(1, "white");
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+  }
+
   render(context, deltaTime, camera){
+    
     try{
-      for (let i=-5; i<5; i++){
+      for (let i=-2; i<7; i++){
         context.drawImage(this.backImage, 
           0, 
           0, 
@@ -127,7 +136,7 @@ class GameMap{
           (this.backImage.height) 
         ); 
       }
-      for (let i=-5; i<5; i++){
+      for (let i=-2; i<7; i++){
       context.drawImage(this.waterNImage, 
           0, 
           0, 
@@ -163,7 +172,7 @@ class GameMap{
         (this.image.height)*1 
       );
 
-      for (let i=-5; i<5; i++){
+      for (let i=-2; i<7; i++){
         context.drawImage(this.waterImage, 
           0, 
           0, 

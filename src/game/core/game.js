@@ -120,8 +120,9 @@ class Game{
     } else {
       this.camera.setTargetVector(this.getCurrentPlayer().physic.position.clone().sub(this.getCenterVector(context)), 2, 0.25);  
     }
-    this.camera.process(deltaTime);
+    this.camera.process(context, deltaTime);
 
+    this.map.renderGradient(context, deltaTime, this.camera);
     this.parts.render(context, deltaTime, this.camera, this.wind);
 
     this.map.render(context, deltaTime, this.camera);
@@ -165,8 +166,8 @@ class Game{
 
   }
 
-  processKeyboard(keyboardState, deltaTime){
-    this.camera.move(keyboardState, 80, deltaTime);
+  processKeyboard(context, keyboardState, deltaTime){
+    this.camera.move(context, keyboardState, 80, deltaTime);
 
     let c = new Vector(0,0);
     let move = false;

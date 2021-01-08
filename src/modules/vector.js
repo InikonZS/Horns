@@ -8,6 +8,12 @@ class Vector {
     return new Vector(this.x, this.y);
   }
 
+  from(vector){
+    this.x = vector.x;
+    this.y = vector.y;
+    return this;  
+  }
+
   add(vector) {
     this.x += vector.x;
     this.y += vector.y;
