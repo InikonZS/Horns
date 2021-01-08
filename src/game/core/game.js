@@ -19,7 +19,7 @@ class SilentWatcher{
 
 class Game{
   constructor(){
-    this.camera = new Vector(0, 0);
+    this.camera = new PhysicPoint(new Vector(0, 0));
     this.wind = 0;
     this.teams = [];
     this.boxes = [];
@@ -88,6 +88,8 @@ class Game{
       });
       currentPlayer.setActive(true);
 
+      //this.camera.speed = this.camera.position.clone().sub(currentPlayer.physic.position).normalize().scale(123);
+
       this.onNext && this.onNext(currentPlayer);
     } else {
       this.finish();
@@ -110,11 +112,19 @@ class Game{
   }
 
   render(context, deltaTime){
+    
+    if (this.camera.position.clone().scale(-1).sub(this.getCurrentPlayer().physic.position).add(new Vector(500,500)).abs()<200){
+      this.camera.speed.scale(0);
+    } else {
+      this.camera.speed = this.camera.position.clone().scale(-1).sub(this.getCurrentPlayer().physic.position).add(new Vector(500,500)).normalize().scale(10);
+    }
+    this.camera.process(deltaTime);
+
     this.parts.render(context, deltaTime, this.camera, this.wind);
 
     this.map.render(context, deltaTime, this.camera);
     this.bullets.list.forEach(it=>{
-      let nearest = this.map.getNearIntersection(it.physic.position, it.physic.getNextPosition(deltaTime));
+      let nearest = this.map.getNearIntersection(it.physic.position.clone(), it.physic.getNextPosition(deltaTime));
       if (!it.isDeleted && nearest){
         this.map.round(nearest, it.magnitude || 30);
         it.isDeleted = true;

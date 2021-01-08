@@ -38,9 +38,25 @@ function roundImage(image, center, radius){
   image.src = context.canvas.toDataURL();
 }
 
+function roundImageAll(image, rounds){
+  let context = imageToCanvas(image);
+  rounds.forEach(it=>{
+    let center = it.center;
+    let radius = it.radius;
+    context.beginPath();
+    context.arc(center.x, center.y, radius, 0, Math.PI * 2);
+    context.closePath();
+    context.globalCompositeOperation='destination-out';
+    context.fillStyle = '#fff';
+    context.fill();
+  });
+  image.src = context.canvas.toDataURL();
+}
+
 class GameMap{
   constructor(){
     this.map = [];
+    this.roundList = [];
     this.size = 2;
     this.waterImage = new Image();
     this.waterImage.src = './assets/water.png';
@@ -175,8 +191,16 @@ class GameMap{
         };
       }
     }
-    roundImage(this.image, center, radius);
     //this.image.src = mapToImage(this, '#cc3');
+    this.roundList.push({center:center.clone(), radius:radius});
+    setTimeout(() => {
+      let currentRoundList = [...this.roundList];
+      this.roundList = [];
+      roundImageAll(this.image, currentRoundList);  
+    }, 1);
+    
+    //roundImage(this.image, center, radius);
+    
   }
 }
 
