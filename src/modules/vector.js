@@ -11,7 +11,7 @@ class Vector {
   from(vector){
     this.x = vector.x;
     this.y = vector.y;
-    return this;  
+    return this;
   }
 
   add(vector) {
@@ -42,6 +42,14 @@ class Vector {
 
   abs() {
     return (this.x ** 2 + this.y ** 2) ** 0.5;
+  }
+
+  scalar(v) {
+    return this.x * v.x + this.y * v.y;
+  }
+
+  reflect(n) {
+    return this.sub(n.scale(this.scalar(n)).scale(2));
   }
 }
 

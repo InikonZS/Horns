@@ -1,4 +1,5 @@
 const {inBox, loadBitmap, readImageData} = require('common/utils.js');
+const Vector = require('../../modules/vector');
 
 function mapToImage(map, color){
   let canvas = document.createElement('canvas');
@@ -75,11 +76,11 @@ class GameMap{
         this.map.push(row);
       }
       readImageData(data, (x, y, color)=>{
-        this.map[y][x] = color[0]?0:1;    
+        this.map[y][x] = color[0]?0:1;
       });
-      this.image.src = mapToImage(this, '#cc3');  
-      this.hImage.src = mapToImage(this, '#663');  
-    }) 
+      this.image.src = mapToImage(this, '#cc3');
+      this.hImage.src = mapToImage(this, '#663');
+    })
   }
 
   get width(){
@@ -96,7 +97,7 @@ class GameMap{
   }
 
   isEmptyByVector(v){
-    return this.isEmpty(v.x, v.y); 
+    return this.isEmpty(v.x, v.y);
   }
 
   getNearIntersection(a, b){
@@ -121,67 +122,84 @@ class GameMap{
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
   }
 
+  getNormal(collisionPoint) {
+    const emptyVectors = [];
+    for (let x = collisionPoint.x - 2; x < collisionPoint.x + 3; x++) {
+      for (let y = collisionPoint.y - 2; y < collisionPoint.y + 3; y++) {
+        if (x === collisionPoint.x && y === collisionPoint.y) {
+          continue;
+        }
+        let v = new Vector(x, y);
+        v.sub(collisionPoint);
+        if (this.isEmptyByVector(v)) {
+          emptyVectors.push(v);
+        }
+      }
+    }
+    return emptyVectors.reduce((n, it) => n.add(it).scale(2)).normalize();
+  }
+
   render(context, deltaTime, camera){
-    
+
     try{
       for (let i=-2; i<7; i++){
-        context.drawImage(this.backImage, 
-          0, 
-          0, 
-          this.backImage.width, 
-          this.backImage.height, 
-          i*this.backImage.width + camera.x/2, 
-          400 + camera.y, 
-          (this.backImage.width) , 
-          (this.backImage.height) 
-        ); 
+        context.drawImage(this.backImage,
+          0,
+          0,
+          this.backImage.width,
+          this.backImage.height,
+          i*this.backImage.width + camera.x/2,
+          400 + camera.y,
+          (this.backImage.width) ,
+          (this.backImage.height)
+        );
       }
       for (let i=-2; i<7; i++){
-      context.drawImage(this.waterNImage, 
-          0, 
-          0, 
-          this.backImage.width, 
-          this.backImage.height, 
-          i*this.backImage.width + camera.x, 
-          600 + camera.y, 
-          (this.backImage.width) , 
-          (this.backImage.height) 
+      context.drawImage(this.waterNImage,
+          0,
+          0,
+          this.backImage.width,
+          this.backImage.height,
+          i*this.backImage.width + camera.x,
+          600 + camera.y,
+          (this.backImage.width) ,
+          (this.backImage.height)
         );
       }
       //context.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, this.image.width*this.size, this.image.height*this.size);
       context.drawImage(
-        this.hImage, 
-        0, 
-        0, 
-        this.hImage.width, 
-        this.hImage.height, 
-        0 + camera.x, 
-        0 + camera.y, 
-        (this.hImage.width)*1 , 
-        (this.hImage.height)*1 
+        this.hImage,
+        0,
+        0,
+        this.hImage.width,
+        this.hImage.height,
+        0 + camera.x,
+        0 + camera.y,
+        (this.hImage.width)*1 ,
+        (this.hImage.height)*1
       );
       context.drawImage(
-        this.image, 
-        0, 
-        0, 
-        this.image.width, 
-        this.image.height, 
-        0 + camera.x, 
-        0 + camera.y, 
-        (this.image.width)*1 , 
-        (this.image.height)*1 
+        this.image,
+        0,
+        0,
+        this.image.width,
+        this.image.height,
+        0 + camera.x,
+        0 + camera.y,
+        (this.image.width)*1 ,
+        (this.image.height)*1
       );
 
       for (let i=-2; i<7; i++){
-        context.drawImage(this.waterImage, 
-          0, 
-          0, 
-          this.backImage.width, 
-          this.backImage.height, 
-          i*this.backImage.width + camera.x, 
-          600 + camera.y, 
-          (this.backImage.width) , 
-          (this.backImage.height) 
+        context.drawImage(this.waterImage,
+          0,
+          0,
+          this.backImage.width,
+          this.backImage.height,
+          i*this.backImage.width + camera.x,
+          600 + camera.y,
+          (this.backImage.width) ,
+          (this.backImage.height)
         );
       }
     }catch(e){
@@ -205,11 +223,11 @@ class GameMap{
     setTimeout(() => {
       let currentRoundList = [...this.roundList];
       this.roundList = [];
-      roundImageAll(this.image, currentRoundList);  
+      roundImageAll(this.image, currentRoundList);
     }, 1);
-    
+
     //roundImage(this.image, center, radius);
-    
+
   }
 }
 
