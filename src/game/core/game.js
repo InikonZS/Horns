@@ -17,9 +17,45 @@ class SilentWatcher{
   }
 }
 
+class Camera extends PhysicPoint{
+  constructor (pos){
+    super(pos);
+    this.targetVector = null;
+    this.cameraAutoMode = 0;
+    this.scaler = 1;
+  }
+
+  setTargetVector(targetVector, mode, scaler){
+    this.targetVector = targetVector;  
+    this.cameraAutoMode = mode;
+    this.scaler = scaler;
+  }
+
+  process(context, deltaTime){
+    if (this.targetVector){
+      let cameraAutoMode = this.cameraAutoMode;
+      let toTarget = this.position.clone().scale(-1).sub(this.targetVector);
+      if (toTarget.abs()<20+this.scaler){
+        this.speed.scale(0.25);
+      } else {
+        if (cameraAutoMode == 1){
+          this.speed = toTarget.normalize().scale(this.scaler);
+        } else if (cameraAutoMode == 2) {
+          this.speed = toTarget.scale(this.scaler);
+        } else {
+          this.speed.scale(0);  
+        }
+      }
+    } else {
+      this.speed.scale(0);  
+    }
+    super.process(deltaTime);
+  }
+}
+
 class Game{
   constructor(){
-    this.camera = new PhysicPoint(new Vector(0, 0));
+    this.camera = new Camera(new Vector(0, 0));
     this.wind = 0;
     this.teams = [];
     this.boxes = [];
@@ -112,13 +148,12 @@ class Game{
   }
 
   render(context, deltaTime){
-    
-    if (this.camera.position.clone().scale(-1).sub(this.getCurrentPlayer().physic.position).add(new Vector(500,500)).abs()<200){
-      this.camera.speed.scale(0);
+    if (this.bullets.list[0]){
+      this.camera.setTargetVector(this.bullets.list[0].physic.position.clone().sub(this.getCenterVector(context)), 1, 50);
     } else {
-      this.camera.speed = this.camera.position.clone().scale(-1).sub(this.getCurrentPlayer().physic.position).add(new Vector(500,500)).normalize().scale(10);
+      this.camera.setTargetVector(this.getCurrentPlayer().physic.position.clone().sub(this.getCenterVector(context)), 2, 0.25);  
     }
-    this.camera.process(deltaTime);
+    this.camera.process(context, deltaTime);
 
     this.parts.render(context, deltaTime, this.camera, this.wind);
 
@@ -221,6 +256,10 @@ class Game{
     let playerList = []
     this.teams.forEach(team=>team.players.forEach(it=>{playerList.push(it)}));  
     return playerList;
+  }
+
+  getCenterVector(context){
+    return new Vector(context.canvas.width/2, context.canvas.height/2);
   }
 }
 

@@ -120,11 +120,14 @@ class GameScreen extends Control{
 
       let allHealth = 0;
       this.game.teams.forEach(team=>allHealth+=team.getSumHealth());
-      this.game.teams.forEach((it, i)=>{
-        let tm = this.playPanel.teamIndicator.teams.find(jt=>jt.name == it.name);
-        //console.log(it.getSumHealth(), allHealth);
-        tm.setHealth(100* it.getSumHealth()/allHealth, ''+it.getSumHealth()+'/'+ allHealth);
-      });
+      if (this.allHealth!=allHealth){
+        this.allHealth = allHealth;
+        this.game.teams.forEach((it, i)=>{
+          let tm = this.playPanel.teamIndicator.teams.find(jt=>jt.name == it.name);
+          //console.log(it.getSumHealth(), allHealth);
+          tm.setHealth(100* it.getSumHealth()/allHealth, ''+it.getSumHealth()+'/'+ allHealth);
+        });
+      }
      /* this.playPanel.teamIndicator.teams = this.playPanel.teamIndicator.teams.filter(it=>{
         this.game.teams.find(jt=>jt.name == it.name);
       });*/

@@ -21,7 +21,8 @@ class Box{
         //this.graphic.radius=3;
       }
     }));
-    if (map.isEmptyByVector(this.physic.getNextPosition(deltaTime))){
+    let nearest = map.getNearIntersection(this.physic.position.clone(), this.physic.getNextPosition(deltaTime));
+    if (!nearest){//map.isEmptyByVector(this.physic.getNextPosition(deltaTime))){
       this.physic.process(deltaTime);
     } else {
       this.physic.speed.y=0;
