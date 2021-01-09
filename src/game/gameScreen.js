@@ -2,6 +2,9 @@ const Control = require('common/control.js');
 const SceneManager = require('./sceneManager.js');
 const PlayPanel = require('./playPanel.js');
 const MainMenu = require('./mainMenu.js');
+
+const SettingsMenu = require('./settingsMenu.js');
+const EditorMenu = require('./editorMenu.js');
 const Renderer = require('common/renderer.js');
 const Vector = require('common/vector.js');
 const Preloader = require('./preloader.js');
@@ -71,6 +74,18 @@ class GameScreen extends Control {
       this.game.start();
       this.renderer.start();
     }
+    this.settings = new SettingsMenu(this.panel.node);
+    this.panel.add(this.settings);
+    this.menu.onSettings = () => {
+      this.panel.selectByScene(this.settings);
+    }
+
+    this.editor = new EditorMenu(this.panel.node);
+    this.panel.add(this.editor);
+    this.menu.onEditor = () => {
+      this.panel.selectByScene(this.editor);
+    }
+
     this.panel.selectByScene(this.preloader);
 
     this.renderer.onRenderFrame = (deltaTime) => {

@@ -17,9 +17,6 @@ body{
     padding: 20px;
   }
 
-.settings_wrapper {
-
-  }
 
 .settings_team_inner {
     width: 100%;
@@ -66,8 +63,6 @@ body{
   border-radius: 10px;
   font-size: 20px;
   font-weight: bold;
-  /* font-family: 'Andika New Basic', sans-serif;  
-  letter-spacing: 20px; */ 
   color: rgb(104, 50, 16);
   box-shadow: 0 5px 0 rgb(97, 73, 68);
   margin: 10px;
@@ -263,6 +258,24 @@ body{
 
 .main_settings_chance_box_weapon {
     background-image: url(/src/assets/boxfly.png);
+    background-repeat: no-repeat;
+    background-size: cover; 
+}
+
+.main_settings_day_time {
+    background-image: url(/src/assets/dayNight.png);
+    background-repeat: no-repeat;
+    background-size: cover; 
+}
+
+.main_settings_change_season {
+    background-image: url(/src/assets/season.png);
+    background-repeat: no-repeat;
+    background-size: cover; 
+}
+
+.main_settings_chance_toolbox {
+    background-image: url(/src/assets/tollbox.png);
     background-repeat: no-repeat;
     background-size: cover; 
 }

@@ -5,11 +5,17 @@ class MainMenu extends Control {
     super(parentNode, 'div', 'gamescreen_wrapper_centred', '');
     let menuWrapper = new Control(this.node, 'div', "menu_wrapper");
     this.fightButton = new Control(menuWrapper.node, 'div', 'load_button menu_item', 'Fight');
-    this.otherButton = new Control(menuWrapper.node, 'div', 'load_button menu_item', 'Editor');
-    this.otherButton = new Control(menuWrapper.node, 'div', 'load_button menu_item', 'Settings');
-    this.otherButton = new Control(menuWrapper.node, 'div', 'load_button menu_item', 'About');
+    this.editorButton = new Control(menuWrapper.node, 'div', 'load_button menu_item', 'Editor');
+    this.settingsButton = new Control(menuWrapper.node, 'div', 'load_button menu_item', 'Settings');
+    this.AboutButton = new Control(menuWrapper.node, 'div', 'load_button menu_item', 'About');
     this.fightButton.node.onclick = () => {
       this.onFight && this.onFight();
+    }
+    this.settingsButton.node.onclick = () => {
+      this.onSettings && this.onSettings();
+    }
+    this.editorButton.node.onclick = () => {
+      this.onEditor && this.onEditor();
     }
   }
 }
