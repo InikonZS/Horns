@@ -140,7 +140,7 @@ class GameMap{
       }
     }
     //console.log(emptyVectors);
-    return emptyVectors.reduce((n, it) => n.add(it).scale(1/2), new Vector(0,0)).normalize();
+    return emptyVectors.length? emptyVectors.reduce((n, it) => n.add(it).scale(1)).scale(1/emptyVectors.length).normalize() : new Vector(0,0);
   }
 
   render(context, deltaTime, camera){

@@ -80,7 +80,7 @@ class WeaponEx{
        // bull.physic.acceleration.x = wind/3;
         bull.physic.speed = direction.clone().scale(0.10+2*i);
         bullets.list.push(bull);
-        bull.timer.counter=40;
+        bull.timer.counter=80;
         bull.timer.onTimeout=()=>{
           bull.isDeleted = true;
         }
