@@ -3,7 +3,7 @@
 }
 
 .weapon_item{
-  
+
 }
 
 .weapon_item__selected{
@@ -139,7 +139,7 @@
 }
 
 .team_name{
-  
+
   justify-content:flex-end;
 }
 
@@ -163,4 +163,9 @@
   padding: 5px;
   border: solid 1px #fff;
   height: 100%;
+}
+
+.editor canvas {
+  border: 1px solid #ccc;
+  margin-bottom: 30px;
 }
