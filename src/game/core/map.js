@@ -55,7 +55,7 @@ function roundImageAll(image, rounds){
 }
 
 class GameMap{
-  constructor(){
+  constructor(mapURL){
     this.map = [];
     this.roundList = [];
     this.size = 2;
@@ -67,7 +67,7 @@ class GameMap{
     this.backImage.src = './assets/back.png';
     this.image = new Image();
     this.hImage = new Image();
-    loadBitmap('./assets/bitmap3.png', (data)=>{
+    loadBitmap(mapURL, (data)=>{
       for (let i=0; i<data.height; i++){
         let row = [];
         for (let j=0; j<data.width; j++){

@@ -28,7 +28,7 @@ class Game {
     this.currentTeam = null;
     this.timer = new Timer();
     this.afterTimer = new Timer();
-    this.map = new GameMap();
+    this.map; //= new GameMap();
     this.silentWatcher = new SilentWatcher();
     this.timer.onTimeout = () => {
       this.next();
@@ -52,6 +52,7 @@ class Game {
   }
 
   start(options) {
+    this.map = new GameMap(options.mapURL);
     for (let j = 0; j < options.teams.length; j++) {
       let team = new Team(options.teams[j].name, options.teams[j].avatar);
       for (let i = 0; i < options.teams[j].playersNumber; i++) {

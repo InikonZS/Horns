@@ -165,7 +165,9 @@
   height: 100%;
 }
 
-.editor canvas {
+.editor_canvas {
   border: 1px solid #ccc;
   margin-bottom: 30px;
+  width: 80%;
+  position: relative;
 }

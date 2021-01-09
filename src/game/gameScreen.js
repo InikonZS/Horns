@@ -16,6 +16,7 @@ const colors = ['#f00', '#fc0', '#090', '#00f', '#909', '#099'];
 
 const defaultGameConfig = {
   format: 'easycount',
+  mapURL: './assets/bitmap3.png',
   nameList: names,
   colorList: colors,
   teams:[
@@ -79,6 +80,9 @@ class GameScreen extends Control{
     this.panel.add(this.playPanel);
 
     this.editorScreen = new EditorScreen(this.panel.node, this.panel);
+    this.editorScreen.onSave = (dataURL)=>{
+      defaultGameConfig.mapURL = dataURL;
+    }
     this.panel.add(this.editorScreen);
 
     this.menu = new MainMenu(this.panel.node);
