@@ -1,7 +1,7 @@
 const Control = require('common/control.js');
 
 class SettingsMenu extends Control {
-    constructor(parentNode, config) {
+    constructor(parentNode, sceneManager) {
         super(parentNode, 'div', 'gamescreen_wrapper_centred', '');
         let settingsWrapper = new Control(this.node, 'div', "settings_wrapper");
         let settingsItemTeam = new Control(settingsWrapper.node, 'div', 'settings_item settings_team');
@@ -51,8 +51,10 @@ class SettingsMenu extends Control {
         this.chartOption = new Control(this.chartSelect.node, 'option', '', 'Армагедон');
 
         this.startGame = new Control(settingsWrapper.node, 'div', 'startGame_btn', 'Начать игру');
-        this.exit = new Control(settingsWrapper.node, 'div', 'exit_btn', 'Выход');
-
+        this.exit = new Control(settingsWrapper.node, 'div', 'exit_btn', 'назад');
+        this.exit.node.onclick = ()=>{
+            sceneManager.back();
+        }
 
     }
 }
