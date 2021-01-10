@@ -307,6 +307,9 @@ class Game {
   getCenterVector(context) {
     return new Vector(context.canvas.width / 2, context.canvas.height / 2);
   }
+  createTargetPoint(mousePos) {
+    this.getCurrentPlayer().createTargetPoint(mousePos.sub(this.camera));
+  }
 }
 
 module.exports = Game;

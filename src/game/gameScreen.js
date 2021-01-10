@@ -13,6 +13,7 @@ const Preloader = require('./preloader.js');
 const Team = require('./core/team.js');
 const Game = require('./core/game.js');
 const Player = require('./core/player.js');
+const { Physical } = require('./core/primitives.js');
 
 const names = 'Lorem Ipsum Dolor Sit Amet Erat Morbi Lectus Finibus Mollis Mauris Eros Sed Felis Dabi     us Turpis Elemus Genus Proin Covan Grat Coin Jaggo Netus Inos Beler Ogos Frago'.split(' ');
 const colors = ['#f00', '#fc0', '#090', '#00f', '#909', '#099'];
@@ -63,6 +64,12 @@ class GameScreen extends Control {
     this.canvas = new Control(this.node, 'canvas');
     this.canvas.node.style.position = 'absolute';
     this.autoSize();
+
+    // this.canvas.node.addEventListener('click', (e) => {
+    //   console.log(e);
+    //   this.game.currentTeam.currentPlayer.createTargetPoint(e);
+    // });
+
     this.context = this.canvas.node.getContext('2d');
     this.renderer = new Renderer();
     this.panel = new SceneManager(this.node);
@@ -97,7 +104,6 @@ class GameScreen extends Control {
     this.menu.onEditor = () =>{
       this.panel.selectByScene(this.editorScreen);
     }
-
 
     this.menu.onFight = () =>{
       this.panel.selectByScene(this.playPanel);
@@ -179,7 +185,15 @@ class GameScreen extends Control {
 
     window.addEventListener('resize', () => {
       this.autoSize();
-    })
+    });
+
+    window.addEventListener('click', (e) => {
+      if (this.canvas) {
+        console.log(e);
+      this.game.createTargetPoint(new Vector(e.clientX, e.layerY - this.canvas.node.offsetTop)
+        .scale(this.canvas.node.width / this.canvas.node.clientWidth));
+      }
+    });
 
   }
 
@@ -190,6 +204,7 @@ class GameScreen extends Control {
     this.canvas.node.style.width = '100%';
     this.canvas.node.style.height = '100%';
   }
+
 }
 
 module.exports = GameScreen;

@@ -37,6 +37,7 @@ class Player {
       new Weapon(10, true),
       new WeaponS(10, true),
     ];
+    this.targetPoints = [];
     this.currentWeapon = this.weapons[0];
     this.angle = 0;
     this.angleSpeed = 0;
@@ -139,7 +140,7 @@ class Player {
     }
     this.graphic.position = this.physic.position;
     this.powerUp(deltaTime);
-    
+
     if (Math.abs(this.angleSpeed)>10){
       this.angleSpeed = Math.sign(this.angleSpeed)*10;
     }
@@ -155,11 +156,14 @@ class Player {
     if (this.isActive) {
       this.target.render(context, deltaTime, camera);
     }
+    if (this.targetPoints.length) {
+      this.targetPoints.forEach(it => it.render(context, deltaTime, camera));
+    }
   }
 
   move(freeMode, moveVector, map, move, tryJump, deltaTime, keyCode){
     if(freeMode){
-      movePlayerFree(this, moveVector, map);  
+      movePlayerFree(this, moveVector, map);
     } else {
       movePlayer(this, moveVector, map, move, tryJump, deltaTime, keyCode);
     }
@@ -167,6 +171,10 @@ class Player {
 
   fall(map, deltaTime){
     fallPlayer(this, map, deltaTime);
+  }
+
+  createTargetPoint(pos) {
+    this.targetPoints.push(new Physical(new Vector(pos.x, pos.y), 5, '#000'));
   }
 }
 
@@ -179,7 +187,7 @@ function fallPlayer(player, map, deltaTime){
     it.physic.speed.y=0;
     it.physic.speed.x=0;
     it.physic.acceleration.y=0;
-  }  
+  }
 }
 
 function movePlayerFree(player, moveVector, map){
@@ -192,7 +200,7 @@ function movePlayerFree(player, moveVector, map){
     if (map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
       physic.position = s.clone().add(new Vector(0,-size*2));
     }
-  }  
+  }
 }
 
 function movePlayer(player, moveVector, map, move, tryJump, deltaTime, keyCode){
