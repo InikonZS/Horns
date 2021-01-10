@@ -32,9 +32,10 @@ class SettingsMenu extends Control {
 
         let settingsItemTeamChoice = new Control(settingsWrapper.node, 'div', 'settings_item settings_team_selection');
         this.itemTitle = new Control(settingsItemTeamChoice.node, 'div', 'settings_item_title', 'Казарма');
-        let settingsTeamTable = new Control(settingsItemTeamChoice.node, 'div', 'team-table');
-        this.teamTable = new Control(settingsTeamTable.node, 'table', '');
-        let tBody = new Control(this.teamTable.node, 'tbody', '');
+        let settingsTeamChoiceInner = new Control(settingsItemTeamChoice.node, 'div', 'settings_team_inner');
+        this.teamNameChoice = new Control(settingsTeamChoiceInner.node, 'div', 'settings_team_block team_name', 'Команда');
+        this.teamPoints = new Control(settingsTeamChoiceInner.node, 'div', 'settings_team_block team_status', 'Очки');
+
 
         let settingsItemChart = new Control(settingsWrapper.node, 'div', 'settings_item settings_chart');
         this.itemTitle = new Control(settingsItemChart.node, 'div', 'settings_item_title', 'Настройки схемы');
@@ -51,9 +52,11 @@ class SettingsMenu extends Control {
         this.chartOption = new Control(this.chartSelect.node, 'option', '', 'Армагедон');
 
         this.startGame = new Control(settingsWrapper.node, 'div', 'startGame_btn', 'Начать игру');
-        this.exit = new Control(settingsWrapper.node, 'div', 'exit_btn', 'Выход');
+        this.return = new Control(settingsWrapper.node, 'div', 'return_btn', 'Назад');
 
-
+        this.return.node.onclick = () => {
+            this.onreturn && this.onreturn();
+        }
     }
 }
 

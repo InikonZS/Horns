@@ -47,7 +47,7 @@ class GameScreen extends Control {
     }
 
     this.playPanel = new PlayPanel(this.panel.node);
-    this.playPanel.weaponMenu.onSelect = index => {
+    this.playPanel.openWeapon.onSelect = index => {
       this.game.currentTeam.currentPlayer.setWeapon(index);
     }
 
@@ -59,7 +59,7 @@ class GameScreen extends Control {
       this.panel.selectByScene(this.playPanel);
       this.game = newGame();
       this.game.onNext = (player) => {
-        this.playPanel.weaponMenu.select(player.weapons.indexOf(player.currentWeapon), true);
+        this.playPanel.openWeapon.select(player.weapons.indexOf(player.currentWeapon), true);
         this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2);
       }
       this.playPanel.teamIndicator.clear();
@@ -84,6 +84,14 @@ class GameScreen extends Control {
     this.panel.add(this.editor);
     this.menu.onEditor = () => {
       this.panel.selectByScene(this.editor);
+    }
+
+    this.editor.onExit = () => {
+      this.panel.selectByScene(this.menu);
+    }
+
+    this.settings.onExit = () => {
+      this.panel.selectByScene(this.menu);
     }
 
     this.panel.selectByScene(this.preloader);
@@ -118,12 +126,7 @@ class GameScreen extends Control {
     window.addEventListener('resize', () => {
       this.autoSize();
     })
-    // body.addEventListener('click', (ev) => {
-    //   if (ev.target.classlist.contains('weapon_btn')) {
-    //     console.log(ev.target);
-    //   }
 
-    // })
   }
 
   autoSize() {

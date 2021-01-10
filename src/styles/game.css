@@ -358,7 +358,7 @@ padding: 10px;
   height: 34px;
 }
 
-.startGame_btn, .exit_btn {
+.startGame_btn, .return_btn {
   user-select: none;
   padding: 10px;
   font-size: 20px;
@@ -370,7 +370,7 @@ padding: 10px;
   background-color: rgb(206, 199, 197);
 }
 
-.startGame_btn:hover,.exit_btn:hover {
+.startGame_btn:hover,.return_btn:hover {
   transform: scale(1.1);
   cursor: pointer;
   background-color:  rgb(228, 228, 216);
