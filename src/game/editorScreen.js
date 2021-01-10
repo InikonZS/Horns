@@ -9,9 +9,10 @@ class EditorScreen extends Control {
       'gamescreen_wrapper_centred editor',
       'editor screen',
     );
-    this.canvas = new Control(this.node, 'canvas');
-    this.canvas.node.style.width = '80%';
-    this.canvas.node.style.height = '80%';
+    this.canvasWrapper = new Control(this.node, 'div', 'editor_canvas');
+    this.canvas = new Control(this.canvasWrapper.node, 'canvas');
+    this.autoSize();
+
     this.context = this.canvas.node.getContext('2d');
     this.context.fillStyle = '#ffffff';
     this.context.fillRect(0, 0, this.canvas.node.width, this.canvas.node.height,
@@ -20,8 +21,8 @@ class EditorScreen extends Control {
     this.context.strokeStyle = '#cc3';
     this.context.lineCap = 'round';
 
-    this.isMouseDown = false;
-    this.mousePos = new Vector(-1, -1);
+    let isMouseDown = false;
+    //this.mousePos = new Vector(-1, -1);
     this.mousePrevPos = new Vector(-1, -1);
 
     this.backButton = new Control(this.node, 'div', 'load_button', 'back');
@@ -31,29 +32,47 @@ class EditorScreen extends Control {
 
     this.saveButton = new Control(this.node, 'div', 'load_button', 'save');
     this.saveButton.node.onclick = () => {
-      
+      this.onSave && this.onSave(this.canvas.node.toDataURL());
+      sceneManager.back();
     };
 
+    const getCursorVector = (event)=>{
+      return new Vector(
+        event.layerX - this.canvas.node.offsetLeft,
+        event.layerY - this.canvas.node.offsetTop
+      ).scale(this.canvas.node.width/ this.canvasWrapper.node.clientWidth);
+    }
+
     this.canvas.node.onmousedown = (e) => {
-      this.isMouseDown = true;
-      this.mousePrevPos.x = e.clientX - this.canvas.node.offsetLeft;
-      this.mousePrevPos.y = e.clientY - this.canvas.node.offsetTop - this.node.offsetTop;
-      console.log(this.mousePrevPos, this.node.offsetTop);
+      isMouseDown = true;
+      this.mousePrevPos.from(getCursorVector(e));//.x = e.layerX - this.canvas.node.offsetLeft;
+      //this.mousePrevPos.y = e.layerY - this.canvas.node.offsetTop;// - this.node.offsetTop;
+      //console.log(this.mousePrevPos, this.node.offsetTop);
     };
     this.canvas.node.onmouseup = (e) => {
-      this.isMouseDown = false;
+      isMouseDown = false;
       this.mousePrevPos = new Vector(-1, -1);
     };
     this.canvas.node.onmousemove = (e) => {
-      if (this.isMouseDown) {
-        this.mousePos.x = e.clientX - this.canvas.node.offsetLeft;
-        this.mousePos.y = e.clientY - this.canvas.node.offsetTop - this.node.offsetTop;
+      if (isMouseDown) {
+        //console.log('fd');
+        let mousePos = getCursorVector(e);//.x = e.clientX - this.canvas.node.offsetLeft;
+        //this.mousePos.y = e.clientY - this.canvas.node.offsetTop - this.node.offsetTop;
+        this.context.strokeStyle='#000';
         this.context.moveTo(this.mousePrevPos.x, this.mousePrevPos.y);
-        this.context.lineTo(this.mousePos.x, this.mousePos.y);
+        this.context.lineTo(mousePos.x, mousePos.y);
         this.context.stroke();
-        this.mousePrevPos.from(this.mousePos);
+        this.mousePrevPos.from(mousePos);
       }
     };
+  }
+
+  autoSize(){
+    let scaler = 1;
+    this.canvas.node.height = 400;//this.canvasWrapper.node.clientHeight/scaler;
+    this.canvas.node.width = 1000;//this.canvasWrapper.node.offsetWidth/scaler;
+    this.canvas.node.style.width = '100%';
+    //this.canvas.node.style.height = '100%';
   }
 }
 
