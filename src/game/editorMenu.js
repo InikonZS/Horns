@@ -11,11 +11,11 @@ class EditorMenu extends Control {
     this.pole = new Control(editorWrapper.node, 'div', 'editor_pole', '--------- ------ -----  ///// ////');
 
     this.startGame = new Control(this.node, 'div', 'startGame_btn', 'Начать игру');
-    this.exit = new Control(this.node, 'div', 'exit_btn', 'Выход');
-    // this.editorButton = new Control(menuWrapper.node, 'div', 'load_button menu_item', 'Editor');
-    // this.settingsButton = new Control(menuWrapper.node, 'div', 'load_button menu_item', 'Settings');
-    // this.AboutButton = new Control(menuWrapper.node, 'div', 'load_button menu_item', 'About');
+    this.return = new Control(this.node, 'div', 'return_btn', 'Назад');
 
+    this.return.node.onclick = () => {
+      this.onreturn && this.onreturn();
+    }
   }
 }
 
