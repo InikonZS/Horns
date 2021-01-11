@@ -40,6 +40,11 @@ class Game {
     return this.teams.filter((it) => it.players.length);
   }
 
+  getPlayersToHit() {
+    return this.teams.filter((it) => it !== this.currentTeam)
+      .reduce((list, it) => list.concat(it), []);
+  }
+
   addTeam(team) {
     this.teams.push(team);
     team.onKilled = () => {
@@ -164,7 +169,7 @@ class Game {
           let n = this.map.getNormal(preNearest);
           if (n.abs()==0){
             it.physic.speed.scale(-1);
-            it.render(context, deltaTime, this.camera, false); 
+            it.render(context, deltaTime, this.camera, false);
           } else {
           //it.physic.position = it.physic.position.sub(it.physic.speed.clone().scale(deltaTime));
             it.physic.speed = it.physic.speed.reflect(n).scale(1);
@@ -193,7 +198,7 @@ class Game {
 
     this.bullets.list.forEach((it) => {
       if (!it.isDeleted) {
-        it.render(context, deltaTime, this.camera, true);  
+        it.render(context, deltaTime, this.camera, true);
       }
     });
 

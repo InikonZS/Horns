@@ -68,7 +68,7 @@ class Physical{
     this.physic = new PhysicPoint(pos);
     this.timer = new Timer();
     this.timer.start(10);
-    this.isReflectable = true;
+    this.isReflectable = false;
   }
 
   render(context, deltaTime, camera, proc){
