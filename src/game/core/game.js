@@ -30,7 +30,6 @@ class Game {
     this.afterTimer = new Timer();
     this.computerShotTimer = new Timer();
     this.computerShotTimer.onTimeout = () => {
-      console.log('shot');
       this.shotFunc();
     }
     this.map; //= new GameMap();
@@ -118,7 +117,6 @@ class Game {
 
     if (this.getCurrentPlayer().isComputer) {
       this.computerShotTimer.start(15);
-      console.log('isComputer');
     }
   }
 
