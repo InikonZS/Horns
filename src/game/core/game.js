@@ -28,6 +28,11 @@ class Game {
     this.currentTeam = null;
     this.timer = new Timer();
     this.afterTimer = new Timer();
+    this.computerShotTimer = new Timer();
+    this.computerShotTimer.onTimeout = () => {
+      console.log('shot');
+      this.shotFunc();
+    }
     this.map; //= new GameMap();
     this.silentWatcher = new SilentWatcher();
     this.timer.onTimeout = () => {
@@ -41,7 +46,8 @@ class Game {
   }
 
   getPlayersToHit() {
-    return this.teams.filter((it) => it !== this.currentTeam)
+    return this.teams
+      .filter((it) => it !== this.currentTeam)
       .reduce((list, it) => list.concat(it), []);
   }
 
@@ -108,6 +114,12 @@ class Game {
     } else {
       this.finish();
     }
+
+
+    if (this.getCurrentPlayer().isComputer) {
+      this.computerShotTimer.start(15);
+      console.log('isComputer');
+    }
   }
 
   finish() {
@@ -117,6 +129,7 @@ class Game {
   tick(deltaTime) {
     this.timer.tick(deltaTime);
     this.afterTimer.tick(deltaTime);
+    this.computerShotTimer.tick(deltaTime);
   }
 
   react(bullets, deltaTime) {
@@ -153,7 +166,7 @@ class Game {
       let preNearest = this.map.getNearIntersection(
         it.physic.position.clone(),
         it.physic.getNextPosition(deltaTime),
-        true
+        true,
       );
       let nearest = this.map.getNearIntersection(
         it.physic.position.clone(),
@@ -161,17 +174,17 @@ class Game {
       );
       if (!it.isDeleted && nearest) {
         if (it.isReflectable) {
-         /* edplode on timeout
+          /* edplode on timeout
          it.timer.onTimeout =()=>{
             it.isDeleted = true;
             this.map.round(it.physic.position, it.magnitude || 30);
           }*/
           let n = this.map.getNormal(preNearest);
-          if (n.abs()==0){
+          if (n.abs() == 0) {
             it.physic.speed.scale(-1);
             it.render(context, deltaTime, this.camera, false);
           } else {
-          //it.physic.position = it.physic.position.sub(it.physic.speed.clone().scale(deltaTime));
+            //it.physic.position = it.physic.position.sub(it.physic.speed.clone().scale(deltaTime));
             it.physic.speed = it.physic.speed.reflect(n).scale(1);
           }
         } else {
@@ -219,79 +232,83 @@ class Game {
   processKeyboard(context, keyboardState, deltaTime) {
     this.camera.move(context, keyboardState, 80, deltaTime);
 
-    let c = new Vector(0, 0);
-    let move = false;
-    let tryJump = false;
-    let keyCode = '';
-    if (keyboardState['KeyW']) {
-      c.y += -1;
-      tryJump = true;
-      keyCode = 'KeyW';
-      this.camera.enableAutoMove = true;
-    }
-    if (keyboardState['KeyA']) {
-      c.x += -1;
-      move = true;
-      keyCode = 'KeyA';
-      this.camera.enableAutoMove = true;
-    }
-    if (keyboardState['KeyD']) {
-      c.x += 1;
-      move = true;
-      keyCode = 'KeyD';
-      this.camera.enableAutoMove = true;
-    }
-
-    if (keyboardState['KeyQ']) {
-      this.getCurrentPlayer().angleSpeed += -1 * deltaTime;
-      this.camera.enableAutoMove = true;
-    } else if (keyboardState['KeyE']) {
-      this.getCurrentPlayer().angleSpeed += 1 * deltaTime;
-      this.camera.enableAutoMove = true;
-    } else {
-      this.getCurrentPlayer().angleSpeed = 0;
-    }
-
-    let freeMovement = false;
-    this.getCurrentPlayer().move(
-      freeMovement,
-      c,
-      this.map,
-      move,
-      tryJump,
-      deltaTime,
-      keyCode,
-    );
-
-    const shotFunc = () => {
-      this.nextLock = false;
-      if (!this.shoted) {
-        this.shoted = true;
-        this.getCurrentPlayer().shot(this.bullets, this.wind);
-
-        this.afterTimer.start(10);
-        this.afterTimer.onTimeout = () => {
-          if (!this.bullets.list.length) {
-            this.afterTimer.pause();
-            this.shoted = false;
-            this.next();
-          } else {
-            this.afterTimer.start(10);
-          }
-        };
+    if (!this.getCurrentPlayer().isComputer) {
+      let c = new Vector(0, 0);
+      let move = false;
+      let tryJump = false;
+      let keyCode = '';
+      if (keyboardState['KeyW']) {
+        c.y += -1;
+        tryJump = true;
+        keyCode = 'KeyW';
+        this.camera.enableAutoMove = true;
       }
-    };
+      if (keyboardState['KeyA']) {
+        c.x += -1;
+        move = true;
+        keyCode = 'KeyA';
+        this.camera.enableAutoMove = true;
+      }
+      if (keyboardState['KeyD']) {
+        c.x += 1;
+        move = true;
+        keyCode = 'KeyD';
+        this.camera.enableAutoMove = true;
+      }
 
-    if (!this.shoted && !this.nextLock && keyboardState['Space']) {
+      if (keyboardState['KeyQ']) {
+        this.getCurrentPlayer().angleSpeed += -1 * deltaTime;
+        this.camera.enableAutoMove = true;
+      } else if (keyboardState['KeyE']) {
+        this.getCurrentPlayer().angleSpeed += 1 * deltaTime;
+        this.camera.enableAutoMove = true;
+      } else {
+        this.getCurrentPlayer().angleSpeed = 0;
+      }
+
+      let freeMovement = false;
+      this.getCurrentPlayer().move(
+        freeMovement,
+        c,
+        this.map,
+        move,
+        tryJump,
+        deltaTime,
+        keyCode,
+      );
+    }
+
+    if (!this.shoted && !this.nextLock && keyboardState['Space']
+      && !this.getCurrentPlayer().isComputer) {
       this.nextLock = true;
       this.getCurrentPlayer().powerStart();
       this.timer.pause();
     }
     if (
       this.nextLock &&
-      (!keyboardState['Space'] || this.getCurrentPlayer().power > 5)
+      (!this.getCurrentPlayer().isComputer && !keyboardState['Space'] || this.getCurrentPlayer().power > 5)
     ) {
-      shotFunc();
+      this.shotFunc();
+    }
+
+  }
+
+  shotFunc() {
+    this.nextLock = false;
+    if (!this.shoted) {
+      this.shoted = true;
+      this.getCurrentPlayer().shot(this.bullets, this.wind);
+
+      this.afterTimer.start(10);
+      this.afterTimer.onTimeout = () => {
+        if (!this.bullets.list.length) {
+          this.afterTimer.pause();
+          this.shoted = false;
+          this.next();
+        } else {
+          this.afterTimer.start(10);
+        }
+      };
     }
   }
 

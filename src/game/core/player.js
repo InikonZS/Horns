@@ -47,6 +47,7 @@ class Player {
     this.powerIndicator = new GraphicPoint(pos, 5, color);
     this.power = 0;
     this.jumped = false;
+    this.isComputer = true;
   }
 
   setActive(isActive){
@@ -101,7 +102,12 @@ class Player {
   }
 
   getDirectionVector() {
-    return new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
+    if (!this.isComputer) {
+      return new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
+    } else {
+      return new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
+    }
+
   }
 
   shot(bullets, wind) {
@@ -139,7 +145,7 @@ class Player {
     }
     this.graphic.position = this.physic.position;
     this.powerUp(deltaTime);
-    
+
     if (Math.abs(this.angleSpeed)>10){
       this.angleSpeed = Math.sign(this.angleSpeed)*10;
     }
@@ -159,7 +165,7 @@ class Player {
 
   move(freeMode, moveVector, map, move, tryJump, deltaTime, keyCode){
     if(freeMode){
-      movePlayerFree(this, moveVector, map);  
+      movePlayerFree(this, moveVector, map);
     } else {
       movePlayer(this, moveVector, map, move, tryJump, deltaTime, keyCode);
     }
@@ -179,7 +185,7 @@ function fallPlayer(player, map, deltaTime){
     it.physic.speed.y=0;
     it.physic.speed.x=0;
     it.physic.acceleration.y=0;
-  }  
+  }
 }
 
 function movePlayerFree(player, moveVector, map){
@@ -192,7 +198,7 @@ function movePlayerFree(player, moveVector, map){
     if (map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
       physic.position = s.clone().add(new Vector(0,-size*2));
     }
-  }  
+  }
 }
 
 function movePlayer(player, moveVector, map, move, tryJump, deltaTime, keyCode){
