@@ -31,7 +31,7 @@ class Game {
     this.computerShotTimer = new Timer();
     this.computerShotTimer.onTimeout = () => {
       this.shotFunc();
-    }
+    };
     this.map; //= new GameMap();
     this.silentWatcher = new SilentWatcher();
     this.timer.onTimeout = () => {
@@ -114,9 +114,9 @@ class Game {
       this.finish();
     }
 
-
     if (this.getCurrentPlayer().isComputer) {
       this.computerShotTimer.start(15);
+      // this.context.moveTo(this.getCurrentPlayer().pos)
     }
   }
 
@@ -207,9 +207,19 @@ class Game {
       }
     });
 
+    this.getCurrentPlayer().setShotOptions(this.wind);
+    this.getCurrentPlayer().currentWeapon.tracer.trace(context, this.camera, (prev, current) => {
+      let nearest = this.map.getNearIntersection(prev, current);
+      return nearest;
+    });
+
     this.bullets.list.forEach((it) => {
       if (!it.isDeleted) {
         it.render(context, deltaTime, this.camera, true);
+        // it.trace(context, this.camera, (prev, current) => {
+        //   let nearest = this.map.getNearIntersection(prev, current);
+        //   return nearest;
+        // });
       }
     });
 
@@ -276,19 +286,23 @@ class Game {
       );
     }
 
-    if (!this.shoted && !this.nextLock && keyboardState['Space']
-      && !this.getCurrentPlayer().isComputer) {
+    if (
+      !this.shoted &&
+      !this.nextLock &&
+      keyboardState['Space'] &&
+      !this.getCurrentPlayer().isComputer
+    ) {
       this.nextLock = true;
       this.getCurrentPlayer().powerStart();
       this.timer.pause();
     }
     if (
       this.nextLock &&
-      (!this.getCurrentPlayer().isComputer && !keyboardState['Space'] || this.getCurrentPlayer().power > 5)
+      ((!this.getCurrentPlayer().isComputer && !keyboardState['Space']) ||
+        this.getCurrentPlayer().power > 5)
     ) {
       this.shotFunc();
     }
-
   }
 
   shotFunc() {

@@ -47,7 +47,7 @@ class Player {
     this.powerIndicator = new GraphicPoint(pos, 5, color);
     this.power = 0;
     this.jumped = false;
-    this.isComputer = true;
+    this.isComputer = false;
   }
 
   setActive(isActive){
@@ -122,6 +122,19 @@ class Player {
       );
       this.onShot && this.onShot();
       this.powerEnd();
+    }
+  }
+
+  setShotOptions(wind) {
+    let direction = this.getDirectionVector();
+    if (this.currentWeapon) {
+      this.currentWeapon.setShotOptions(
+        this.graphic.position,
+        direction,
+        // this.power,
+        5,
+        wind,
+      );
     }
   }
 

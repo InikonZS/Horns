@@ -54,6 +54,14 @@ class PhysicPoint {
     return this.position.clone().add(this.speed.clone().scale(deltaTime));
   }
 
+  getPosition(deltaTime) {
+    let resultAcceleration = this.acceleration.clone();
+    this.forceList.forEach(it=>resultAcceleration.add(it));
+    // this.speed.clone().add(resultAcceleration.clone().scale(deltaTime)).scale(this.friction);
+    return this.position.clone().add(this.speed.clone().scale(deltaTime))
+      .add(resultAcceleration.scale(deltaTime ** 2 / 2));
+  }
+
   process(deltaTime) {
     let resultAcceleration = this.acceleration.clone();
     this.forceList.forEach(it=>resultAcceleration.add(it));
@@ -66,6 +74,7 @@ class Physical{
   constructor(pos, radius, color){
     this.graphic = new GraphicPoint(pos, radius, color);
     this.physic = new PhysicPoint(pos);
+    this.physic1 = new PhysicPoint(pos);
     this.timer = new Timer();
     this.timer.start(10);
     this.isReflectable = false;
@@ -76,6 +85,23 @@ class Physical{
     !proc && this.physic.process(deltaTime);
     this.graphic.position = this.physic.position;
     this.graphic.render(context, deltaTime, camera);
+
+  }
+
+  trace(context, camera, callBack) {
+    context.strokeStyle = '#000';
+    context.beginPath();
+    let prev = this.physic1.position.clone();
+    for (let i = 1; i < 100; i += 1) {
+      let current = this.physic1.getPosition(i);
+      let c = current.clone().add(camera.position);
+      context.lineTo(c.x, c.y);
+      if (callBack(prev, current)) {
+        break;
+      }
+      prev = current;
+    }
+    context.stroke();
   }
 }
 
