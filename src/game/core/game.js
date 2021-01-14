@@ -47,7 +47,7 @@ class Game {
   getPlayersToHit() {
     return this.teams
       .filter((it) => it !== this.currentTeam)
-      .reduce((list, it) => list.concat(it), []);
+      .reduce((list, it) => list.concat(it.players), []);
   }
 
   addTeam(team) {
@@ -115,8 +115,9 @@ class Game {
     }
 
     if (this.currentTeam.isComputer) {
+      this.getCurrentPlayer()
+        .setTargetPoint(this.getPlayersToHit(), this.camera, this.map, this.wind);
       this.computerShotTimer.start(15);
-      // this.context.moveTo(this.getCurrentPlayer().pos)
     }
   }
 
@@ -207,11 +208,13 @@ class Game {
       }
     });
 
-    this.getCurrentPlayer().setShotOptions(this.wind);
-    this.getCurrentPlayer().currentWeapon.tracer.trace(context, this.camera, (prev, current) => {
-      let nearest = this.map.getNearIntersection(prev, current);
-      return nearest;
-    });
+    // this.getCurrentPlayer().setShotOptions(this.wind);
+    // this.getCurrentPlayer().currentWeapon.tracer.trace(this.map, this.camera, context
+    //   (prev, current) => {
+    //   let nearest = this.map.getNearIntersection(prev, current);
+    //   return nearest;
+    // }
+    // );
 
     this.bullets.list.forEach((it) => {
       if (!it.isDeleted) {

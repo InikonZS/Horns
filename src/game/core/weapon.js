@@ -75,7 +75,7 @@ class WeaponEx {
     this.tracer = new Physical(new Vector(0, 0), 3, 'red');
   }
 
-  setShotOptions(point, direction, power = 5, wind) {
+  setShotOptions(point, direction, power = 0, wind) {
     this.tracer.physic1.position.from(point);
     if (this.gravitable) {
       this.tracer.physic1.acceleration.y = 3;

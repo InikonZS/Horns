@@ -6,7 +6,13 @@ const Animation = require('./animation');
 class GraphicPlayer extends GraphicPoint {
   constructor(position, radius, color = '#f00') {
     super(position, radius, color);
-    this.animation = new Animation('./assets/worm-walks-100.png', 1442, 100, 15, 3);
+    this.animation = new Animation(
+      './assets/worm-walks-100.png',
+      1442,
+      100,
+      15,
+      3,
+    );
   }
 
   render(context, deltaTime, camera, data) {
@@ -23,8 +29,11 @@ class GraphicPlayer extends GraphicPoint {
       position.y - 30,
     );
     super.render(context, deltaTime, camera);
-    this.animation.render(context, deltaTime, this.position.clone().add(camera));
-
+    this.animation.render(
+      context,
+      deltaTime,
+      this.position.clone().add(camera),
+    );
   }
 }
 
@@ -49,15 +58,15 @@ class Player {
     this.jumped = false;
   }
 
-  setActive(isActive){
-    this.graphic.radius= isActive ? 15 : 10;
+  setActive(isActive) {
+    this.graphic.radius = isActive ? 15 : 10;
     !isActive && this.setMoveAnimation(false);
     this.isActive = isActive;
   }
 
-  setMoveAnimation(value, keyCode){
-    if (value){
-      if (!this.graphic.animation.isStarted){
+  setMoveAnimation(value, keyCode) {
+    if (value) {
+      if (!this.graphic.animation.isStarted) {
         this.graphic.animation.start(keyCode);
       }
     } else {
@@ -101,7 +110,7 @@ class Player {
   }
 
   getDirectionVector() {
-      return new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
+    return new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
   }
 
   shot(bullets, wind) {
@@ -125,8 +134,7 @@ class Player {
       this.currentWeapon.setShotOptions(
         this.graphic.position,
         direction,
-        // this.power,
-        5,
+        this.power,
         wind,
       );
     }
@@ -153,8 +161,8 @@ class Player {
     this.graphic.position = this.physic.position;
     this.powerUp(deltaTime);
 
-    if (Math.abs(this.angleSpeed)>10){
-      this.angleSpeed = Math.sign(this.angleSpeed)*10;
+    if (Math.abs(this.angleSpeed) > 10) {
+      this.angleSpeed = Math.sign(this.angleSpeed) * 10;
     }
     this.angle = this.angle + this.angleSpeed * deltaTime;
     this.target.position = this.getDirectionVector()
@@ -170,63 +178,104 @@ class Player {
     }
   }
 
-  move(freeMode, moveVector, map, move, tryJump, deltaTime, keyCode){
-    if(freeMode){
+  move(freeMode, moveVector, map, move, tryJump, deltaTime, keyCode) {
+    if (freeMode) {
       movePlayerFree(this, moveVector, map);
     } else {
       movePlayer(this, moveVector, map, move, tryJump, deltaTime, keyCode);
     }
   }
 
-  fall(map, deltaTime){
+  fall(map, deltaTime) {
     fallPlayer(this, map, deltaTime);
   }
-}
 
-function fallPlayer(player, map, deltaTime){
-  let it = player;
-  it.physic.acceleration.y=1;
-  if (map.isEmptyByVector(it.physic.getNextPosition(deltaTime))){
-    it.physic.process(deltaTime);
-  } else {
-    it.physic.speed.y=0;
-    it.physic.speed.x=0;
-    it.physic.acceleration.y=0;
+  setTargetPoint(playersToHit, camera, map, wind) {
+    let minGap = Number.MAX_VALUE;
+    let target = 0;
+    let speed = 0;
+    for (let p = 0; p < playersToHit.length; p++) {
+      let player = playersToHit[p];
+      for (s = 0; s <= 5; s += 1) {
+        this.power = s;
+        for (let i = 0; i < 360; i += 10) {
+          this.moveTarget(i);
+          this.setShotOptions(wind);
+          let targetPoint = this.currentWeapon.tracer.trace(map, camera);
+
+          if (targetPoint) {
+
+            let gap = player.physic.position.clone().sub(targetPoint).abs();
+            if (gap < minGap) {
+              minGap = gap;
+              target = i;
+              speed = s;
+            }
+          }
+        }
+      }
+    }
+    this.moveTarget(target);
+    this.power = speed;
+  }
+
+  moveTarget(angle) {
+    this.angle = angle;
   }
 }
 
-function movePlayerFree(player, moveVector, map){
+function fallPlayer(player, map, deltaTime) {
+  let it = player;
+  it.physic.acceleration.y = 1;
+  if (map.isEmptyByVector(it.physic.getNextPosition(deltaTime))) {
+    it.physic.process(deltaTime);
+  } else {
+    it.physic.speed.y = 0;
+    it.physic.speed.x = 0;
+    it.physic.acceleration.y = 0;
+  }
+}
+
+function movePlayerFree(player, moveVector, map) {
   let size = map.size;
   let physic = player.physic;
   let s = physic.position.clone().add(moveVector);
-  if (map.isEmptyByVector(s)){
+  if (map.isEmptyByVector(s)) {
     physic.position = s;
   } else {
-    if (map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
-      physic.position = s.clone().add(new Vector(0,-size*2));
+    if (map.isEmptyByVector(s.clone().add(new Vector(0, -size * 2)))) {
+      physic.position = s.clone().add(new Vector(0, -size * 2));
     }
   }
 }
 
-function movePlayer(player, moveVector, map, move, tryJump, deltaTime, keyCode){
+function movePlayer(
+  player,
+  moveVector,
+  map,
+  move,
+  tryJump,
+  deltaTime,
+  keyCode,
+) {
   let size = map.size;
   let physic = player.physic;
-  physic.acceleration.y=1;
+  physic.acceleration.y = 1;
   physic.speed.x = moveVector.normalize().scale(5).x;
-  if (tryJump && !player.jumped){
+  if (tryJump && !player.jumped) {
     player.jumped = true;
-    physic.speed.y=moveVector.y*2;
+    physic.speed.y = moveVector.y * 2;
   }
   let s = physic.getNextPosition(deltaTime);
-  if (map.isEmptyByVector(s)){
+  if (map.isEmptyByVector(s)) {
   } else {
-    if (move && map.isEmptyByVector(s.clone().add(new Vector(0,-size*2)))){
-      physic.position.add(new Vector(0,-size*2));
+    if (move && map.isEmptyByVector(s.clone().add(new Vector(0, -size * 2)))) {
+      physic.position.add(new Vector(0, -size * 2));
     } else {
-      physic.acceleration.y=0;
-      physic.speed.y=0;
-      physic.speed.x=0;
-      player.jumped=false;
+      physic.acceleration.y = 0;
+      physic.speed.y = 0;
+      physic.speed.x = 0;
+      player.jumped = false;
     }
   }
   player.setMoveAnimation(move || tryJump, keyCode);
