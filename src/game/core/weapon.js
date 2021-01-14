@@ -102,7 +102,7 @@ class WeaponEx {
       .scale(this.bulletSpeed * (power + 1));
 
     bullets.list.push(bullet);
-    bullet.timer.counter = 40;
+    bullet.timer.counter = 140;
     bullet.timer.onTimeout = () => {
       for (let i = 0; i < 5; i++) {
         //let bull = new Physical(point.clone().add(direction.clone().scale(11)), 5, '#000');

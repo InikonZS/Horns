@@ -198,7 +198,7 @@ class Player {
       let player = playersToHit[p];
       for (s = 0; s <= 5; s += 1) {
         this.power = s;
-        for (let i = 0; i < 360; i += 10) {
+        for (let i = 0; i < Math.PI * 30 * 2; i += (Math.PI * 30 * 2) / 90) {
           this.moveTarget(i);
           this.setShotOptions(wind);
           let targetPoint = this.currentWeapon.tracer.trace(map, camera);
