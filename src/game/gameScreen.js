@@ -3,7 +3,7 @@ const SceneManager = require('./sceneManager.js');
 const PlayPanel = require('./playPanel.js');
 const MainMenu = require('./mainMenu.js');
 
-const SettingsMenu = require('./settingsMenu.js');
+const SettingsMenu = require('./settingsMenu1.js');
 //const EditorMenu = require('./editorMenu.js');
 const EditorScreen = require('./editorScreen.js');
 const Renderer = require('common/renderer.js');
@@ -22,24 +22,24 @@ const defaultGameConfig = {
   mapURL: './assets/bitmap3.png',
   nameList: names,
   colorList: colors,
-  teams:[
+  teams: [
     {
       name: 'Progers',
       avatar: 'PG',
       playersNumber: 1,
-      playersHealts: 100, 
+      playersHealts: 100,
     },
     {
       name: 'Killers',
       avatar: 'KI',
       playersNumber: 1,
-      playersHealts: 50, 
+      playersHealts: 50,
     },
     {
       name: 'Cloners',
       avatar: 'CR',
       playersNumber: 1,
-      playersHealts: 200, 
+      playersHealts: 200,
     },
   ]
 }
@@ -67,8 +67,8 @@ class GameScreen extends Control {
     this.renderer = new Renderer();
     this.panel = new SceneManager(this.node);
 
-    this.fps =0;
-    
+    this.fps = 0;
+
 
     this.preloader = new Preloader(this.panel.node);
     this.panel.add(this.preloader);
@@ -80,13 +80,13 @@ class GameScreen extends Control {
     this.playPanel.openWeapon.onSelect = index => {
       this.game.currentTeam.currentPlayer.setWeapon(index);
     }
-    this.playPanel.onBack = ()=>{
+    this.playPanel.onBack = () => {
       this.game.onFinish();
     }
     this.panel.add(this.playPanel);
 
     this.editorScreen = new EditorScreen(this.panel.node, this.panel);
-    this.editorScreen.onSave = (dataURL)=>{
+    this.editorScreen.onSave = (dataURL) => {
       defaultGameConfig.mapURL = dataURL;
     }
     this.panel.add(this.editorScreen);
@@ -94,27 +94,27 @@ class GameScreen extends Control {
     this.menu = new MainMenu(this.panel.node);
     this.panel.add(this.menu);
 
-    this.menu.onEditor = () =>{
+    this.menu.onEditor = () => {
       this.panel.selectByScene(this.editorScreen);
     }
 
 
-    this.menu.onFight = () =>{
+    this.menu.onFight = () => {
       this.panel.selectByScene(this.playPanel);
       this.game = new Game();//newGame();
-      this.game.onNext = (player)=>{
+      this.game.onNext = (player) => {
         this.playPanel.openWeapon.select(player.weapons.indexOf(player.currentWeapon), true);
         this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2);
       }
-      
-      this.game.onFinish = ()=>{
+
+      this.game.onFinish = () => {
         this.panel.selectByScene(this.menu);
         this.renderer.stop();
       }
       this.game.start(defaultGameConfig);
       this.playPanel.teamIndicator.clear();
-      this.game.teams.forEach((it, i)=>{
-        this.playPanel.teamIndicator.addTeam({name:it.name, avatar:it.avatar||i, color: colors[i]});
+      this.game.teams.forEach((it, i) => {
+        this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: colors[i] });
       })
       this.renderer.start();
     }
@@ -124,15 +124,15 @@ class GameScreen extends Control {
       this.panel.selectByScene(this.settings);
     }
 
-   /* this.editor = new EditorMenu(this.panel.node);
-    this.panel.add(this.editor);
-    this.menu.onEditor = () => {
-      this.panel.selectByScene(this.editor);
-    }*/
+    /* this.editor = new EditorMenu(this.panel.node);
+     this.panel.add(this.editor);
+     this.menu.onEditor = () => {
+       this.panel.selectByScene(this.editor);
+     }*/
 
-   /* this.editor.onExit = () => {
-      this.panel.selectByScene(this.menu);
-    }*/
+    /* this.editor.onExit = () => {
+       this.panel.selectByScene(this.menu);
+     }*/
 
     /*this.settings.onExit = () => {
       this.panel.selectByScene(this.menu);
@@ -144,28 +144,28 @@ class GameScreen extends Control {
       this.game.tick(deltaTime / 100);
       this.playPanel.timeIndicator.node.textContent = Math.trunc(this.game.timer.counter);
 
-      this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
-      this.game.render(this.context, deltaTime/100);
-      this.game.processKeyboard(this.context, this.keyboardState, deltaTime/100);
+      this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+      this.game.render(this.context, deltaTime / 100);
+      this.game.processKeyboard(this.context, this.keyboardState, deltaTime / 100);
       this.game.react(this.game.bullets, deltaTime);
 
       let allHealth = 0;
-      this.game.teams.forEach(team=>allHealth+=team.getSumHealth());
-      if (this.allHealth!=allHealth){
+      this.game.teams.forEach(team => allHealth += team.getSumHealth());
+      if (this.allHealth != allHealth) {
         this.allHealth = allHealth;
-        this.game.teams.forEach((it, i)=>{
-          let tm = this.playPanel.teamIndicator.teams.find(jt=>jt.name == it.name);
+        this.game.teams.forEach((it, i) => {
+          let tm = this.playPanel.teamIndicator.teams.find(jt => jt.name == it.name);
           //console.log(it.getSumHealth(), allHealth);
-          tm.setHealth(100* it.getSumHealth()/allHealth, ''+it.getSumHealth()+'/'+ allHealth);
+          tm.setHealth(100 * it.getSumHealth() / allHealth, '' + it.getSumHealth() + '/' + allHealth);
         });
       }
-     // this.context.stroke();
-     /* this.playPanel.teamIndicator.teams = this.playPanel.teamIndicator.teams.filter(it=>{
-        this.game.teams.find(jt=>jt.name == it.name);
-      });*/
+      // this.context.stroke();
+      /* this.playPanel.teamIndicator.teams = this.playPanel.teamIndicator.teams.filter(it=>{
+         this.game.teams.find(jt=>jt.name == it.name);
+       });*/
       let averager = 128;
-      this.fps = (this.fps*(averager-1) + deltaTime) / averager;
-      this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2) + ' ' + (1/this.fps*1000).toFixed(2);
+      this.fps = (this.fps * (averager - 1) + deltaTime) / averager;
+      this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2) + ' ' + (1 / this.fps * 1000).toFixed(2);
     }
 
     this.keyboardState = {};
@@ -183,10 +183,10 @@ class GameScreen extends Control {
 
   }
 
-  autoSize(){
+  autoSize() {
     let scaler = 1.4;
-    this.canvas.node.height = this.node.clientHeight/scaler;
-    this.canvas.node.width = this.node.offsetWidth/scaler;
+    this.canvas.node.height = this.node.clientHeight / scaler;
+    this.canvas.node.width = this.node.offsetWidth / scaler;
     this.canvas.node.style.width = '100%';
     this.canvas.node.style.height = '100%';
   }

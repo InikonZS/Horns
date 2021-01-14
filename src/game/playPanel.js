@@ -14,7 +14,6 @@ class WeaponItem extends Toggle {
     super(parentNode, activeClass, inactiveClass, caption, onClick);
     this.itemW = new Control(this.node, 'div', 'weapon_amount_available', '22');
   }
-  // <div class="weapon_amount_available">1</div>
 
 }
 
@@ -109,8 +108,8 @@ class PlayPanel extends Control {
 
     this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'), 'div', '', '0');
 
-    this.back = new Control(this.node.querySelector('.gamescreen_burger'), 'div', '', 'back'); 
-    this.back.node.onclick = ()=>{
+    this.back = new Control(this.node.querySelector('.gamescreen_burger'), 'div', '', 'back');
+    this.back.node.onclick = () => {
       this.onBack();
     }
   }
