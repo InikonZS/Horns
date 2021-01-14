@@ -27,19 +27,22 @@ const defaultGameConfig = {
       name: 'Progers',
       avatar: 'PG',
       playersNumber: 1,
-      playersHealts: 100, 
+      playersHealts: 100,
+      isComputer: true,
     },
     {
       name: 'Killers',
       avatar: 'KI',
       playersNumber: 1,
-      playersHealts: 50, 
+      playersHealts: 50,
+      isComputer: true,
     },
     {
       name: 'Cloners',
       avatar: 'CR',
       playersNumber: 1,
-      playersHealts: 200, 
+      playersHealts: 200,
+      isComputer: false,
     },
   ]
 }
@@ -68,7 +71,7 @@ class GameScreen extends Control {
     this.panel = new SceneManager(this.node);
 
     this.fps =0;
-    
+
 
     this.preloader = new Preloader(this.panel.node);
     this.panel.add(this.preloader);
@@ -106,7 +109,7 @@ class GameScreen extends Control {
         this.playPanel.openWeapon.select(player.weapons.indexOf(player.currentWeapon), true);
         this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2);
       }
-      
+
       this.game.onFinish = ()=>{
         this.panel.selectByScene(this.menu);
         this.renderer.stop();

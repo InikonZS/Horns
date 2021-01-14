@@ -47,7 +47,6 @@ class Player {
     this.powerIndicator = new GraphicPoint(pos, 5, color);
     this.power = 0;
     this.jumped = false;
-    this.isComputer = false;
   }
 
   setActive(isActive){
@@ -102,12 +101,7 @@ class Player {
   }
 
   getDirectionVector() {
-    if (!this.isComputer) {
       return new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
-    } else {
-      return new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
-    }
-
   }
 
   shot(bullets, wind) {

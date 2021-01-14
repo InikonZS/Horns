@@ -64,7 +64,7 @@ class Game {
   start(options) {
     this.map = new GameMap(options.mapURL);
     for (let j = 0; j < options.teams.length; j++) {
-      let team = new Team(options.teams[j].name, options.teams[j].avatar);
+      let team = new Team(options.teams[j].name, options.teams[j].avatar, options.teams[j].isComputer);
       for (let i = 0; i < options.teams[j].playersNumber; i++) {
         let pl = new Player(
           options.nameList[i + j * options.teams.length],
@@ -114,7 +114,7 @@ class Game {
       this.finish();
     }
 
-    if (this.getCurrentPlayer().isComputer) {
+    if (this.currentTeam.isComputer) {
       this.computerShotTimer.start(15);
       // this.context.moveTo(this.getCurrentPlayer().pos)
     }
@@ -240,7 +240,7 @@ class Game {
   processKeyboard(context, keyboardState, deltaTime) {
     this.camera.move(context, keyboardState, 80, deltaTime);
 
-    if (!this.getCurrentPlayer().isComputer) {
+    if (!this.currentTeam.isComputer) {
       let c = new Vector(0, 0);
       let move = false;
       let tryJump = false;
@@ -290,7 +290,7 @@ class Game {
       !this.shoted &&
       !this.nextLock &&
       keyboardState['Space'] &&
-      !this.getCurrentPlayer().isComputer
+      !this.currentTeam.isComputer
     ) {
       this.nextLock = true;
       this.getCurrentPlayer().powerStart();
@@ -298,7 +298,7 @@ class Game {
     }
     if (
       this.nextLock &&
-      ((!this.getCurrentPlayer().isComputer && !keyboardState['Space']) ||
+      ((!this.currentTeam.isComputer && !keyboardState['Space']) ||
         this.getCurrentPlayer().power > 5)
     ) {
       this.shotFunc();
