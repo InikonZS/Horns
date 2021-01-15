@@ -4,8 +4,8 @@ const GameScreen = require('game/gameScreen.js');
 const AboutScreen = require('./about/aboutPage.js');
 const AnotherScreen = require('./another/anotherPage.js');
 
-class Application extends Control{
-  constructor(parentNode, config){
+class Application extends Control {
+  constructor(parentNode, config) {
     super(parentNode);
     // this.pageManager = new PageManager(parentNode);
     this.logo = new Control(this.node, 'div', 'logo', 'Horns');
@@ -18,10 +18,12 @@ class Application extends Control{
     this.pageManager.add(this.aboutScreen, 'About');
     this.anotherScreen = new AnotherScreen(this.node);
     this.pageManager.add(this.anotherScreen, 'Something');
+    this.anotherScreen = new AnotherScreen(this.node);
+    this.pageManager.add(this.anotherScreen, 'Exit')
     this.pageManager.select(0);
     //<a href="https://github.com/InikonZS">Inikon</a>
     this.footer = new Control(this.node, 'div', 'footer', 'Inikon');
-    
+
   }
 }
 

@@ -1,5 +1,32 @@
+const options = [
+  {
+    name: 'right',
+    keyCode: 'KeyD',
+    src: './assets/worm-walks-100.png',
+    width: 1442,
+    height: 100,
+    numberOfFrames: 15,
+  },
+  {
+    name: 'left',
+    keyCode: 'KeyA',
+    src: './assets/worm-walks-left-100.png',
+    width: 1442,
+    height: 100,
+    numberOfFrames: 15,
+  },
+  {
+    name: 'jump',
+    keyCode: 'KeyW',
+    src: './assets/worm-jump-100.png',
+    width: 107,
+    height: 100,
+    numberOfFrames: 2,
+  },
+]
+
 class Animation {
-  constructor(imageURL, width, height, numberOfFrames) {
+  constructor(imageURL, width, height, numberOfFrames, scale = 1) {
     let spritesheet = new Image();
     spritesheet.src = imageURL;
     this.spritesheet = spritesheet;
@@ -9,10 +36,14 @@ class Animation {
     this.frameIndex = 0;
     console.log(this.spritesheet);
     this.isStarted = false;
+    this.scale = scale
   }
-  start() {
+  start(keyCode) {
     this.isStarted = true;
     this.frameIndex = 0;
+    if (keyCode) {
+      this.setOptions(keyCode);
+    }
   }
 
   stop() {
@@ -32,9 +63,10 @@ class Animation {
                       0,
                       this.width / this.numberOfFrames,
                       this.height,
-                      x, y,
-                      (this.width / this.numberOfFrames) / 3,
-                      this.height / 3)
+                      x - (this.width / this.numberOfFrames / this.scale) / 2,
+                      y - (this.height / this.scale) / 2,
+                      (this.width / this.numberOfFrames) / this.scale,
+                      this.height / this.scale)
   }
 
   drawCurrentFrame(context, x, y){
@@ -46,6 +78,14 @@ class Animation {
       this.update(deltaTime);
     }
     this.drawCurrentFrame(context, position.x, position.y);
+  }
+
+  setOptions(keyCode) {
+    const currentOptions = options.filter(it => it.keyCode === keyCode)[0];
+    this.spritesheet.src = currentOptions.src;
+    this.width = currentOptions.width;
+    this.height = currentOptions.height;
+    this.numberOfFrames = currentOptions.numberOfFrames;
   }
 }
 

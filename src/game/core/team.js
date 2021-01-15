@@ -1,14 +1,16 @@
 class Team{
-  constructor(name){
+  constructor(name, avatar, isComputer){
     this.players = [];
     this.name = name;
+    this.avatar = avatar;
     this.currentPlayer = null;
+    this.isComputer = isComputer;
   }
 
   nextPlayer(){
     if (this.currentPlayer!==null){
       let nextIndex = (this.players.indexOf(this.currentPlayer)+1) % this.players.length;
-      this.currentPlayer = this.players[nextIndex]; 
+      this.currentPlayer = this.players[nextIndex];
     } else {
       this.currentPlayer = this.players[0];
     }
@@ -32,7 +34,7 @@ class Team{
   react(bullets, deltaTime){
     this.players.forEach(it=>{
       it.react(bullets, deltaTime);
-    })  
+    })
   }
 
   render(context, deltaTime, camera){

@@ -1,7 +1,6 @@
 const Timer = require('./timer.js');
 const Vector = require('common/vector.js');
 
-
 class GraphicPoint {
   constructor(position, radius, color = '#f00') {
     //super();
@@ -12,7 +11,7 @@ class GraphicPoint {
   }
 
   render(context, deltaTime, camera) {
-    let position = this.position.clone().add(camera)
+    let position = this.position.clone().add(camera);
     context.fillStyle = this.color;
     context.strokeStyle = '#FFF';
     context.lineWidth = 3;
@@ -26,56 +25,94 @@ class GraphicPoint {
 }
 
 class PhysicPoint {
-  constructor (position){
+  constructor(position) {
     this.position = position.clone();
-    this.speed = new Vector(0,0);
-    this.acceleration = new Vector(0,0);
+    this.speed = new Vector(0, 0);
+    this.acceleration = new Vector(0, 0);
     this.forceList = [];
     this.friction = 1;
   }
 
-  get x(){
+  get x() {
     return this.position.x;
   }
-  get y(){
+  get y() {
     return this.position.y;
   }
-  set x(value){
+  set x(value) {
     this.position.x = value;
   }
-  set y(value){
+  set y(value) {
     this.position.y = value;
   }
 
   getNextPosition(deltaTime) {
     let resultAcceleration = this.acceleration.clone();
-    this.forceList.forEach(it=>resultAcceleration.add(it));
-    this.speed.clone().add(resultAcceleration.clone().scale(deltaTime)).scale(this.friction);
+    this.forceList.forEach((it) => resultAcceleration.add(it));
+    this.speed
+      .clone()
+      .add(resultAcceleration.clone().scale(deltaTime))
+      .scale(this.friction);
     return this.position.clone().add(this.speed.clone().scale(deltaTime));
+  }
+
+  getPosition(deltaTime) {
+    let resultAcceleration = this.acceleration.clone();
+    this.forceList.forEach((it) => resultAcceleration.add(it));
+    // this.speed.clone().add(resultAcceleration.clone().scale(deltaTime)).scale(this.friction);
+    return this.position
+      .clone()
+      .add(this.speed.clone().scale(deltaTime))
+      .add(resultAcceleration.scale(deltaTime ** 2 / 2));
   }
 
   process(deltaTime) {
     let resultAcceleration = this.acceleration.clone();
-    this.forceList.forEach(it=>resultAcceleration.add(it));
-    this.speed.add(resultAcceleration.clone().scale(deltaTime)).scale(this.friction);
+    this.forceList.forEach((it) => resultAcceleration.add(it));
+    this.speed
+      .add(resultAcceleration.clone().scale(deltaTime))
+      .scale(this.friction);
     this.position.add(this.speed.clone().scale(deltaTime));
   }
 }
 
-class Physical{
-  constructor(pos, radius, color){
+class Physical {
+  constructor(pos, radius, color) {
     this.graphic = new GraphicPoint(pos, radius, color);
     this.physic = new PhysicPoint(pos);
+    this.physic1 = new PhysicPoint(pos);
     this.timer = new Timer();
     this.timer.start(10);
+    this.isReflectable = false;
   }
 
-  render(context, deltaTime, camera){
+  render(context, deltaTime, camera, proc) {
     this.timer.tick(deltaTime);
-    this.physic.process(deltaTime);
+    !proc && this.physic.process(deltaTime);
     this.graphic.position = this.physic.position;
     this.graphic.render(context, deltaTime, camera);
   }
+
+  trace(map, camera, context) {
+    if (context) {
+      context.strokeStyle = '#000';
+      context.beginPath();
+    }
+
+    let prev = this.physic1.position.clone();
+    for (let i = 1; i < 100; i += 1) {
+      let current = this.physic1.getPosition(i);
+      let c = current.clone().add(camera.position);
+      context && context.lineTo(c.x, c.y);
+      let nearest = map.getNearIntersection(prev, current);
+      if (nearest) {
+        // console.log(nearest);
+        return nearest;
+      }
+      prev = current;
+    }
+    context && context.stroke();
+  }
 }
 
-module.exports = {GraphicPoint, PhysicPoint, Physical}
+module.exports = { GraphicPoint, PhysicPoint, Physical };

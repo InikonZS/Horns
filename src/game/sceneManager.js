@@ -7,6 +7,7 @@ class SceneManager extends Control{
     this.scenes = [];
     this.currentScene = null;
     this.currentIndex = -1;
+    this.history = [];
   }
 
   add(scene){
@@ -24,7 +25,14 @@ class SceneManager extends Control{
     this.select(index);
   }
 
+  back(){
+    let lastScene = this.history.pop();
+    this.selectByScene(lastScene);
+    this.history.pop();
+  }
+
   select(index){
+    this.history.push(this.currentScene);
     this.scenes.forEach((it, i)=>{
       if (i!=index){
         it.hide();

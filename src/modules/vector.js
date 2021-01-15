@@ -8,6 +8,12 @@ class Vector {
     return new Vector(this.x, this.y);
   }
 
+  from(vector){
+    this.x = vector.x;
+    this.y = vector.y;
+    return this;
+  }
+
   add(vector) {
     this.x += vector.x;
     this.y += vector.y;
@@ -36,6 +42,18 @@ class Vector {
 
   abs() {
     return (this.x ** 2 + this.y ** 2) ** 0.5;
+  }
+
+  scalar(v) {
+    return this.x * v.x + this.y * v.y;
+  }
+
+  reflect(n) {
+    return this.sub(n.scale(this.scalar(n)).scale(2));
+  }
+
+  compare(v, range = 300) {
+    return Math.abs(this.x - v.x) < range && Math.abs(this.y - v.y) < range;
   }
 }
 
