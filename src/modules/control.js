@@ -7,13 +7,22 @@ class Control {
     this.node = el;
   }
 
-  hide(){
+  hide() {
     this.node.style.display = 'none';
   }
 
-  show(){
+  show() {
     this.node.style.display = '';
   }
+  setContent(content) {
+    this.node.innerHTML = content;
+  }
+
+  setClassName(className) {
+    this.node.className = className;
+  }
+
+
 
 }
 
