@@ -12,7 +12,7 @@ class Camera extends PhysicPoint{
   }
 
   setTargetVector(targetVector, mode, scaler){
-    this.targetVector = targetVector;  
+    this.targetVector = targetVector.add(new Vector(0, 100));
     this.cameraAutoMode = mode;
     this.scaler = scaler;
   }
@@ -22,7 +22,7 @@ class Camera extends PhysicPoint{
     if (keyboardState['ArrowUp']){moveVector.y=-4;}
     if (keyboardState['ArrowDown']){moveVector.y=4;}
     if (keyboardState['ArrowLeft']){moveVector.x=-4;}
-    if (keyboardState['ArrowRight']){moveVector.x=4;}  
+    if (keyboardState['ArrowRight']){moveVector.x=4;}
     if (moveVector.abs()>0){
       let nextPosition = this.position.sub(moveVector.normalize().scale(moveSpeed*deltaTime));
       this.limit(context, nextPosition);
@@ -54,11 +54,11 @@ class Camera extends PhysicPoint{
         } else if (cameraAutoMode == 2) {
           this.speed = toTarget.scale(this.scaler);
         } else {
-          this.speed.scale(0);  
+          this.speed.scale(0);
         }
       }
     } else {
-      this.speed.scale(0);  
+      this.speed.scale(0);
     }
     super.process(deltaTime);
     this.limit(context, this.position);

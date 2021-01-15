@@ -1,4 +1,5 @@
-@import './play-panel.scss';
+@import './abstracts/variables';
+@import './layout/play-panel';
 
 .logo {
   color: red;

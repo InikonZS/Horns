@@ -38,27 +38,27 @@ class PlayPanel extends Control {
     super(parentNode, 'div', 'gamescreen_wrapper', `
     <div class="gamescreen_top">
       <div class="gamescreen_panel gamescreen_burger">
-    
+
       </div>
       <div class="gamescreen_panel gamescreen_weapons">
       <div class="weapon_btn">
-                
-            </div>   
+
+            </div>
       </div>
     </div>
-    
+
     <div class="gamescreen_bottom">
       <div id="gclock" class="gamescreen_panel">
 
-      </div> 
+      </div>
       <div id="tm" class="gamescreen_panel">
 
-    
-      </div> 
+
+      </div>
       <div class="gamescreen_panel gamescreen_wind">
-    
-      </div> 
-    </div>   
+
+      </div>
+    </div>
     `);
     this.timeIndicator = new TimeIndicator(this.node.querySelector('#gclock'));
     this.teamIndicator = new TeamIndicator(this.node.querySelector('#tm'));
