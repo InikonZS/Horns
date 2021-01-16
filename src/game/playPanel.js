@@ -4,7 +4,9 @@ const { Group, Toggle } = require('common/group.js');
 const TeamIndicator = require('./teamIndicator.js');
 class TimeIndicator extends Control {
   constructor(parentNode) {
-    super(parentNode, 'div', 'gamescreen_clock', '');
+    super(parentNode, 'div', 'gamescreen__clock clock-next', '');
+    this.timeLeft = new Control(this.node, 'div', 'clock-next__time-left');
+    this.progressBar = new Control(this.node, 'div', 'clock-next__progress-bar');
   }
 }
 

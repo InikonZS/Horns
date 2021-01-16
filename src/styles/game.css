@@ -15,7 +15,7 @@
   height: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;  
+  justify-content: center;
   align-items: center;
   padding: 10px;
 }
@@ -58,14 +58,14 @@
 
 .logo{
   background-color: rgba(165, 163, 161, 0.746);
-  background-image: url(/src/assets/draw_svg20200611-26544-gjkffg.png); 
+  background-image: url(/src/assets/draw_svg20200611-26544-gjkffg.png);
   background-size: contain;
-  background-repeat: no-repeat;  
+  background-repeat: no-repeat;
   height: 50px;
   color: rgb(56, 42, 39);;
   font-size: 45px;
   font-weight: bold;
-  text-shadow: 0px 0px 3px #fff, 0px 0px 2px #fff, 0px 0px 1px #fff, 0px 0px 1px #fff;    
+  text-shadow: 0px 0px 3px #fff, 0px 0px 2px #fff, 0px 0px 1px #fff, 0px 0px 1px #fff;
   /* text-align: center; */
   padding-left: 70px;
   letter-spacing: 10px;
@@ -81,15 +81,15 @@
   border-radius: 30px;
   font-size: 60px;
   font-weight: bold;
-  /* font-family: 'Andika New Basic', sans-serif;  
-  letter-spacing: 20px; */ 
+  /* font-family: 'Andika New Basic', sans-serif;
+  letter-spacing: 20px; */
   color: rgb(104, 50, 16);
   box-shadow: 0 5px 0 rgb(97, 73, 68);
   margin: 10px;
   padding: 10px;
 
 }
-.load_button{  
+.load_button{
   border-radius: 5px;
   border: solid 3px #000;
   padding: 5px;
@@ -116,7 +116,7 @@
 }
 
 .gamescreen_wrapper_centred{
-  width: 100%;  
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -153,7 +153,7 @@
   padding: 5px;
 }
 
-.gamescreen_clock{
+.gamescreen__clock{
   width: 60px;
   height: 60px;
   display: flex;
@@ -168,7 +168,7 @@
 
 }
 
-.teams_item{ 
+.teams_item{
   display: flex;
   justify-content: center;
   font-size: 12px;
@@ -176,28 +176,28 @@
 
 .team_block{
   margin: 1px;
-  width: 100%;  
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.team_name{  
+.team_name{
   justify-content:flex-end;
 }
 
-.team_avatar{  
+.team_avatar{
   padding: 1px;
   min-width: 35px;
   border: solid 1px rgb(97, 73, 68);
   width: 45px;
 }
 
-.team_health{  
+.team_health{
   justify-content:flex-start;
 }
 
-.team_name-text{  
+.team_name-text{
   padding: 1px;
   border: solid 1px rgb(97, 73, 68);
 }
@@ -224,7 +224,7 @@
 /* ----------- */
 
 .menu_wrapper, .settings_wrapper {
-  width: 100%;  
+  width: 100%;
   height: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -314,13 +314,13 @@
   height: 150px;
   border: solid 1px black;
   margin-bottom: 10px;
-  background-image: url(/src/assets/bitmap1.png); 
+  background-image: url(/src/assets/bitmap1.png);
   background-size: contain;
 }
 
 .settings_item {
 display: flex;
-flex-direction: column; 
+flex-direction: column;
 justify-content: center;
 align-items: center;
 width: calc(50% - 20px);
@@ -344,14 +344,14 @@ padding: 10px;
   text-align: center;
   font-size: 20px;
   color:  rgb(97, 73, 68);
-  font-family: 'Andika New Basic', sans-serif; 
-  margin-bottom: 10px; 
+  font-family: 'Andika New Basic', sans-serif;
+  margin-bottom: 10px;
 }
 
 .settings_chart_inner {
   display: flex;
-  flex-direction: row;  
-  margin-bottom: 10px;  
+  flex-direction: row;
+  margin-bottom: 10px;
 }
 
 .styled-select select {
@@ -395,23 +395,23 @@ padding: 10px;
 }
 .settings_game_block {
   width: calc(45%);
-  background-color: rgb(206, 154, 154);    
-  background-size: cover;  
+  background-color: rgb(206, 154, 154);
+  background-size: cover;
   padding: 5px;
- 
+
 }
 .settings_game_item{
   margin-right: 10px;
   cursor: pointer;
-  user-select: none;  
+  user-select: none;
   border-radius: 20px;
   width: 70px;
-  height: 70px;    
-  border: 1px solid dimgrey; 
+  height: 70px;
+  border: 1px solid dimgrey;
   background-color: rgb(233, 227, 227);
-  
-  text-shadow: 0px 0px 3px #fff, 0px 0px 2px #fff, 0px 0px 1px #fff, 0px 0px 1px #fff;    
-  
+
+  text-shadow: 0px 0px 3px #fff, 0px 0px 2px #fff, 0px 0px 1px #fff, 0px 0px 1px #fff;
+
 }
 
 .settings_game_item:hover {
@@ -430,13 +430,13 @@ padding: 10px;
   font-weight: bold;
   margin: 10px;
   text-decoration: underline;
-} 
+}
 .main_settings_amount_health {
   background-image: url(/src/assets/amountHealth.png);
   font-size: 35px;
   vertical-align: center;
-  background-size: cover; 
-  background-repeat: no-repeat;  
+  background-size: cover;
+  background-repeat: no-repeat;
 
 }
 
@@ -444,7 +444,7 @@ padding: 10px;
   background-image: url(/src/assets/KMines_mines_game_6146.png);
   font-size: 35px;
   vertical-align: center;
-  background-size: cover; 
+  background-size: cover;
   background-repeat: no-repeat;
 }
 
@@ -457,48 +457,48 @@ padding: 10px;
 .object_settings_amount_barrel{
   background-image: url(/src/assets/Bloody-Mary-icon_30349.png);
   background-repeat: no-repeat;
-  background-size: cover; 
+  background-size: cover;
 }
 
 .main_settings_lose_health {
   background-image: url(/src/assets/Skeleton_icon-icons.com_75031.png);
   background-repeat: no-repeat;
-  background-size: cover; 
+  background-size: cover;
 }
 
 .main_settings_grow_water {
   background-image: url(/src/assets/waterBtn.png);
   background-repeat: no-repeat;
-  background-size: cover; 
+  background-size: cover;
 }
 
 .main_settings_run_jump {
   background-image: url(/src/assets/Footsteps_icon-icons.com_67556.png);
   background-repeat: no-repeat;
-  background-size: cover; 
+  background-size: cover;
 }
 
 .main_settings_choice_worm {
   background-image: url(/src/assets/settingsChart.png);
   background-repeat: no-repeat;
-  background-size: cover; 
+  background-size: cover;
 }
 
 .main_settings_time_step {
   background-image: url(/src/assets/Time_icon-icons.com_67501.png);
   background-repeat: no-repeat;
-  background-size: cover;  
+  background-size: cover;
 }
 
 .main_settings_time_round {
   background-image: url(/src/assets/Historical_icon-icons.com_54175.png);
   background-repeat: no-repeat;
-  background-size: cover;  
+  background-size: cover;
 }
 .main_settings_time_prepare {
   background-image: url(/src/assets/javawebstart_java_we_13069.png);
   background-repeat: no-repeat;
-  background-size: cover;  
+  background-size: cover;
 }
 
 .main_settings_place_worm {
@@ -522,25 +522,25 @@ padding: 10px;
 .main_settings_chance_box_weapon {
   background-image: url(/src/assets/boxfly.png);
   background-repeat: no-repeat;
-  background-size: cover; 
+  background-size: cover;
 }
 
 .main_settings_day_time {
   background-image: url(/src/assets/dayNight.png);
   background-repeat: no-repeat;
-  background-size: cover; 
+  background-size: cover;
 }
 
 .main_settings_change_season {
   background-image: url(/src/assets/season.png);
   background-repeat: no-repeat;
-  background-size: cover; 
+  background-size: cover;
 }
 
 .main_settings_chance_toolbox {
   background-image: url(/src/assets/tollbox.png);
   background-repeat: no-repeat;
-  background-size: cover; 
+  background-size: cover;
 }
 
 .settings_weapon{

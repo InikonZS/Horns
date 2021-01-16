@@ -1,7 +1,27 @@
 @import '../abstracts/variables';
-
+@import '../abstracts/typography';
 .gamescreen_bottom {
   background: rgb(29,35,51);
   background: linear-gradient(0deg, rgba(29,35,51,1) 0%, rgba(29,35,51,1) 22%,
     rgba(0,96,255,0.2189250700280112) 100%);
+}
+
+.clock-next {
+  position: relative;
+  &__time-left {
+    font-family: Rajdhani,sans-serif;
+    font-weight: 700;
+  }
+  &__progress-bar {
+    position: absolute;
+    left: 0;
+    top: 70px;
+    width: 170px;
+    height: 2px;
+    border: 3px #40d04f solid;
+    border-radius: 10px;
+    background-color: #40d04f;
+    z-index: 1;
+    display: block;
+  }
 }
