@@ -6,9 +6,7 @@ const TeamIndicator = require('./teamIndicator.js');
 
 const timeIndicatorNodes = {
   timeLeft:{tag: 'div', class: 'clock-next__time-left'},
-  progressBar:{tag: 'div', class: 'clock-next__progress-bar',
-  // childs:{test: {tag: 'div', class: 'test', content: 'test'}}
-},
+  progressBar:{tag: 'div', class: 'clock-next__progress-bar'},
   progressBarShadow:{tag: 'div', class: 'clock-next__progress-bar clock-next__progress-bar_shadow'},
 };
 
@@ -43,40 +41,35 @@ class WeaponMenu extends Group {
     });
     this.buttons.push(but);
   }
-
-
-
 }
+
+const playPanelNodes = {
+  topPanel:{tag: 'div', class: 'gamescreen_top',
+    childs:{
+      burger: {tag: 'div', class: 'gamescreen_panel gamescreen_burger'},
+      weapons: {tag: 'div', class: 'gamescreen_panel gamescreen_weapons',
+        childs:{
+          buttons: {tag: 'div', class: 'weapon_btn'}
+        },
+      },
+    }
+  },
+  bottomPanel:{tag: 'div', class: 'gamescreen_bottom',
+    childs:{
+      gclock: {tag: 'div', class: 'gamescreen_panel'},
+      tm: {tag: 'div', class: 'gamescreen_panel'},
+      wind: {tag: 'div', class: 'gamescreen_panel gamescreen_wind'},
+    },
+  },
+};
 
 class PlayPanel extends Control {
   constructor(parentNode, sceneManager) {
-    super(parentNode, 'div', 'gamescreen_wrapper', `
-    <div class="gamescreen_top">
-      <div class="gamescreen_panel gamescreen_burger">
+    super(parentNode, 'div', 'gamescreen_wrapper');
+    Utils.createNodes(this, playPanelNodes, Control);
 
-      </div>
-      <div class="gamescreen_panel gamescreen_weapons">
-      <div class="weapon_btn">
-
-            </div>
-      </div>
-    </div>
-
-    <div class="gamescreen_bottom">
-      <div id="gclock" class="gamescreen_panel">
-
-      </div>
-      <div id="tm" class="gamescreen_panel">
-
-
-      </div>
-      <div class="gamescreen_panel gamescreen_wind">
-
-      </div>
-    </div>
-    `);
-    this.timeIndicator = new TimeIndicator(this.node.querySelector('#gclock'));
-    this.teamIndicator = new TeamIndicator(this.node.querySelector('#tm'));
+    this.timeIndicator = new TimeIndicator(this.bottomPanel.gclock.node);
+    this.teamIndicator = new TeamIndicator(this.bottomPanel.tm.node);
 
 
     // this.weaponMenu = new Group(this.node.querySelector('.weapon_btn'), '', 'weapon_item weapon_item__selected', 'weapon_item');
