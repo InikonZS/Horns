@@ -10,7 +10,7 @@ function loadBitmap(path, onLoad){
     canvas.height = im.height;
     ctx = canvas.getContext('2d');
     ctx.drawImage(im,0,0);
-    onLoad(ctx.getImageData(0,0,im.width, im.height));    
+    onLoad(ctx.getImageData(0,0,im.width, im.height));
   }
   im.src = path;
 }
@@ -18,7 +18,7 @@ function loadBitmap(path, onLoad){
 function readImageData(imageData, onReadPixel){
   let channels = Math.round(imageData.data.length / (imageData.width*imageData.height));
   for (let i=0; i<imageData.data.length/channels; i++){
-    let color = []; 
+    let color = [];
     let x = i % imageData.width;
     let y = Math.trunc(i / imageData.width);
     for (let j=0; j<channels; j++){
@@ -28,8 +28,15 @@ function readImageData(imageData, onReadPixel){
   }
 }
 
+function createNodes(obj, nodes, Class) {
+  Object.keys(nodes).forEach(it => {
+    obj[it] = new Class(obj.node, nodes[it].tag, nodes[it].class);
+  });
+}
+
 module.exports = {
   inBox,
   loadBitmap,
-  readImageData
+  readImageData,
+  createNodes
 }

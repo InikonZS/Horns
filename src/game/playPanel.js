@@ -1,14 +1,19 @@
 const Control = require('common/control.js');
+const Utils = require('../modules/utils');
 const { Group, Toggle } = require('common/group.js');
 
 const TeamIndicator = require('./teamIndicator.js');
+
+const timeIndicatorNodes = {
+  timeLeft:{tag: 'div', class: 'clock-next__time-left'},
+  progressBar:{tag: 'div', class: 'clock-next__progress-bar'},
+  progressBarShadow:{tag: 'div', class: 'clock-next__progress-bar clock-next__progress-bar_shadow'},
+};
+
 class TimeIndicator extends Control {
   constructor(parentNode) {
     super(parentNode, 'div', 'gamescreen__clock clock-next', '');
-    this.timeLeft = new Control(this.node, 'div', 'clock-next__time-left');
-    this.progressBar = new Control(this.node, 'div', 'clock-next__progress-bar');
-    this.progressBarShadow = new Control(this.node, 'div',
-      'clock-next__progress-bar clock-next__progress-bar_shadow');
+    Utils.createNodes(this, timeIndicatorNodes, Control);
   }
   update(count){
     this.timeLeft.node.textContent = count;
