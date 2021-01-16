@@ -10,6 +10,10 @@ class TimeIndicator extends Control {
     this.progressBarShadow = new Control(this.node, 'div',
       'clock-next__progress-bar clock-next__progress-bar_shadow');
   }
+  update(count){
+    this.timeLeft.node.textContent = count;
+    this.progressBar.node.style.width = `${count * 2}px`;
+  }
 }
 
 
