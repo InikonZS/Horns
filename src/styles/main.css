@@ -1,0 +1,51 @@
+:root {
+  --main-bg-color: #1d2333;
+  --accent-color: #40d04f;
+}
+
+.gamescreen_bottom {
+  background: var(--main-bg-color);
+  background: -webkit-gradient(linear, left bottom, left top, from(var(--main-bg-color)), color-stop(22%, var(--main-bg-color)), to(rgba(0, 96, 255, 0.2)));
+  background: linear-gradient(0deg, var(--main-bg-color) 0%, var(--main-bg-color) 22%, rgba(0, 96, 255, 0.2) 100%);
+}
+
+.clock-next {
+  position: relative;
+  font-size: 35px;
+  width: 30px;
+  height: 30px;
+  color: #fff;
+}
+
+.clock-next__time-left {
+  font-family: Rajdhani, sans-serif;
+  font-weight: 700;
+}
+
+.clock-next__progress-bar {
+  position: absolute;
+  left: 45px;
+  top: 10px;
+  width: 170px;
+  height: 2px;
+  border: 3px var(--accent-color) solid;
+  border-radius: 10px;
+  background-color: var(--accent-color);
+  z-index: 1;
+}
+
+.clock-next__progress-bar-shadow {
+  position: absolute;
+  left: 0;
+  top: 70px;
+  width: 170px;
+  height: 2px;
+  border: 3px rgba(255, 255, 255, 0.1) solid;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+  color: red;
+}
+/*# sourceMappingURL=main.css.map */
