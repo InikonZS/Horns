@@ -80,6 +80,7 @@ class Game {
   }
 
   next(teamIndex) {
+    let timerSpan = 85;
     if (this.getActiveTeams().length > 1) {
       if (Math.random() < 0.2) {
         this.boxes.push(
@@ -88,7 +89,7 @@ class Game {
           ),
         );
       }
-      this.timer.start(85);
+      this.timer.start(timerSpan);
       this.wind = Math.random() * 11 - 5;
 
       let nextTeamIndex = teamIndex;
@@ -109,7 +110,7 @@ class Game {
 
       //this.camera.speed = this.camera.position.clone().sub(currentPlayer.physic.position).normalize().scale(123);
 
-      this.onNext && this.onNext(currentPlayer);
+      this.onNext && this.onNext(currentPlayer, timerSpan);
     } else {
       this.finish();
     }

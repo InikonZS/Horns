@@ -106,9 +106,10 @@ class GameScreen extends Control {
     this.menu.onFight = () => {
       this.panel.selectByScene(this.playPanel);
       this.game = new Game();//newGame();
-      this.game.onNext = (player) => {
+      this.game.onNext = (player, timerSpan) => {
         this.playPanel.openWeapon.select(player.weapons.indexOf(player.currentWeapon), true);
         this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2);
+        this.playPanel.timeIndicator.setTimerDuration(timerSpan);
       }
 
       this.game.onFinish = () => {

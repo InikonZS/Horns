@@ -14,10 +14,28 @@ class TimeIndicator extends Control {
   constructor(parentNode) {
     super(parentNode, 'div', 'gamescreen__clock clock-next', '');
     Utils.createNodes(this, timeIndicatorNodes, Control);
+    this.timerDuration = 0;
   }
+
+  setTimerDuration(timerSpan) {
+    this.timerDuration = timerSpan;
+    this.setProgressBaroffset(timerSpan);
+  }
+
+  setProgressBaroffset(timerSpan) {
+    if (timerSpan < 100) {
+      this.progressBar.node.style.left = '45px';
+      this.progressBarShadow.node.style.left = '45px';
+    } else {
+      this.progressBar.node.style.left = '60px';
+      this.progressBarShadow.node.style.left = '60px';
+    }
+  }
+
   update(count){
     this.timeLeft.node.textContent = count;
-    this.progressBar.node.style.width = `${count * 2}px`;
+    const progressBarWidth = (count / this.timerDuration) * 80;
+    this.progressBar.node.style.width = `${progressBarWidth}%`;
   }
 }
 
