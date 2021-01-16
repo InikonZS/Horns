@@ -3,22 +3,21 @@ const Control = require('common/control.js');
 class TeamItem extends Control {
     constructor(parentNode) {
         super(parentNode, 'div', 'settings_team_inner');
-        this.teamName = new Control(this.node, 'div', 'settings_team_block team_name', ' team');
+        this.name = new Control(this.node, 'div', 'settings_team_block team_name', ' team');
         this.teamStatus = new Control(this.node, 'div', 'settings_team_block team_status', 'X');
         this.teamColor = new Control(this.node, 'div', 'settings_team_block team_color', 'blue');
         this.teamAmountPlayers = new Control(this.node, 'div', 'settings_team_block team_amountPlayers', '1');
         this.teamPlayerHealts = new Control(this.node, 'div', 'settings_team_block team_amountPlayers', '100');
 
 
-        this.addButton = new Control(this.node, 'div', 'startGame_btn', '+');
+        this.addButton = new Control(this.node, 'div', 'team_btn ', '+');
         this.addButton.node.onclick = () => {
             if (this.data.playersNumber < 7) {
                 this.data.playersNumber += 1;
                 this.refresh();
             }
-
         }
-        this.removeButton = new Control(this.node, 'div', 'startGame_btn', '-');
+        this.removeButton = new Control(this.node, 'div', 'team_btn ', '-');
 
         this.removeButton.node.onclick = () => {
             if (this.data.playersNumber > 1) {
@@ -28,7 +27,7 @@ class TeamItem extends Control {
 
         }
 
-        this.deleteButton = new Control(this.node, 'div', 'startGame_btn', 'delete');
+        this.deleteButton = new Control(this.node, 'div', 'team_btn ', 'X');
 
         this.deleteButton.node.onclick = () => {
             this.onDelete && this.onDelete();
@@ -48,7 +47,7 @@ class TeamItem extends Control {
     }
 
     refresh() {
-        this.teamName.setContent(this.data.name);
+        this.name.setContent(this.data.name);
         this.teamStatus.setContent(this.data.isComputer ? 'CUP' : 'UP');
         this.teamAmountPlayers.setContent(this.data.playersNumber);
         this.teamPlayerHealts.setContent(this.data.playersHealts);
@@ -59,7 +58,7 @@ class TeamChoice extends Control {
     constructor(parentNode) {
         super(parentNode);
         this.items = [];
-        this.addButton = new Control(this.node, 'div', 'startGame_btn', '+');
+        this.addButton = new Control(this.node, 'div', 'team_btn add_team_btn', 'Add new');
         this.addButton.node.onclick = () => {
             this.addItem(defaultData);
         }
@@ -133,7 +132,7 @@ class SettingsMenu extends Control {
         super(parentNode, 'div', 'gamescreen_wrapper_centred', '');
         let settingsWrapper = new Control(this.node, 'div', "settings_wrapper");
         let settingsItemTeam = new Control(settingsWrapper.node, 'div', 'settings_item settings_team');
-        this.itemTitle = new Control(settingsItemTeam.node, 'div', 'settings_item_title', 'Команды');
+        this.itemTitle = new Control(settingsItemTeam.node, 'div', 'settings_item_title', 'TEAMS');
 
         // new TeamItem(settingsItemTeam.node).setData(teams);
         this.team = new TeamChoice(settingsItemTeam.node).loadTeams(defaultGameConfig.teams);

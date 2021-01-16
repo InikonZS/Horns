@@ -16,11 +16,15 @@ class EditorScreen extends Control {
 
     this.brushColor = '#000';
     let toolsInner = new Control(this.node, 'div', "editor_tools_inner");
-    this.brushButton = new Control(toolsInner.node, 'div', 'editor_brush editor_tools_btn', 'Кисть');
-    this.brushSize = new Control(toolsInner.node, 'input', 'editor_brush_size editor_tools_btn ', '30');
-    this.brushSize.node.setAttribute("placeholder", "Размер кисти");
-    this.eraserButton = new Control(toolsInner.node, 'div', 'editor_eraser editor_tools_btn', 'Ластик');
-    this.cleanButton = new Control(toolsInner.node, 'div', 'editor_clean editor_tools_btn', 'Стереть все');
+    this.brushButton = new Control(toolsInner.node, 'div', 'editor_brush editor_tools_btn', 'Brush');
+    let brushSizeInner = new Control(toolsInner.node, 'div', 'brush_size_inner');
+    this.brushSize = new Control(brushSizeInner.node, 'input', 'slider ');
+    this.brushSize.node.setAttribute('type', 'range');
+    this.brushSize.node.setAttribute('min', '10');
+    this.brushSize.node.setAttribute('max', '70');
+
+    this.eraserButton = new Control(toolsInner.node, 'div', 'editor_eraser editor_tools_btn', 'Eraser');
+    this.cleanButton = new Control(toolsInner.node, 'div', 'editor_clean editor_tools_btn', 'Clean');
 
     this.context = this.canvas.node.getContext('2d');
     this.context.fillStyle = '#ffffff';
@@ -54,13 +58,13 @@ class EditorScreen extends Control {
       );
     }
 
-    this.saveButton = new Control(toolsInner.node, 'div', 'return_btn', 'save');
+    this.saveButton = new Control(toolsInner.node, 'div', 'editor_tools_btn return_btn', 'Save');
     this.saveButton.node.onclick = () => {
       this.onSave && this.onSave(this.canvas.node.toDataURL());
       sceneManager.back();
     };
 
-    this.backButton = new Control(toolsInner.node, 'div', 'return_btn', 'back');
+    this.backButton = new Control(toolsInner.node, 'div', 'editor_tools_btn return_btn', 'Back');
     this.backButton.node.onclick = () => {
       sceneManager.back(); //selectByName('mainMenu');
     };

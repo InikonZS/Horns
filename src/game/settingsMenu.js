@@ -38,11 +38,6 @@ class SettingsMenu extends Control {
         // let settingsTeamInner = new Control(settingsItemTeam.node, 'div', 'settings_team_inner');
 
 
-        // this.team2 = new TeamItem('2 - UP11', 'O');
-        // this.team3 = new TeamItem('3 - UP11', 'X');
-        // this.team4 = new TeamItem('4 - UP11', ')');
-        // this.team5 = new TeamItem('1 - CPU', 'X');
-        // this.team5 = new TeamItem('2 - CPU', 'X');
         // this.teamName = new Control(settingsTeamInner.node, 'div', 'settings_team_block team_name', this.teamN.name);
         // this.teamStatus = new Control(settingsTeamInner.node, 'div', 'settings_team_block team_status', 'X');
         // this.teamColor = new Control(settingsTeamInner.node, 'div', 'settings_team_block team_color', 'blue');
@@ -76,10 +71,6 @@ class SettingsMenu extends Control {
         // this.team1 = new TeamItem('1-up', 'settings_team_inner', 'X');
 
         // this.teamChoice.addButton('t2');
-
-
-
-
 
         // this.teamNameChoice = new Control(settingsTeamChoice.node, 'div', 'settings_team_block', this.teamN.name);
         // this.teamChoicePoints = new Control(settingsTeamChoice.node, 'div', 'settings_team_block', this.teamN.score);

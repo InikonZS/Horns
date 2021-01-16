@@ -1,0 +1,47 @@
+*{
+    box-sizing: border-box;
+    margin: 0;   
+    font-family: 'Balsamiq Sans', cursive;
+    font-size: 10px;
+  
+  }
+
+  .about_wrapper {      
+      display: flex;
+      flex-direction:column;
+      justify-content: space-between;
+      align-items: center;
+      background: radial-gradient(40% 50%, #FAECD5, #CAE4D8); 
+  }
+
+  .about_title {
+      font-size: 5rem;
+      margin: 20px;
+      letter-spacing: 1rem;
+      
+  }
+
+  .about_content {
+      font-size: 2rem ;
+      margin-bottom: 2rem;
+  }
+
+  kbd {
+    background-color: rgb(82, 77, 77);
+    border-color: #A9A9A9 #8C8C8C #C6C6C6 #C0C0C0;
+    border-radius: 5px 5px 5px 5px;
+    border-style: solid;
+    border-width: 1px 1px 3px;
+    box-shadow: -1px 1px 1px #484848, 1px 1px 1px #484848;
+    font-family: "Courier New",Courier,monospace;
+    font-size: 2.5rem;
+    font-weight: bold;
+    padding: 2px 8px;
+    margin: 0.5rem;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    color: rgb(253, 253, 253);    
+    }
+
+  .description_camera_control {
+      
+  }
