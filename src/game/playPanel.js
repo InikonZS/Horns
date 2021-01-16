@@ -7,7 +7,8 @@ class TimeIndicator extends Control {
     super(parentNode, 'div', 'gamescreen__clock clock-next', '');
     this.timeLeft = new Control(this.node, 'div', 'clock-next__time-left');
     this.progressBar = new Control(this.node, 'div', 'clock-next__progress-bar');
-    this.progressBarShadow = new Control(this.node, 'div', 'clock-next__progress-bar-shadow');
+    this.progressBarShadow = new Control(this.node, 'div',
+      'clock-next__progress-bar clock-next__progress-bar_shadow');
   }
 }
 

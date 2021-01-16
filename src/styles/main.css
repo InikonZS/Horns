@@ -3,6 +3,12 @@
   --accent-color: #40d04f;
 }
 
+body {
+  font-family: Rajdhani, sans-serif;
+  font-weight: 700;
+  color: #fff;
+}
+
 .gamescreen_bottom {
   background: var(--main-bg-color);
   background: -webkit-gradient(linear, left bottom, left top, from(var(--main-bg-color)), color-stop(22%, var(--main-bg-color)), to(rgba(0, 96, 255, 0.2)));
@@ -12,20 +18,29 @@
 .clock-next {
   position: relative;
   font-size: 35px;
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 60px;
   color: #fff;
 }
 
 .clock-next__time-left {
   font-family: Rajdhani, sans-serif;
   font-weight: 700;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .clock-next__progress-bar {
   position: absolute;
   left: 45px;
-  top: 10px;
+  top: 26px;
   width: 170px;
   height: 2px;
   border: 3px var(--accent-color) solid;
@@ -34,15 +49,10 @@
   z-index: 1;
 }
 
-.clock-next__progress-bar-shadow {
-  position: absolute;
-  left: 0;
-  top: 70px;
-  width: 170px;
-  height: 2px;
+.clock-next__progress-bar.clock-next__progress-bar_shadow {
   border: 3px rgba(255, 255, 255, 0.1) solid;
-  border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.1);
+  z-index: 0;
 }
 
 .logo {
