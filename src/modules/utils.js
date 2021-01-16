@@ -30,7 +30,11 @@ function readImageData(imageData, onReadPixel){
 
 function createNodes(obj, nodes, Class) {
   Object.keys(nodes).forEach(it => {
-    obj[it] = new Class(obj.node, nodes[it].tag, nodes[it].class);
+    obj[it] = new Class(obj.node, nodes[it].tag, nodes[it].class,
+      nodes[it].content || '');
+    if (nodes[it].childs) {
+      createNodes(obj[it], nodes[it].childs, Class);
+    }
   });
 }
 

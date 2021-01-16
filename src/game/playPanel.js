@@ -6,7 +6,9 @@ const TeamIndicator = require('./teamIndicator.js');
 
 const timeIndicatorNodes = {
   timeLeft:{tag: 'div', class: 'clock-next__time-left'},
-  progressBar:{tag: 'div', class: 'clock-next__progress-bar'},
+  progressBar:{tag: 'div', class: 'clock-next__progress-bar',
+  // childs:{test: {tag: 'div', class: 'test', content: 'test'}}
+},
   progressBarShadow:{tag: 'div', class: 'clock-next__progress-bar clock-next__progress-bar_shadow'},
 };
 
