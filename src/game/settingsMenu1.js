@@ -1,5 +1,6 @@
 const Control = require('common/control.js');
 
+
 class TeamItem extends Control {
     constructor(parentNode) {
         super(parentNode, 'div', 'settings_team_inner');
@@ -128,14 +129,17 @@ const defaultGameConfig = {
 }
 
 class SettingsMenu extends Control {
-    constructor(parentNode, config) {
+    constructor(parentNode, sceneManager, config,) {
         super(parentNode, 'div', 'gamescreen_wrapper_centred', '');
         let settingsWrapper = new Control(this.node, 'div', "settings_wrapper");
         let settingsItemTeam = new Control(settingsWrapper.node, 'div', 'settings_item settings_team');
         this.itemTitle = new Control(settingsItemTeam.node, 'div', 'settings_item_title', 'TEAMS');
-
-        // new TeamItem(settingsItemTeam.node).setData(teams);
         this.team = new TeamChoice(settingsItemTeam.node).loadTeams(defaultGameConfig.teams);
+        this.backButton = new Control(settingsItemTeam.node, 'div', ' settings_return_btn return_btn', 'Back');
+
+        this.backButton.node.onclick = () => {
+            sceneManager.back();
+        };
     }
 }
 

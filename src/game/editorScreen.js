@@ -1,4 +1,5 @@
 const Control = require('common/control.js');
+
 const Vector = require('../modules/vector');
 
 class EditorScreen extends Control {
@@ -14,14 +15,24 @@ class EditorScreen extends Control {
     this.canvas = new Control(this.canvasWrapper.node, 'canvas');
     this.autoSize();
 
-    this.brushColor = '#000';
+    // this.brushColor = '#000';
     let toolsInner = new Control(this.node, 'div', "editor_tools_inner");
     this.brushButton = new Control(toolsInner.node, 'div', 'editor_brush editor_tools_btn', 'Brush');
     let brushSizeInner = new Control(toolsInner.node, 'div', 'brush_size_inner');
-    this.brushSize = new Control(brushSizeInner.node, 'input', 'slider ');
+    this.brushSize = new Control(brushSizeInner.node, 'input', 'switcher_brush_size ');
     this.brushSize.node.setAttribute('type', 'range');
     this.brushSize.node.setAttribute('min', '10');
     this.brushSize.node.setAttribute('max', '70');
+
+    this.brushColor = new Control(brushSizeInner.node, 'input', 'switcher_brush_color');
+    this.brushColor.node.setAttribute('type', 'color');
+    this.brushColor.node.setAttribute('value', '#f63444');
+
+    //     <div>
+    //     <input type="color" id="head" name="head"
+    //            value="#e66465">
+    //     <label for="head">Head</label>
+    // </div>
 
     this.eraserButton = new Control(toolsInner.node, 'div', 'editor_eraser editor_tools_btn', 'Eraser');
     this.cleanButton = new Control(toolsInner.node, 'div', 'editor_clean editor_tools_btn', 'Clean');
@@ -39,23 +50,34 @@ class EditorScreen extends Control {
     this.mousePrevPos = new Vector(-1, -1);
 
     this.brushButton.node.onclick = () => {
-      this.brushColor = '#000';
+      this.context.beginPath();
+      this.context.strokeStyle = this.brushColor.node.value;
     }
 
     this.brushSize.node.onchange = () => {
+      this.context.beginPath();
       this.context.lineWidth = this.brushSize.node.value;
     }
 
+    this.brushColor.node.onchange = () => {
+      this.context.beginPath();
+      this.context.strokeStyle = this.brushColor.node.value;
+    }
+
     this.eraserButton.node.onclick = () => {
-      this.brushColor = '#fff';
+      this.context.beginPath();
+      this.context.strokeStyle = '#fff';
     }
 
 
     this.cleanButton.node.onclick = () => {
-      this.autoSize();
+      this.context.beginPath();
+      this.context.clearRect(0, 0, this.canvas.node.width, this.canvas.node.height);
       this.context.fillStyle = '#ffffff';
-      this.context.fillRect(0, 0, this.canvas.node.width, this.canvas.node.height,
-      );
+      this.context.fillRect(0, 0, this.canvas.node.width, this.canvas.node.height);
+
+
+
     }
 
     this.saveButton = new Control(toolsInner.node, 'div', 'editor_tools_btn return_btn', 'Save');

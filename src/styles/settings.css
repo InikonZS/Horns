@@ -1,13 +1,14 @@
-.menu_wrapper, .settings_wrapper {
+ .settings_wrapper {
     width: 100%;  
     height: 100%;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap:wrap;
+   
     justify-content: center;
     align-items: center;
     padding: 20px;
   }
-  
+
   .editor_wrapper, .editor {
     display: flex;
     flex-direction: row;
@@ -45,6 +46,10 @@
     border-radius: 2px;
     color: rgb(107, 107, 104);
     margin: 10px;
+  }
+
+  .settings_return_btn {
+      width: 150px;
   }
   
   .editor_tools_btn:hover {
@@ -353,11 +358,11 @@
 
   .brush_size_inner {
       width: 60%;
-      height: 20px;
+      height: 60px;
       margin: 10px;
   }
 
-  .slider {
+  .switcher_brush_size {
     -webkit-appearance: none;
     width: 100%;
     height: 15px;
@@ -367,29 +372,39 @@
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
+    margin-bottom: 20px;
 }
 
-.slider:hover {
+.switcher_brush_size:hover {
     opacity: 1;
 }
 
-.slider::-webkit-slider-thumb {
+.switcher_brush_size::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: #000;
+    background: rgb(0, 0, 0);
     cursor: pointer;
 }
 
-.slider::-moz-range-thumb {
+.switcher_brush_size::-moz-range-thumb {
     width: 25px;
     height: 25px;
     border-radius: 50%;
     background: #000;
     cursor: pointer;
 }
+
+.switcher_brush_color {
+    width: 60px;
+    height: 30px;
+    background-color:  rgb(202, 199, 199);
+    border: solid 1px #000;
+    border-radius: 2px; 
+}
+
 
   .team_btn {
     background-color: rgb(88, 91, 93);
@@ -410,6 +425,7 @@
     background: rgb(202, 199, 199);
     text-align: center;
     border-radius: 2px;
+    border: solid 1px #000;
     color: rgb(107, 107, 104);
     margin-bottom: 10px;
   }
