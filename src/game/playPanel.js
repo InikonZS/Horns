@@ -14,6 +14,7 @@ class TimeIndicator extends Control {
   constructor(parentNode) {
     super(parentNode, 'div', 'gamescreen__clock clock-next', '');
     Utils.createNodes(this, timeIndicatorNodes, Control);
+    this.progressBarShadow
   }
   update(count){
     this.timeLeft.node.textContent = count;

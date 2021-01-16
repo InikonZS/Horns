@@ -7,9 +7,9 @@
     "test": "npx jest ./test/test.js",
     "lint": "npx eslint ./src",
     "fix": "npx eslint ./src --fix",
-    "prod": "npx webpack --mode production",
-    "dev": "npx webpack --mode development",
-    "start": "npx webpack-dev-server"
+    "prod": "npx sass ./src/scss/main.scss style-build/main.css && npx webpack --mode production",
+    "dev": " npx sass ./src/scss/main.scss style-build/main.css && npx webpack --mode development",
+    "start": "npx sass ./src/scss/main.scss style-build/main.css && npx webpack-dev-server"
   },
   "author": "Inikon",
   "license": "ISC",
@@ -24,6 +24,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "jest": "^26.0.1",
     "webpack": "^4.42.1",
+    "sass": "^1.32.4",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0"
   },
