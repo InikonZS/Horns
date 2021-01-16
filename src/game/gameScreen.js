@@ -146,8 +146,7 @@ class GameScreen extends Control {
 
     this.renderer.onRenderFrame = (deltaTime) => {
       this.game.tick(deltaTime / 100);
-      this.playPanel.timeIndicator.timeLeft.node.textContent = Math.trunc(this.game.timer.counter);
-      this.playPanel.timeIndicator.progressBar.node.style.width = `${Math.trunc(this.game.timer.counter) * 2}px`;
+      this.playPanel.timeIndicator.update(Math.trunc(this.game.timer.counter));
 
       this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
       this.game.render(this.context, deltaTime / 100);
