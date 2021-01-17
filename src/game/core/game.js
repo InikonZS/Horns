@@ -39,6 +39,7 @@ class Game {
     this.afterTimer = new Timer();
     this.computerShotTimer = new Timer();
     this.computerShotTimer.onTimeout = () => {
+      this.timer.pause();
       this.shotFunc();
     };
     this.map;
@@ -72,6 +73,7 @@ class Game {
 
   next(teamIndex) {
     let timerSpan = 85;
+    this.camera.enableAutoMove = true;
     if (this.teams.getActiveTeams().length > 1) {
       this.boxes.spawnRandom();
 
@@ -210,6 +212,7 @@ class Game {
   shotFunc() {
     this.nextLock = false;
     if (!this.shoted) {
+      this.camera.enableAutoMove = true;
       this.shoted = true;
       this.getCurrentPlayer().shot(this.bullets, this.wind);
 

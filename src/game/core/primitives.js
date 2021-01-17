@@ -99,37 +99,8 @@ class Physical {
     !proc && this.physic.process(deltaTime);
     this.graphic.position = this.physic.position;
     this.graphic.render(context, deltaTime, camera);
-
-    context.fillStyle = '#000';
-    let position = this.graphic.position.clone().add(camera);
-    context.fillText(
-      Math.trunc(this.timer.counter),
-      position.x - context.measureText(Math.trunc(this.timer.counter)).width / 2,
-      position.y - 15,
-    );
   }
-
-  trace(map, camera, context) {
-    if (context) {
-      context.strokeStyle = '#000';
-      context.beginPath();
-    }
-
-    let prev = this.physic.position.clone();
-    for (let i = 1; i < 100; i += 1) {
-      let current = this.physic.getPosition(i);
-      let c = current.clone().add(camera.position);
-      context && context.lineTo(c.x, c.y);
-      let nearest = map.getNearIntersection(prev, current);
-      if (nearest) {
-        // console.log(nearest);
-        context && context.stroke();
-        return nearest;
-      }
-      prev = current;
-    }
-    context && context.stroke();
-  }
+  
 }
 
 module.exports = { GraphicPoint, PhysicPoint, Physical };
