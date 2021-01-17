@@ -2,6 +2,10 @@ function inBox(LH, TB, P){
   return (LH.x<=P.x && LH.y<=P.y && TB.x>=P.x && TB.y>=P.y);
 }
 
+function cycle(a,am){
+  return a>=0?a%am:am-(1+ -(a+1)%am)
+}
+
 function loadBitmap(path, onLoad){
   let im = new Image();
   im.onload = ()=>{

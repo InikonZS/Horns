@@ -66,7 +66,7 @@ class GameScreen extends Control {
 
     this.playPanel = new PlayPanel(this.panel.node, this.panel);
     this.playPanel.openWeapon.onSelect = (index) => {
-      this.game.currentTeam.currentPlayer.setWeapon(index);
+      this.game.getCurrentPlayer().setWeapon(index);
     };
     this.playPanel.onBack = () => {
       this.game.onFinish();

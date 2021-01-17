@@ -7,6 +7,7 @@ class Weapon {
     this.bulletSpeed = bulletSpeed;
     this.gravitable = gravitable;
     this.isDeleted = false;
+    //this.reflectable = true;
   }
 
   shot(bullets, point, direction, power = 5) {
@@ -52,6 +53,7 @@ class WeaponS {
       5,
       '#000',
     );
+    bullet.isReflectable = true;
     if (this.gravitable) {
       bullet.physic.acceleration.y = 1;
     }

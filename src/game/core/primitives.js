@@ -74,6 +74,14 @@ class PhysicPoint {
       .scale(this.friction);
     this.position.add(this.speed.clone().scale(deltaTime));
   }
+
+  reflect(normal, scaler=1){
+    if (!normal || normal.abs() == 0) {
+      this.speed.scale(-1);
+    } else {
+      this.speed.from(this.speed.reflect(normal).scale(scaler));
+    }
+  }
 }
 
 class Physical {
@@ -91,6 +99,14 @@ class Physical {
     !proc && this.physic.process(deltaTime);
     this.graphic.position = this.physic.position;
     this.graphic.render(context, deltaTime, camera);
+
+    context.fillStyle = '#000';
+    let position = this.graphic.position.clone().add(camera);
+    context.fillText(
+      Math.trunc(this.timer.counter),
+      position.x - context.measureText(Math.trunc(this.timer.counter)).width / 2,
+      position.y - 15,
+    );
   }
 
   trace(map, camera, context) {

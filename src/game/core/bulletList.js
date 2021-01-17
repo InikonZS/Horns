@@ -26,27 +26,13 @@ class BulletList{
       );
       if (!it.isDeleted && nearest) {
         if (it.isReflectable) {
-          /* edplode on timeout
-         it.timer.onTimeout =()=>{
-            it.isDeleted = true;
-            this.map.round(it.physic.position, it.magnitude || 30);
-          }*/
-          let n = map.getNormal(preNearest);
-          if (n.abs() == 0) {
-            it.physic.speed.scale(-1);
-            //it.render(context, deltaTime, this.camera, false);
-          } else {
-            //it.physic.position = it.physic.position.sub(it.physic.speed.clone().scale(deltaTime));
-            it.physic.speed = it.physic.speed.reflect(n).scale(1);
+          it.timer.onTimeout =()=>{
+            bulletExplode(it, it.physic.position, map, playerList);
           }
+          let n = map.getNormal(preNearest);
+          it.physic.reflect(n, 0.7);
         } else {
-          map.round(nearest, it.magnitude || 30);
-          it.isDeleted = true;
-          playerList.forEach((jt) => {
-            let res = damageFromDistance(jt.physic.position, nearest);
-            jt.hurt(res.damage);
-            jt.physic.speed.add(res.acceleration);
-          });
+          bulletExplode(it, nearest, map, playerList);
         }
       } else {
         //it.render(context, deltaTime, this.camera, false);
@@ -61,6 +47,16 @@ class BulletList{
         this.allowTrace && it.trace(map, camera, context);
     });  
   }
+}
+
+function bulletExplode(bullet, position, map, playerList){
+  map.round(position, bullet.magnitude || 30);
+  bullet.isDeleted = true;
+  playerList.forEach((jt) => {
+    let res = damageFromDistance(jt.physic.position, position);
+    jt.hurt(res.damage);
+    jt.physic.speed.add(res.acceleration);
+  });
 }
 
 function damageFromDistance(posA, posB){
