@@ -23,7 +23,7 @@ class SilentWatcher {
 }
 
 function getRandomSpawnVector(){
-  return new Vector(Math.random() * 1700 + 50, Math.random() * 500 + 50)
+  return new Vector(Math.random() * 1700 + 50, /*Math.random() * 500 + 50*/0)
 }
 
 class Game {
@@ -49,23 +49,25 @@ class Game {
     this.parts = new Particles(100);
   }
 
-  start(options) {
-    this.map = new GameMap(options.mapURL);
-    for (let j = 0; j < options.teams.length; j++) {
-      let jteam = options.teams[j];
-      let team = new Team(jteam.name, jteam.avatar, jteam.isComputer);
-      for (let i = 0; i < jteam.playersNumber; i++) {
-        let pl = new Player(
-          options.nameList[i + j * options.teams.length],
-          jteam.playersHealts,
-          getRandomSpawnVector(),
-          options.colorList[j],
-        );
-        team.addPlayer(pl);
+  start(options, onStart) {
+    this.map = new GameMap(options.mapURL, ()=>{
+      for (let j = 0; j < options.teams.length; j++) {
+        let jteam = options.teams[j];
+        let team = new Team(jteam.name, jteam.avatar, jteam.isComputer);
+        for (let i = 0; i < jteam.playersNumber; i++) {
+          let pl = new Player(
+            options.nameList[i + j * options.teams.length],
+            jteam.playersHealts,
+            getRandomSpawnVector(),
+            options.colorList[j],
+          );
+          team.addPlayer(pl);
+        }
+        this.teams.add(team);
       }
-      this.teams.add(team);
-    }
-    this.next(0);
+      this.next(0);
+      onStart();
+    });
   }
 
   next(teamIndex) {
@@ -130,7 +132,7 @@ class Game {
     this.map.render(context, deltaTime, this.camera);
 
     this.bullets.process(deltaTime, this.map, this.teams.getPlayerList());
-    this.bullets.render(context, deltaTime, this.camera, false);
+    this.bullets.render(context, deltaTime, this.map, this.camera, false);
 
     this.boxes.render(context, deltaTime, this.camera, this.map, this.teams.getPlayerList()),
  

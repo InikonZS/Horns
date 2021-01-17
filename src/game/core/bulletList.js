@@ -3,6 +3,7 @@ const Vector = require('common/vector.js');
 class BulletList{
   constructor(){
     this.list = [];
+    this.allowTrace = false;
   }
 
   add(bullet){
@@ -11,7 +12,7 @@ class BulletList{
 
   process(deltaTime, map, playerList){
     this.list.forEach((it) => {
-      if (it.physic.position.y > 1000) {
+      if (it.physic.position.y > map.waterLineX) {
         it.isDeleted=true;
       }
       let preNearest = map.getNearIntersection(
@@ -53,14 +54,11 @@ class BulletList{
     });
   }
 
-  render(context, deltaTime, camera, process){
+  render(context, deltaTime, map, camera, process){
     this.list = this.list.filter((it) => !it.isDeleted);
     this.list.forEach((it) => {
         it.render(context, deltaTime, camera, process);
-        // it.trace(context, this.camera, (prev, current) => {
-        //   let nearest = this.map.getNearIntersection(prev, current);
-        //   return nearest;
-        // });
+        this.allowTrace && it.trace(map, camera, context);
     });  
   }
 }

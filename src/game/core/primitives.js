@@ -107,6 +107,7 @@ class Physical {
       let nearest = map.getNearIntersection(prev, current);
       if (nearest) {
         // console.log(nearest);
+        context && context.stroke();
         return nearest;
       }
       prev = current;

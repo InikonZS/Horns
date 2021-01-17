@@ -195,7 +195,7 @@ class Player {
       let player = playersToHit[p];
       for (s = 0; s <= 5; s += 1) {
         this.power = s;
-        for (let i = 0; i < Math.PI * 30 * 2; i += (Math.PI * 30 * 2) / 90) {
+        for (let i = 0; i < Math.PI * 30 * 2; i += (Math.PI * 30 * 2) / 190) {
           this.moveTarget(i);
           this.setShotOptions(wind);
           let targetPoint = this.currentWeapon.tracer.trace(map, camera);
@@ -223,7 +223,7 @@ class Player {
 
 function fallPlayer(player, map, deltaTime) {
   let it = player;
-  if (it.physic.position.y > 1000) {
+  if (it.physic.position.y > map.waterLineX) {
     it.hurt(1000);
   }
   it.physic.acceleration.y = 1;

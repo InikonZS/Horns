@@ -12,7 +12,7 @@ class Box{
   }
 
   render(context, deltaTime, camera, map, players){
-    if (this.physic.position.y>1000){ this.isDeleted = true; return;}
+    if (this.physic.position.y>map.waterLineX){ this.isDeleted = true; return;}
     if (this.isDeleted){ return false;}
     players.forEach(it=>{
       let lvec = this.physic.position.clone().sub(it.graphic.position);

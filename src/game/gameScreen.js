@@ -99,16 +99,15 @@ class GameScreen extends Control {
         this.panel.selectByScene(this.menu);
         this.renderer.stop();
       };
-
-      this.game.start(defaultGameConfig);
       this.playPanel.teamIndicator.clear();
-      this.game.teams.list.forEach((it, i) => {
-        this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: colors[i] });
-      })
-
-      this.renderer.start();
+      this.game.start(defaultGameConfig, ()=>{
+        this.game.teams.list.forEach((it, i) => {
+          this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: colors[i] });
+        })
+        this.renderer.start();
+      });
     };
-    
+
     this.settings = new SettingsMenu(this.panel.node, this.panel);
     this.panel.add(this.settings);
     this.menu.onSettings = () => {
