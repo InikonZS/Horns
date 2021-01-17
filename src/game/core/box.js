@@ -11,17 +11,17 @@ class Box{
     this.animation.start();
   }
 
-  render(context, deltaTime, camera, map, teams){
-    if (this.physic.position.y>1000){ return;}
+  render(context, deltaTime, camera, map, players){
+    if (this.physic.position.y>1000){ this.isDeleted = true; return;}
     if (this.isDeleted){ return false;}
-    teams.forEach(team=>team.players.forEach(it=>{
+    players.forEach(it=>{
       let lvec = this.physic.position.clone().sub(it.graphic.position);
       if (lvec.abs()<10){
         it.cure(10);
         this.isDeleted = true;
         //this.graphic.radius=3;
       }
-    }));
+    });
     let nearest = map.getNearIntersection(this.physic.position.clone(), this.physic.getNextPosition(deltaTime));
     if (!nearest){//map.isEmptyByVector(this.physic.getNextPosition(deltaTime))){
       this.physic.process(deltaTime);
