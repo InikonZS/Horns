@@ -17,7 +17,7 @@ const Player = require('./core/player.js');
 const names = 'Lorem Ipsum Dolor Sit Amet Erat Morbi Lectus Finibus Mollis Mauris Eros Sed Felis Dabi     us Turpis Elemus Genus Proin Covan Grat Coin Jaggo Netus Inos Beler Ogos Frago'.split(
   ' ',
 );
-const colors = ['#f00', '#fc0', '#090', '#00f', '#909', '#099'];
+const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff', '#f8468d', '#ff7a51'];
 
 const defaultGameConfig = {
   format: 'easycount',
