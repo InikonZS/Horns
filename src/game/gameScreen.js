@@ -14,7 +14,7 @@ const Team = require('./core/team.js');
 const Game = require('./core/game.js');
 const Player = require('./core/player.js');
 
-const names = 'Lorem Ipsum Dolor Sit Amet Erat Morbi Lectus Finibus Mollis Mauris Eros Sed Felis Dabi     us Turpis Elemus Genus Proin Covan Grat Coin Jaggo Netus Inos Beler Ogos Frago'.split(
+const names = `Lorem Ipsum Dolor Sit Amet Erat Morbi Lectus Finibus Mollis Mauris Eros Sed Felis Dabius Turpis Elemus Genus Proin Covan Grat Coin Jaggo Netus Inos Beler Ogos Frago`.split(
   ' ',
 );
 const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff', '#f8468d', '#ff7a51'];
@@ -30,21 +30,21 @@ const defaultGameConfig = {
       avatar: 'PG',
       playersNumber: 1,
       playersHealts: 100,
-      isComputer: true,
+      isComputer: false,
     },
     {
       name: 'Killers',
       avatar: 'KI',
       playersNumber: 1,
       playersHealts: 50,
-      isComputer: true,
+      isComputer: false,
     },
     {
       name: 'Cloners',
       avatar: 'CR',
       playersNumber: 1,
       playersHealts: 200,
-      isComputer: true,
+      isComputer: false,
     },
   ],
 };
@@ -152,7 +152,7 @@ class GameScreen extends Control {
       this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
       this.game.render(this.context, deltaTime / 100);
       this.game.processKeyboard(this.context, this.keyboardState, deltaTime / 100);
-      this.game.react(this.game.bullets, deltaTime);
+      //this.game.react(this.game.bullets, deltaTime);
 
       let allHealth = 0;
       this.game.teams.forEach(team => allHealth += team.getSumHealth());

@@ -80,7 +80,7 @@ class Physical {
   constructor(pos, radius, color) {
     this.graphic = new GraphicPoint(pos, radius, color);
     this.physic = new PhysicPoint(pos);
-    this.physic1 = new PhysicPoint(pos);
+    //this.physic1 = new PhysicPoint(pos);
     this.timer = new Timer();
     this.timer.start(10);
     this.isReflectable = false;
@@ -99,9 +99,9 @@ class Physical {
       context.beginPath();
     }
 
-    let prev = this.physic1.position.clone();
+    let prev = this.physic.position.clone();
     for (let i = 1; i < 100; i += 1) {
-      let current = this.physic1.getPosition(i);
+      let current = this.physic.getPosition(i);
       let c = current.clone().add(camera.position);
       context && context.lineTo(c.x, c.y);
       let nearest = map.getNearIntersection(prev, current);

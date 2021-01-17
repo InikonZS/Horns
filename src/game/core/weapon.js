@@ -76,12 +76,12 @@ class WeaponEx {
   }
 
   setShotOptions(point, direction, power = 0, wind) {
-    this.tracer.physic1.position.from(point);
+    this.tracer.physic.position.from(point);
     if (this.gravitable) {
-      this.tracer.physic1.acceleration.y = 3;
-      this.tracer.physic1.acceleration.x = wind / 3;
+      this.tracer.physic.acceleration.y = 3;
+      this.tracer.physic.acceleration.x = wind / 3;
     }
-    this.tracer.physic1.speed = direction
+    this.tracer.physic.speed = direction
       .clone()
       .scale(this.bulletSpeed * (power + 1));
   }
@@ -94,7 +94,6 @@ class WeaponEx {
     );
     if (this.gravitable) {
       bullet.physic.acceleration.y = 3;
-
       bullet.physic.acceleration.x = wind / 3;
     }
     bullet.physic.speed = direction

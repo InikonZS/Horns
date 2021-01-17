@@ -8,6 +8,8 @@ const Particles = require('./particles.js');
 //const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
 const Team = require('./team.js');
 
+const freeMovement = false;
+
 class SilentWatcher {
   constructor() {
     this.events = [];
@@ -18,13 +20,91 @@ class SilentWatcher {
   }
 }
 
+function damageFromDistance(posA, posB){
+  let damage = 0;
+  let accScaler = 0;
+  let lvec = posA.clone().sub(posB);
+  if (lvec.abs() < 20) {
+    accScaler = 7;
+    damage = 20;
+  } else if (lvec.abs() < 40) {
+    accScaler = 4;
+    damage = 10;
+  } else if (lvec.abs() < 80) {
+    accScaler = 3;
+    damage = 3;
+  }
+  return {damage, acceleration: lvec.normalize().scale(accScaler)};
+}
+
+class BulletList{
+  constructor(){
+    this.list = [];
+  }
+
+  add(bullet){
+    this.list.push(bullet);
+  }
+
+  process(deltaTime, map, playerList){
+    this.list.forEach((it) => {
+      if (it.physic.position.y > 1000) {
+        it.isDeleted=true;
+      }
+      let preNearest = map.getNearIntersection(
+        it.physic.position.clone(),
+        it.physic.getNextPosition(deltaTime),
+        true,
+      );
+      let nearest = map.getNearIntersection(
+        it.physic.position.clone(),
+        it.physic.getNextPosition(deltaTime),
+      );
+      if (!it.isDeleted && nearest) {
+        if (it.isReflectable) {
+          /* edplode on timeout
+         it.timer.onTimeout =()=>{
+            it.isDeleted = true;
+            this.map.round(it.physic.position, it.magnitude || 30);
+          }*/
+          let n = map.getNormal(preNearest);
+          if (n.abs() == 0) {
+            it.physic.speed.scale(-1);
+            //it.render(context, deltaTime, this.camera, false);
+          } else {
+            //it.physic.position = it.physic.position.sub(it.physic.speed.clone().scale(deltaTime));
+            it.physic.speed = it.physic.speed.reflect(n).scale(1);
+          }
+        } else {
+          map.round(nearest, it.magnitude || 30);
+          it.isDeleted = true;
+          playerList.forEach((jt) => {
+            let res = damageFromDistance(jt.physic.position, nearest);
+            jt.hurt(res.damage);
+            jt.physic.speed.add(res.acceleration);
+          });
+        }
+      } else {
+        //it.render(context, deltaTime, this.camera, false);
+      }
+    });
+  }
+
+  render(context, deltaTime, camera, process){
+    this.list = this.list.filter((it) => !it.isDeleted);
+    this.list.forEach((it) => {
+        it.render(context, deltaTime, camera, process);
+    });  
+  }
+}
+
 class Game {
   constructor() {
     this.camera = new Camera(new Vector(0, 0));
     this.wind = 0;
     this.teams = [];
     this.boxes = [];
-    this.bullets = { list: [] };
+    this.bullets = new BulletList();//{ list: [] };
     this.currentTeam = null;
     this.timer = new Timer();
     this.afterTimer = new Timer();
@@ -162,7 +242,10 @@ class Game {
     this.parts.render(context, deltaTime, this.camera, this.wind);
 
     this.map.render(context, deltaTime, this.camera);
-    this.bullets.list.forEach((it) => {
+   /* this.bullets.list.forEach((it) => {
+      if (it.physic.position.y > 1000) {
+        it.isDeleted=true;
+      }
       let preNearest = this.map.getNearIntersection(
         it.physic.position.clone(),
         it.physic.getNextPosition(deltaTime),
@@ -174,11 +257,7 @@ class Game {
       );
       if (!it.isDeleted && nearest) {
         if (it.isReflectable) {
-          /* edplode on timeout
-         it.timer.onTimeout =()=>{
-            it.isDeleted = true;
-            this.map.round(it.physic.position, it.magnitude || 30);
-          }*/
+         
           let n = this.map.getNormal(preNearest);
           if (n.abs() == 0) {
             it.physic.speed.scale(-1);
@@ -207,7 +286,7 @@ class Game {
       } else {
         it.render(context, deltaTime, this.camera, false);
       }
-    });
+    });*/
 
     // this.getCurrentPlayer().setShotOptions(this.wind);
     // this.getCurrentPlayer().currentWeapon.tracer.trace(this.map, this.camera, context
@@ -217,7 +296,7 @@ class Game {
     // }
     // );
 
-    this.bullets.list.forEach((it) => {
+   /* this.bullets.list.forEach((it) => {
       if (!it.isDeleted) {
         it.render(context, deltaTime, this.camera, true);
         // it.trace(context, this.camera, (prev, current) => {
@@ -225,13 +304,15 @@ class Game {
         //   return nearest;
         // });
       }
-    });
+    });*/
 
     this.getPlayerList().forEach((player) => {
       player.fall(this.map, deltaTime);
     });
 
-    this.bullets.list = this.bullets.list.filter((it) => !it.isDeleted);
+    this.bullets.process(deltaTime, this.map, this.getPlayerList());
+    this.bullets.render(context, deltaTime, this.camera, false);
+    //this.bullets.list = this.bullets.list.filter((it) => !it.isDeleted);
 
     this.boxes.forEach((it) =>
       it.render(context, deltaTime, this.camera, this.map, this.teams),
@@ -270,15 +351,14 @@ class Game {
 
       if (keyboardState['KeyQ']) {
         this.getCurrentPlayer().angleSpeed += -1 * deltaTime;
-        this.camera.enableAutoMove = true;
+        //this.camera.enableAutoMove = true;
       } else if (keyboardState['KeyE']) {
         this.getCurrentPlayer().angleSpeed += 1 * deltaTime;
-        this.camera.enableAutoMove = true;
+        //this.camera.enableAutoMove = true;
       } else {
         this.getCurrentPlayer().angleSpeed = 0;
       }
 
-      let freeMovement = false;
       this.getCurrentPlayer().move(
         freeMovement,
         c,
