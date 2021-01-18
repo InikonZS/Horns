@@ -155,9 +155,6 @@ class Player {
   render(context, deltaTime, camera) {
     //this.physic.acceleration.y=0.1;
     //this.physic.process(deltaTime);
-    if (this.physic.position.y > 1000) {
-      this.hurt(1000);
-    }
     this.graphic.position = this.physic.position;
     this.powerUp(deltaTime);
 
@@ -198,7 +195,7 @@ class Player {
       let player = playersToHit[p];
       for (s = 0; s <= 5; s += 1) {
         this.power = s;
-        for (let i = 0; i < Math.PI * 30 * 2; i += (Math.PI * 30 * 2) / 90) {
+        for (let i = 0; i < Math.PI * 30 * 2; i += (Math.PI * 30 * 2) / 190) {
           this.moveTarget(i);
           this.setShotOptions(wind);
           let targetPoint = this.currentWeapon.tracer.trace(map, camera);
@@ -226,10 +223,19 @@ class Player {
 
 function fallPlayer(player, map, deltaTime) {
   let it = player;
+  if (it.physic.position.y > map.waterLineX) {
+    it.hurt(1000);
+  }
   it.physic.acceleration.y = 1;
-  if (map.isEmptyByVector(it.physic.getNextPosition(deltaTime))) {
+  let nearest = map.getNearIntersection(
+    it.physic.position.clone(),
+    it.physic.getNextPosition(deltaTime),
+    true
+  );
+  if (!nearest){//(map.isEmptyByVector(it.physic.getNextPosition(deltaTime))) {
     it.physic.process(deltaTime);
   } else {
+    it.physic.position.from(nearest);
     it.physic.speed.y = 0;
     it.physic.speed.x = 0;
     it.physic.acceleration.y = 0;
@@ -243,8 +249,9 @@ function movePlayerFree(player, moveVector, map) {
   if (map.isEmptyByVector(s)) {
     physic.position = s;
   } else {
-    if (map.isEmptyByVector(s.clone().add(new Vector(0, -size * 2)))) {
-      physic.position = s.clone().add(new Vector(0, -size * 2));
+    let nextPoint = s.clone().add(new Vector(0, -size * 2));
+    if (map.isEmptyByVector(nextPoint)) {
+      physic.position.from(nextPoint);
     }
   }
 }
@@ -267,12 +274,20 @@ function movePlayer(
     physic.speed.y = moveVector.y * 2;
   }
   let s = physic.getNextPosition(deltaTime);
-  if (map.isEmptyByVector(s)) {
+
+  let nearest = map.getNearIntersection(
+    physic.position.clone(),
+    s,
+    true
+  );
+  if (!nearest){//map.isEmptyByVector(s)) {
   } else {
-    if (move && map.isEmptyByVector(s.clone().add(new Vector(0, -size * 2)))) {
-      physic.position.add(new Vector(0, -size * 2));
+    let nextPoint = s.clone().add(new Vector(0, -size * 2));
+    if (move && map.isEmptyByVector(nextPoint)){//s.clone().add(new Vector(0, -size * 2)))) {
+      physic.position.from(nextPoint);//.add(new Vector(0, -size * 2));
     } else {
       physic.acceleration.y = 0;
+      
       physic.speed.y = 0;
       physic.speed.x = 0;
       player.jumped = false;

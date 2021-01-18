@@ -55,10 +55,11 @@ function roundImageAll(image, rounds){
 }
 
 class GameMap{
-  constructor(mapURL){
+  constructor(mapURL, onLoad){
     this.map = [];
     this.roundList = [];
     this.size = 2;
+    this.waterLineX = 800;
     this.waterImage = new Image();
     this.waterImage.src = './assets/water.png';
     this.waterNImage = new Image();
@@ -80,6 +81,7 @@ class GameMap{
       });
       this.image.src = mapToImage(this, '#cc3');
       this.hImage.src = mapToImage(this, '#663');
+      onLoad();
     })
   }
 
