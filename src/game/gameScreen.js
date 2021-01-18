@@ -161,7 +161,7 @@ class GameScreen extends Control {
         this.game.teams.forEach((it, i) => {
           let tm = this.playPanel.teamIndicator.teams.find(jt => jt.name == it.name);
           //console.log(it.getSumHealth(), allHealth);
-          tm.setHealth(100 * it.getSumHealth() / allHealth, '' + it.getSumHealth() + ' / ' + allHealth);
+          tm.setHealth(100 * it.getSumHealth() / allHealth, '' + it.getSumHealth() + '/' + allHealth);
         });
       }
       // this.context.stroke();
