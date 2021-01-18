@@ -30,21 +30,21 @@ const defaultGameConfig = {
       avatar: 'PG',
       playersNumber: 1,
       playersHealts: 100,
-      isComputer: true,
+      isComputer: false,
     },
     {
       name: 'Killers',
       avatar: 'KI',
       playersNumber: 1,
       playersHealts: 50,
-      isComputer: true,
+      isComputer: false,
     },
     {
       name: 'Cloners',
       avatar: 'CR',
       playersNumber: 1,
       playersHealts: 200,
-      isComputer: true,
+      isComputer: false,
     },
   ],
 };
@@ -161,7 +161,7 @@ class GameScreen extends Control {
         this.game.teams.forEach((it, i) => {
           let tm = this.playPanel.teamIndicator.teams.find(jt => jt.name == it.name);
           //console.log(it.getSumHealth(), allHealth);
-          tm.setHealth(100 * it.getSumHealth() / allHealth, '' + it.getSumHealth() + '/' + allHealth);
+          tm.setHealth(100 * it.getSumHealth() / allHealth, '' + it.getSumHealth() + ' / ' + allHealth);
         });
       }
       // this.context.stroke();

@@ -4,11 +4,10 @@ class TeamIndicatorItem extends Control {
   constructor(parentNode, data) {
     super(parentNode, 'div', 'teams_item', '');
     this.name = data.name;
-    let nameBlock = new Control(this.node, 'div', "team_block team_name");
-    this.teamName = new Control(nameBlock.node, 'div', "team_name-text", data.name);
+    let infoBlock = new Control(this.node, 'div', "team_block team_info");
+    this.teamName = new Control(infoBlock.node, 'div', "team_name-text", data.name);
+    this.teamHealth = new Control(infoBlock.node, 'div', "team_health-value");
     this.teamAvatar = new Control(this.node, 'div', "team_block team_avatar", data.avatar);
-    let healthBlock = new Control(this.node, 'div', "team_block team_health");
-    this.teamHealth = new Control(healthBlock.node, 'div', "team_health-value");
     this.setHealth(100);
     this.teamHealth.node.style['background-color'] = data.color;
   }

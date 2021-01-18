@@ -1,3 +1,7 @@
+/*---------
+1. GENERAL
+-----------*/
+
 .gamescreen_bottom {
   background: var(--main-bg-color);
   background: linear-gradient(
@@ -6,7 +10,17 @@
     var(--main-bg-color) 22%,
     rgba(0, 96, 255, 0.2) 100%
   );
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
 }
+
+/*---------
+2. TIME-INDICATOR
+-----------*/
 
 .clock-next {
   position: relative;
@@ -40,4 +54,65 @@
       z-index: 0;
     }
   }
+}
+
+/*---------
+3. TEAM-INDICATOR
+-----------*/
+.teams_wrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+.teams_item {
+  width: 20%;
+  position: relative;
+  min-width: 210px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px #40d04f solid;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+}
+.title {
+  color: #fff;
+  font-weight: bold;
+  padding: 5px;
+  padding-bottom: 15px;
+}
+/* .title::after {
+  content: '';
+  border-top: 1px #40d04f solid;
+  width: 100%;
+} */
+.health {
+/*   position: absolute;
+  bottom: 15px;
+  right: 80px; */
+
+  color: #fff;
+  font-weight: bold;
+  padding: 7px;
+  font-size: 25px;
+/*   background-color: #7b5dfa;
+  border-radius: 15px;
+  border: 4px #1d2333 solid; */
+}
+
+.team_info {
+
+}
+
+/*---------
+3. WIND
+-----------*/
+
+.gamescreen_wind {
+  min-width: 200px;
 }
