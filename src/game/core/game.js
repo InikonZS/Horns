@@ -1,12 +1,16 @@
 const Timer = require('./timer.js');
-const Box = require('./box.js');
 const GameMap = require('./map.js');
 const Player = require('./player.js');
 const Camera = require('./camera.js');
 const Vector = require('common/vector.js');
 const Particles = require('./particles.js');
-//const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
+
 const Team = require('./team.js');
+const BoxList = require('./boxList.js');
+const BulletList = require('./bulletList.js');
+const TeamList = require('./teamList.js');
+
+const freeMovement = false;
 
 class SilentWatcher {
   constructor() {
@@ -18,21 +22,27 @@ class SilentWatcher {
   }
 }
 
+function getRandomSpawnVector(){
+  return new Vector(Math.random() * 1700 + 50, /*Math.random() * 500 + 50*/0)
+}
+
 class Game {
   constructor() {
     this.camera = new Camera(new Vector(0, 0));
     this.wind = 0;
-    this.teams = [];
-    this.boxes = [];
-    this.bullets = { list: [] };
+    this.teams = new TeamList();
+    this.teams.onLastTeam = ()=>{this.onFinish();}
+    this.boxes = new BoxList();
+    this.bullets = new BulletList();
     this.currentTeam = null;
     this.timer = new Timer();
     this.afterTimer = new Timer();
     this.computerShotTimer = new Timer();
     this.computerShotTimer.onTimeout = () => {
+      this.timer.pause();
       this.shotFunc();
     };
-    this.map; //= new GameMap();
+    this.map;
     this.silentWatcher = new SilentWatcher();
     this.timer.onTimeout = () => {
       this.next();
@@ -40,84 +50,45 @@ class Game {
     this.parts = new Particles(100);
   }
 
-  getActiveTeams() {
-    return this.teams.filter((it) => it.players.length);
-  }
-
-  getPlayersToHit() {
-    return this.teams
-      .filter((it) => it !== this.currentTeam)
-      .reduce((list, it) => list.concat(it.players), []);
-  }
-
-  addTeam(team) {
-    this.teams.push(team);
-    team.onKilled = () => {
-      //this.teams = this.teams.filter(it=>it!=team);
-      if (this.getActiveTeams().length <= 1) {
-        console.log('win');
-        this.onFinish && this.onFinish();
+  start(options, onStart) {
+    this.map = new GameMap(options.mapURL, ()=>{
+      for (let j = 0; j < options.teams.length; j++) {
+        let jteam = options.teams[j];
+        let team = new Team(jteam.name, jteam.avatar, jteam.isComputer);
+        for (let i = 0; i < jteam.playersNumber; i++) {
+          let pl = new Player(
+            options.nameList[i + j * options.teams.length],
+            jteam.playersHealts,
+            getRandomSpawnVector(),
+            options.colorList[j],
+          );
+          team.addPlayer(pl);
+        }
+        this.teams.add(team);
       }
-    };
-  }
-
-  start(options) {
-    this.map = new GameMap(options.mapURL);
-    for (let j = 0; j < options.teams.length; j++) {
-      let team = new Team(options.teams[j].name, options.teams[j].avatar, options.teams[j].isComputer);
-      for (let i = 0; i < options.teams[j].playersNumber; i++) {
-        let pl = new Player(
-          options.nameList[i + j * options.teams.length],
-          options.teams[j].playersHealts,
-          new Vector(Math.random() * 1700 + 50, Math.random() * 500 + 50),
-          options.colorList[j],
-        );
-        team.addPlayer(pl);
-      }
-      this.addTeam(team);
-    }
-    this.next(0);
+      this.next(0);
+      onStart();
+    });
   }
 
   next(teamIndex) {
     let timerSpan = 85;
-    if (this.getActiveTeams().length > 1) {
-      if (Math.random() < 0.2) {
-        this.boxes.push(
-          new Box(
-            new Vector(Math.random() * 1700 + 50, Math.random() * 500 + 50),
-          ),
-        );
-      }
+    this.camera.enableAutoMove = true;
+    if (this.teams.getActiveTeams().length > 1) {
+      this.boxes.spawnRandom();
+
       this.timer.start(timerSpan);
       this.wind = Math.random() * 11 - 5;
 
-      let nextTeamIndex = teamIndex;
-      if (teamIndex === undefined) {
-        nextTeamIndex =
-          (this.teams.indexOf(this.currentTeam) + 1) % this.teams.length;
-        while (!this.teams[nextTeamIndex].players.length) {
-          nextTeamIndex = (nextTeamIndex + 1) % this.teams.length;
-        }
-      }
-
-      this.currentTeam = this.teams[nextTeamIndex];
-      let currentPlayer = this.currentTeam.nextPlayer();
-      this.getPlayerList().forEach((jt) => {
-        jt.setActive(false);
-      });
-      currentPlayer.setActive(true);
-
-      //this.camera.speed = this.camera.position.clone().sub(currentPlayer.physic.position).normalize().scale(123);
-
+      let currentPlayer = this.teams.nextTeam(teamIndex);
       this.onNext && this.onNext(currentPlayer, timerSpan);
     } else {
       this.finish();
     }
 
-    if (this.currentTeam.isComputer) {
+    if (this.teams.currentTeam.isComputer) {
       this.getCurrentPlayer()
-        .setTargetPoint(this.getPlayersToHit(), this.camera, this.map, this.wind);
+        .setTargetPoint(this.teams.getPlayersToHit(), this.camera, this.map, this.wind);
       this.computerShotTimer.start(15);
     }
   }
@@ -160,91 +131,21 @@ class Game {
 
     this.map.renderGradient(context, deltaTime, this.camera);
     this.parts.render(context, deltaTime, this.camera, this.wind);
-
     this.map.render(context, deltaTime, this.camera);
-    this.bullets.list.forEach((it) => {
-      let preNearest = this.map.getNearIntersection(
-        it.physic.position.clone(),
-        it.physic.getNextPosition(deltaTime),
-        true,
-      );
-      let nearest = this.map.getNearIntersection(
-        it.physic.position.clone(),
-        it.physic.getNextPosition(deltaTime),
-      );
-      if (!it.isDeleted && nearest) {
-        if (it.isReflectable) {
-          /* edplode on timeout
-         it.timer.onTimeout =()=>{
-            it.isDeleted = true;
-            this.map.round(it.physic.position, it.magnitude || 30);
-          }*/
-          let n = this.map.getNormal(preNearest);
-          if (n.abs() == 0) {
-            it.physic.speed.scale(-1);
-            it.render(context, deltaTime, this.camera, false);
-          } else {
-            //it.physic.position = it.physic.position.sub(it.physic.speed.clone().scale(deltaTime));
-            it.physic.speed = it.physic.speed.reflect(n).scale(1);
-          }
-        } else {
-          this.map.round(nearest, it.magnitude || 30);
-          it.isDeleted = true;
-          this.getPlayerList().forEach((jt) => {
-            let lvec = jt.physic.position.clone().sub(nearest);
-            if (lvec.abs() < 20) {
-              jt.physic.speed.add(lvec.normalize().scale(7));
-              jt.hurt(20);
-            } else if (lvec.abs() < 40) {
-              jt.physic.speed.add(lvec.normalize().scale(4));
-              jt.hurt(10);
-            } else if (lvec.abs() < 80) {
-              jt.physic.speed.add(lvec.normalize().scale(3));
-              jt.hurt(3);
-            }
-          });
-        }
-      } else {
-        it.render(context, deltaTime, this.camera, false);
-      }
-    });
 
-    // this.getCurrentPlayer().setShotOptions(this.wind);
-    // this.getCurrentPlayer().currentWeapon.tracer.trace(this.map, this.camera, context
-    //   (prev, current) => {
-    //   let nearest = this.map.getNearIntersection(prev, current);
-    //   return nearest;
-    // }
-    // );
+    this.bullets.process(deltaTime, this.map, this.teams.getPlayerList());
+    this.bullets.render(context, deltaTime, this.map, this.camera, false);
 
-    this.bullets.list.forEach((it) => {
-      if (!it.isDeleted) {
-        it.render(context, deltaTime, this.camera, true);
-        // it.trace(context, this.camera, (prev, current) => {
-        //   let nearest = this.map.getNearIntersection(prev, current);
-        //   return nearest;
-        // });
-      }
-    });
-
-    this.getPlayerList().forEach((player) => {
-      player.fall(this.map, deltaTime);
-    });
-
-    this.bullets.list = this.bullets.list.filter((it) => !it.isDeleted);
-
-    this.boxes.forEach((it) =>
-      it.render(context, deltaTime, this.camera, this.map, this.teams),
-    );
-    this.teams.forEach((it) => {
-      it.render(context, deltaTime, this.camera);
-    });
+    this.boxes.render(context, deltaTime, this.camera, this.map, this.teams.getPlayerList()),
+ 
+    this.teams.process(this.map, deltaTime);
+    this.teams.render(context, deltaTime, this.camera);
   }
 
   processKeyboard(context, keyboardState, deltaTime) {
     this.camera.move(context, keyboardState, 80, deltaTime);
 
-    if (!this.currentTeam.isComputer) {
+    if (!this.teams.currentTeam.isComputer) {
       let c = new Vector(0, 0);
       let move = false;
       let tryJump = false;
@@ -270,15 +171,14 @@ class Game {
 
       if (keyboardState['KeyQ']) {
         this.getCurrentPlayer().angleSpeed += -1 * deltaTime;
-        this.camera.enableAutoMove = true;
+        //this.camera.enableAutoMove = true;
       } else if (keyboardState['KeyE']) {
         this.getCurrentPlayer().angleSpeed += 1 * deltaTime;
-        this.camera.enableAutoMove = true;
+        //this.camera.enableAutoMove = true;
       } else {
         this.getCurrentPlayer().angleSpeed = 0;
       }
 
-      let freeMovement = false;
       this.getCurrentPlayer().move(
         freeMovement,
         c,
@@ -294,7 +194,7 @@ class Game {
       !this.shoted &&
       !this.nextLock &&
       keyboardState['Space'] &&
-      !this.currentTeam.isComputer
+      !this.teams.currentTeam.isComputer
     ) {
       this.nextLock = true;
       this.getCurrentPlayer().powerStart();
@@ -302,7 +202,7 @@ class Game {
     }
     if (
       this.nextLock &&
-      ((!this.currentTeam.isComputer && !keyboardState['Space']) ||
+      ((!this.teams.currentTeam.isComputer && !keyboardState['Space']) ||
         this.getCurrentPlayer().power > 5)
     ) {
       this.shotFunc();
@@ -312,6 +212,7 @@ class Game {
   shotFunc() {
     this.nextLock = false;
     if (!this.shoted) {
+      this.camera.enableAutoMove = true;
       this.shoted = true;
       this.getCurrentPlayer().shot(this.bullets, this.wind);
 
@@ -329,17 +230,7 @@ class Game {
   }
 
   getCurrentPlayer() {
-    return this.currentTeam.currentPlayer;
-  }
-
-  getPlayerList() {
-    let playerList = [];
-    this.teams.forEach((team) =>
-      team.players.forEach((it) => {
-        playerList.push(it);
-      }),
-    );
-    return playerList;
+    return this.teams.getCurrentPlayer();
   }
 
   getCenterVector(context) {

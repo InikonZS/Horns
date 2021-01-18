@@ -74,13 +74,21 @@ class PhysicPoint {
       .scale(this.friction);
     this.position.add(this.speed.clone().scale(deltaTime));
   }
+
+  reflect(normal, scaler=1){
+    if (!normal || normal.abs() == 0) {
+      this.speed.scale(-1);
+    } else {
+      this.speed.from(this.speed.reflect(normal).scale(scaler));
+    }
+  }
 }
 
 class Physical {
   constructor(pos, radius, color) {
     this.graphic = new GraphicPoint(pos, radius, color);
     this.physic = new PhysicPoint(pos);
-    this.physic1 = new PhysicPoint(pos);
+    //this.physic1 = new PhysicPoint(pos);
     this.timer = new Timer();
     this.timer.start(10);
     this.isReflectable = false;
@@ -92,27 +100,7 @@ class Physical {
     this.graphic.position = this.physic.position;
     this.graphic.render(context, deltaTime, camera);
   }
-
-  trace(map, camera, context) {
-    if (context) {
-      context.strokeStyle = '#000';
-      context.beginPath();
-    }
-
-    let prev = this.physic1.position.clone();
-    for (let i = 1; i < 100; i += 1) {
-      let current = this.physic1.getPosition(i);
-      let c = current.clone().add(camera.position);
-      context && context.lineTo(c.x, c.y);
-      let nearest = map.getNearIntersection(prev, current);
-      if (nearest) {
-        // console.log(nearest);
-        return nearest;
-      }
-      prev = current;
-    }
-    context && context.stroke();
-  }
+  
 }
 
 module.exports = { GraphicPoint, PhysicPoint, Physical };
