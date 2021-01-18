@@ -98,7 +98,6 @@ class GameScreen extends Control {
       this.panel.selectByScene(this.editorScreen);
     }
 
-
     this.menu.onFight = () => {
       this.panel.selectByScene(this.playPanel);
       this.game = new Game();//newGame();
@@ -118,11 +117,39 @@ class GameScreen extends Control {
       })
       this.renderer.start();
     }
+
     this.settings = new SettingsMenu(this.panel.node, this.panel);
     this.panel.add(this.settings);
     this.menu.onSettings = () => {
       this.panel.selectByScene(this.settings);
     }
+
+
+    this.settings.onEditor = () => {
+      this.panel.selectByScene(this.editorScreen);
+    }
+
+    this.settings.onFight = () => {
+      this.panel.selectByScene(this.playPanel);
+      this.game = new Game();//newGame();
+      this.game.onNext = (player) => {
+        this.playPanel.openWeapon.select(player.weapons.indexOf(player.currentWeapon), true);
+        this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2);
+      }
+
+      this.game.onFinish = () => {
+        this.panel.selectByScene(this.menu);
+        this.renderer.stop();
+      }
+      this.game.start(defaultGameConfig);
+      this.playPanel.teamIndicator.clear();
+      this.game.teams.forEach((it, i) => {
+        this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: colors[i] });
+      })
+      this.renderer.start();
+    }
+
+
 
     /* this.editor = new EditorMenu(this.panel.node);
      this.panel.add(this.editor);

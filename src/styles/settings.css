@@ -1,8 +1,9 @@
  .settings_wrapper {
     width: 100%;  
-    height: 100%;
+    /* height: 100%; */
     display: flex;
-    flex-wrap:wrap;
+    /* flex-wrap:wrap; */
+    flex-direction: column;
    
     justify-content: center;
     align-items: center;
@@ -31,7 +32,7 @@
     justify-content: flex-start;
   }
   
-  .editor_tools_btn, .return_btn  {
+  .editor_tools_btn, .return_btn, .draw_map_btn  {
     width: 60%;
     cursor: pointer;
     user-select: none;
@@ -51,8 +52,14 @@
   .settings_return_btn {
       width: 150px;
   }
+
+  .draw_map_btn {
+    width: 200px;
+    margin: 0;
+    margin-top: 10;
+  }
   
-  .editor_tools_btn:hover {
+  .editor_tools_btn:hover, .return_btn:hover, .draw_map_btn:hover {
     background-color:#A7CECC ;
     opacity: 0.85;
   }
@@ -68,7 +75,7 @@
   
   .settings_team_inner {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -80,7 +87,7 @@
   
   .settings_map_inner {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -89,7 +96,7 @@
   
   .settings_team_block {
     width: calc(50% - 20px);
-    height: calc(50% - 20px);
+    /* height: calc(50% - 20px); */
     background-color: rgb(255, 255, 255);
     font-size: 20px;
     /* margin: 1px; */
@@ -97,12 +104,18 @@
   }
   
   .settings_map_block {
+    display: flex;
     width: 250px;
-    height: 150px;
+    height: 170px;
     border: solid 1px black;
     margin-bottom: 10px;
     background-image: url(/src/assets/bitmap1.png); 
     background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+   .styled-select option {    
+     font-size: 16px;
   }
   
   .settings_item {
@@ -110,8 +123,7 @@
   flex-direction: column; 
   justify-content: center;
   /* align-items: center; */
-  width: calc(70% - 20px);
-  
+  width: calc(70% - 20px);  
   background: radial-gradient(at top, #FEFFFF, #A7CECC);
   border-radius: 5px;
   font-size: 20px;
@@ -140,13 +152,13 @@
     margin-bottom: 10px;  
   }
   
-  .styled-select select {
-  
-    width: 268px;
-    padding: 5px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    height: 34px;
+  .styled-select {  
+    width: 200px;
+    background-color: #fff;
+    padding: 7px;
+    font-size: 18px;
+    border: 1px solid rgb(0, 0, 0);
+   
   }
   
   .startGame_btn {
@@ -458,5 +470,10 @@
       }
   }
   
+
+  .settings_active_team {
+      background: #a2a8c4;
+      
+  }
   
 

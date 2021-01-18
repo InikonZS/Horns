@@ -28,11 +28,6 @@ class EditorScreen extends Control {
     this.brushColor.node.setAttribute('type', 'color');
     this.brushColor.node.setAttribute('value', '#f63444');
 
-    //     <div>
-    //     <input type="color" id="head" name="head"
-    //            value="#e66465">
-    //     <label for="head">Head</label>
-    // </div>
 
     this.eraserButton = new Control(toolsInner.node, 'div', 'editor_eraser editor_tools_btn', 'Eraser');
     this.cleanButton = new Control(toolsInner.node, 'div', 'editor_clean editor_tools_btn', 'Clean');
