@@ -64,6 +64,8 @@ class WeaponMenu extends Group {
 
 }
 
+
+
 class PlayPanel extends Control {
   constructor(parentNode, sceneManager) {
     super(parentNode, 'div', 'gamescreen_wrapper', `
