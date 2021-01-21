@@ -123,7 +123,7 @@ class GameScreen extends Control {
       this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
       this.game.render(this.context, deltaTime / 100);
       this.game.processKeyboard(this.context, this.keyboardState, deltaTime / 100);
-      
+
       this.setTeamValues();
 
       let averager = 128;
@@ -152,6 +152,7 @@ class GameScreen extends Control {
       this.game.teams.list.forEach((it, i) => {
         let tm = this.playPanel.teamIndicator.teams.find(jt => jt.name == it.name);
         tm.setHealth(100 * it.getSumHealth() / allHealth, '' + it.getSumHealth() + '/' + allHealth);
+        tm.teamAvatar.render();
       });
     }
   }
