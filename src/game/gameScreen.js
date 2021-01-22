@@ -125,6 +125,9 @@ class GameScreen extends Control {
       this.game.processKeyboard(this.context, this.keyboardState, deltaTime / 100);
 
       this.setTeamValues();
+      this.getTeamIndicatorItems().forEach(it => {
+        it.teamAvatar.render();
+      });
 
       let averager = 128;
       this.fps = (this.fps * (averager - 1) + deltaTime) / averager;
@@ -145,6 +148,15 @@ class GameScreen extends Control {
     });
   }
 
+  getTeamIndicatorItems() {
+    let list = [];
+    this.game.teams.list.forEach((it, i) => {
+      let tm = this.playPanel.teamIndicator.teams.find(jt => jt.name == it.name);
+      list.push(tm);
+    });
+    return list;
+  }
+
   setTeamValues(){
     let allHealth = this.game.teams.getSumHealth();
     if (this.allHealth != allHealth) {
@@ -152,7 +164,7 @@ class GameScreen extends Control {
       this.game.teams.list.forEach((it, i) => {
         let tm = this.playPanel.teamIndicator.teams.find(jt => jt.name == it.name);
         tm.setHealth(100 * it.getSumHealth() / allHealth, '' + it.getSumHealth() + '/' + allHealth);
-        tm.teamAvatar.render();
+
       });
     }
   }

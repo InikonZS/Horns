@@ -44,7 +44,10 @@ class TeamIndicatorProgress extends Control {
     this.center = this.options.size / 2;
     this.image = new Image();
     this.image.src = this.options.src;
-    this.render();
+    this.image.onload = () => {
+      console.log('yes');
+      this.render();
+    };
   }
 
   drawCircle(color, part = 1) {
@@ -59,18 +62,15 @@ class TeamIndicatorProgress extends Control {
 
   drawAvatar() {
     console.log('aaa');
-    this.image.onload = () => {
-      console.log('yes');
-      this.ctx.beginPath();
-      this.ctx.arc(this.center, this.center, this.radius - this.options.lineWidth,
-        0, Math.PI * 2, false);
-      this.ctx.clip();
-      console.log(this.image.naturalWidth);
-      this.ctx.drawImage(this.image, 0, 0, this.image.naturalWidth, this.image.naturalHeight,
-      this.options.lineWidth * 2, this.options.lineWidth * 2,
-      this.options.size - this.options.lineWidth * 4,
-      this.options.size - this.options.lineWidth * 4);
-    }
+    this.ctx.beginPath();
+    this.ctx.arc(this.center, this.center, this.radius - this.options.lineWidth,
+      0, Math.PI * 2, false);
+    this.ctx.clip();
+    console.log(this.image.naturalWidth);
+    this.ctx.drawImage(this.image, 0, 0, this.image.naturalWidth, this.image.naturalHeight,
+    this.options.lineWidth * 2, this.options.lineWidth * 2,
+    this.options.size - this.options.lineWidth * 4,
+    this.options.size - this.options.lineWidth * 4);
     console.log('bbb');
 
   }
@@ -78,27 +78,27 @@ class TeamIndicatorProgress extends Control {
   render() {
     this.ctx.clearRect(0, 0, this.options.size, this.options.size);
     this.ctx.save();
-    this.drawAvatar(this.options.src);
+    this.drawAvatar();
     this.ctx.restore();
     this.drawCircle('rgba(255, 255, 255, 0.3)');
     this.drawCircle('#40d04f', this.options.part);
 
-    // if (this.options.decrease) {
-    //   if (this.options.part > this.options.nextPart) {
-    //     this.options.part *= 0.98;
-    //     window.requestAnimationFrame(this.render);
-    //   }
-    // } else {
-    //   if (this.options.part < this.options.nextPart) {
-    //     this.options.part *= 1.02
-    //     window.requestAnimationFrame(this.render);
-    //   }
-    // }
+    if (this.options.decrease) {
+      if (this.options.part > this.options.nextPart) {
+        console.log('decrease');
+        this.updateProgressBar();
+      }
+    } else {
+      if (this.options.part < this.options.nextPart) {
+        this.updateProgressBar();
+      }
+    }
   }
 
   updateProgressBar() {
     const scaler = this.options.decrease ? 0.98 : 1.02;
     this.options.part *= scaler;
+    console.log(this.options.part);
   }
 
   setProgressOptions() {
