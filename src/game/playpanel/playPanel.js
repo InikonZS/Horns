@@ -1,44 +1,7 @@
 const Control = require('common/control.js');
-const Utils = require('../modules/utils');
 const { Group, Toggle } = require('common/group.js');
-
 const TeamIndicator = require('./teamIndicator.js');
-
-const timeIndicatorNodes = {
-  timeLeft:{tag: 'div', class: 'clock-next__time-left'},
-  progressBar:{tag: 'div', class: 'clock-next__progress-bar'},
-  progressBarShadow:{tag: 'div', class: 'clock-next__progress-bar clock-next__progress-bar_shadow'},
-};
-
-class TimeIndicator extends Control {
-  constructor(parentNode) {
-    super(parentNode, 'div', 'gamescreen__clock clock-next', '');
-    Utils.createNodes(this, timeIndicatorNodes, Control);
-    this.timerDuration = 0;
-  }
-
-  setTimerDuration(timerSpan) {
-    this.timerDuration = timerSpan;
-    this.setProgressBaroffset(timerSpan);
-  }
-
-  setProgressBaroffset(timerSpan) {
-    if (timerSpan < 100) {
-      this.progressBar.node.style.left = '45px';
-      this.progressBarShadow.node.style.left = '45px';
-    } else {
-      this.progressBar.node.style.left = '60px';
-      this.progressBarShadow.node.style.left = '60px';
-    }
-  }
-
-  update(count){
-    this.timeLeft.node.textContent = count;
-    const progressBarWidth = (count / this.timerDuration) * 80;
-    this.progressBar.node.style.width = `${progressBarWidth}%`;
-  }
-}
-
+const TimeIndicator = require('./timeIndicator');
 
 class WeaponItem extends Toggle {
   constructor(parentNode, activeClass, inactiveClass, caption, onClick) {
@@ -59,9 +22,6 @@ class WeaponMenu extends Group {
     });
     this.buttons.push(but);
   }
-
-
-
 }
 
 
@@ -98,7 +58,9 @@ class PlayPanel extends Control {
       this.weaponScreen.hide();
     }
 
-    this.openWeapon = new WeaponMenu(this.weaponScreen.node, "weaponscreen_wrapper", 'weaponscreen_item weaponscreen_item_active', 'weaponscreen_item');
+    this.openWeapon = new WeaponMenu(this.weaponScreen.node,
+      'weaponscreen_wrapper', 'weaponscreen_item weaponscreen_item_active',
+      'weaponscreen_item');
     this.openWeapon.addButton('w1');
     this.openWeapon.addButton('w1');
     this.openWeapon.addButton('w1');
@@ -127,9 +89,11 @@ class PlayPanel extends Control {
     //         </div>
 
 
-    this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'), 'div', 'wind-indicator', '0');
+    this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'),
+      'div', 'wind-indicator', '0');
 
-    this.back = new Control(this.node.querySelector('.gamescreen_burger'), 'div', '', 'back');
+    this.back = new Control(this.node.querySelector('.gamescreen_burger'),
+      'div', '', 'back');
     this.back.node.onclick = () => {
       this.onBack();
     }

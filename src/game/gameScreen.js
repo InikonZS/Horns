@@ -1,6 +1,6 @@
 const Control = require('common/control.js');
 const SceneManager = require('./sceneManager.js');
-const PlayPanel = require('./playPanel.js');
+const PlayPanel = require('./playpanel/playPanel.js');
 const MainMenu = require('./mainMenu.js');
 
 const SettingsMenu = require('./settingsMenu1.js');

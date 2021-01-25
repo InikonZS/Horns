@@ -1,6 +1,6 @@
 const Control = require('common/control.js');
 
-// options {part, nextPart, size, lineWidth, decrease = true, src}
+// options {part, nextPart, size, lineWidth, decrease = true, src, color}
 class TeamIndicatorProgress extends Control {
   constructor(parentNode, options) {
     super(parentNode, 'canvas', 'team_progress-avatar', '');
