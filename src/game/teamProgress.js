@@ -43,7 +43,7 @@ class TeamIndicatorProgress extends Control {
     this.drawAvatar();
     this.ctx.restore();
     this.drawCircle('rgba(255, 255, 255, 0.3)');
-    this.drawCircle('#40d04f', this.options.part);
+    this.drawCircle(this.options.color, this.options.part);
 
     if (this.options.decrease) {
       if (this.options.part > this.options.nextPart) {
@@ -61,8 +61,8 @@ class TeamIndicatorProgress extends Control {
     this.options.part *= scaler;
   }
 
-  setProgressOptions() {
-    this.render();
+  setProgressOptions(health) {
+    this.options.nextPart = health / 100;
   }
 }
 

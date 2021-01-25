@@ -9,25 +9,24 @@ class TeamIndicatorItem extends Control {
     this.teamName = new Control(infoBlock.node, 'div', "team_name-text", data.name);
     this.teamHealth = new Control(infoBlock.node, 'div', "team_health-value");
     const options = {
-      part: 0.8,
-      nextPart: 0.3,
-      size: 90,
+      part: 1,
+      nextPart: 1,
+      size: 80,
       lineWidth: 8,
       decrease: true,
-      src: './assets/maria-bo-schatzis-stream-profilpicture.jpg',
-      }
+      src: data.avatar,
+      color: data.color,
+    }
     this.teamAvatar = new TeamIndicatorProgress(this.node, options);
-    this.setHealth(100);
-    console.log(data);
-    this.teamHealth.node.style['background-color'] = data.color;
+    this.node.style['border-color'] = data.color;
   }
 
   setHealth(health, absHealth){
     if (health == 0){
       this.hide();
     }
-    this.teamHealth.node.style.width = `${health}%`;
     this.teamHealth.node.innerHTML = absHealth;
+    this.teamAvatar.setProgressOptions(health);
   }
 
   clear() {

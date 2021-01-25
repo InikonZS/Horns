@@ -7,7 +7,6 @@
   background: linear-gradient(
     0deg,
     var(--main-bg-color) 0%,
-    var(--main-bg-color) 22%,
     rgba(0, 96, 255, 0.2) 100%
   );
   width: 100%;
@@ -15,7 +14,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 0 15px;
 }
 
 /*---------
@@ -66,47 +65,29 @@
   flex-grow: 1;
 }
 .teams_item {
-  width: 20%;
   position: relative;
-  min-width: 210px;
-  padding: 10px;
+  min-width: 220px;
+  padding: 5px 9px 5px 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border: 1px #40d04f solid;
   border-radius: 15px;
-  margin-bottom: 20px;
   &:not(:last-child) {
     margin-right: 20px;
   }
 }
-.title {
+.team_name-text {
   color: #fff;
   font-weight: bold;
   padding: 5px;
-  padding-bottom: 15px;
 }
-/* .title::after {
-  content: '';
-  border-top: 1px #40d04f solid;
-  width: 100%;
-} */
-.health {
-/*   position: absolute;
-  bottom: 15px;
-  right: 80px; */
 
+.team_health-value {
   color: #fff;
   font-weight: bold;
   padding: 7px;
   font-size: 25px;
-/*   background-color: #7b5dfa;
-  border-radius: 15px;
-  border: 4px #1d2333 solid; */
-}
-
-.team_info {
-
 }
 
 /*---------
@@ -114,5 +95,21 @@
 -----------*/
 
 .gamescreen_wind {
-  min-width: 200px;
+  min-width: 130px;
+}
+
+.wind-indicator {
+  position: relative;
+  margin-left: 35px;
+  &::before {
+    content: '';
+    position: absolute;
+    background-image: url("../assets/wind.png");
+    background-size: cover;
+    width: 26px;
+    height: 20px;
+    display: block;
+    top: 0;
+    left: -35px;
+  }
 }

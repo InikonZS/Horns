@@ -69,29 +69,17 @@ class WeaponMenu extends Group {
 class PlayPanel extends Control {
   constructor(parentNode, sceneManager) {
     super(parentNode, 'div', 'gamescreen_wrapper', `
-    <div class="gamescreen_top">
-      <div class="gamescreen_panel gamescreen_burger">
-
+      <div class="gamescreen_top">
+        <div class="gamescreen_panel gamescreen_burger"></div>
+        <div class="gamescreen_panel gamescreen_weapons"></div>
+        <div class="weapon_btn"></div>
       </div>
-      <div class="gamescreen_panel gamescreen_weapons">
-      <div class="weapon_btn">
 
-            </div>
+      <div class="gamescreen_bottom">
+        <div id="gclock" class="gamescreen_panel"></div>
+        <div id="tm" class="gamescreen_panel"></div>
+        <div class="gamescreen_panel gamescreen_wind"></div>
       </div>
-    </div>
-
-    <div class="gamescreen_bottom">
-      <div id="gclock" class="gamescreen_panel">
-
-      </div>
-      <div id="tm" class="gamescreen_panel">
-
-
-      </div>
-      <div class="gamescreen_panel gamescreen_wind">
-
-      </div>
-    </div>
     `);
     this.timeIndicator = new TimeIndicator(this.node.querySelector('#gclock'));
     this.teamIndicator = new TeamIndicator(this.node.querySelector('#tm'));
@@ -139,7 +127,7 @@ class PlayPanel extends Control {
     //         </div>
 
 
-    this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'), 'div', '', '0');
+    this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'), 'div', 'wind-indicator', '0');
 
     this.back = new Control(this.node.querySelector('.gamescreen_burger'), 'div', '', 'back');
     this.back.node.onclick = () => {

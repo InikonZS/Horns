@@ -24,21 +24,21 @@ const defaultGameConfig = {
   teams: [
     {
       name: 'Progers',
-      avatar: 'PG',
+      avatar: './assets/avatar_1.jpg',
       playersNumber: 1,
       playersHealts: 100,
       isComputer: false,
     },
     {
       name: 'Killers',
-      avatar: 'KI',
+      avatar: './assets/avatar_2.jpg',
       playersNumber: 1,
       playersHealts: 50,
       isComputer: false,
     },
     {
       name: 'Cloners',
-      avatar: 'CR',
+      avatar: './assets/avatar_3.jpg',
       playersNumber: 1,
       playersHealts: 200,
       isComputer: false,
@@ -163,7 +163,7 @@ class GameScreen extends Control {
       this.allHealth = allHealth;
       this.game.teams.list.forEach((it, i) => {
         let tm = this.playPanel.teamIndicator.teams.find(jt => jt.name == it.name);
-        tm.setHealth(100 * it.getSumHealth() / allHealth, '' + it.getSumHealth() + '/' + allHealth);
+        tm.setHealth(100 * it.getSumHealth() / allHealth, '' + it.getSumHealth() + '&nbsp;/&nbsp;' + allHealth);
 
       });
     }
