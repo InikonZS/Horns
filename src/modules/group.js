@@ -9,7 +9,8 @@ class Toggle extends Control {
     this.isToggled;
     this.changeState(false);
 
-    this.node.onclick = () => {
+    this.node.onclick = (e) => {
+      e.stopPropagation();
       this.changeState();
       this.onClick && this.onClick(this.isToggled);
     }

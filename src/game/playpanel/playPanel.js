@@ -1,38 +1,14 @@
 const Control = require('common/control.js');
-const { Group, Toggle } = require('common/group.js');
 const TeamIndicator = require('./teamIndicator.js');
 const TimeIndicator = require('./timeIndicator');
-
-class WeaponItem extends Toggle {
-  constructor(parentNode, activeClass, inactiveClass, caption, onClick) {
-    super(parentNode, activeClass, inactiveClass, caption, onClick);
-    this.itemW = new Control(this.node, 'div', 'weapon_amount_available', '22');
-  }
-
-}
-
-class WeaponMenu extends Group {
-  constructor(parentNode, wrapperClass, activeItemClass, inactiveItemClass) {
-    super(parentNode, wrapperClass, activeItemClass, inactiveItemClass);
-  }
-
-  addButton(caption) {
-    let but = new WeaponItem(this.node, this.activeItemClass, this.inactiveItemClass, caption, () => {
-      this.select(this.buttons.findIndex(it => but == it));
-    });
-    this.buttons.push(but);
-  }
-}
-
-
-
+const WeaponMenu = require('./weaponMenu');
 class PlayPanel extends Control {
   constructor(parentNode, sceneManager) {
     super(parentNode, 'div', 'gamescreen_wrapper', `
       <div class="gamescreen_top">
-        <div class="gamescreen_panel gamescreen_burger"></div>
-        <div class="gamescreen_panel gamescreen_weapons"></div>
-        <div class="weapon_btn"></div>
+        <div class="gamescreen_panel gamescreen_pause"></div>
+        <div class="gamescreen_panel gamescreen_weapons">
+        </div>
       </div>
 
       <div class="gamescreen_bottom">
@@ -46,7 +22,7 @@ class PlayPanel extends Control {
 
 
     // this.weaponMenu = new Group(this.node.querySelector('.weapon_btn'), '', 'weapon_item weapon_item__selected', 'weapon_item');
-    this.weaponButton = new Control(this.node.querySelector('.weapon_btn'), 'div', '', 'Weapons')
+    this.weaponButton = new Control(this.node.querySelector('.gamescreen_weapons'), 'div', '', 'Weapons')
     // this.weaponMenu.addButton('W');
     // this.weaponMenu.addButton('w2');
     // this.weaponMenu.addButton('w3');
@@ -92,8 +68,19 @@ class PlayPanel extends Control {
     this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'),
       'div', 'wind-indicator', '0');
 
-    this.back = new Control(this.node.querySelector('.gamescreen_burger'),
-      'div', '', 'back');
+    this.back = new Control(this.node.querySelector('.gamescreen_pause'),
+      'div', 'menu__item',
+      `
+        <div>back</div>
+        <svg class="menu__icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          width="124.5px" height="124.5px" viewBox="0 0 124.5 124.5">
+          <g>
+            <path style="fill:#616a82;" d="M116.35,124.5c3.3,0,6-2.699,6-6V6c0-3.3-2.7-6-6-6h-36c-3.3,0-6,2.7-6,6v112.5c0,3.301,2.7,6,6,6H116.35z"/>
+            <path style="fill:#616a82;" d="M44.15,124.5c3.3,0,6-2.699,6-6V6c0-3.3-2.7-6-6-6h-36c-3.3,0-6,2.7-6,6v112.5c0,3.301,2.7,6,6,6H44.15z"/>
+          </g>
+        </svg>
+      `);
+
     this.back.node.onclick = () => {
       this.onBack();
     }
