@@ -11,6 +11,7 @@
   justify-content: space-between;
   z-index: 1;
   transition: width .5s ease;
+  border-radius: 10px;
 
   &__item {
     width: 100px;
