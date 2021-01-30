@@ -4,7 +4,7 @@ TEAM-INDICATOR
 -----------*/
 .teams_wrapper {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
   flex-grow: 1;
 }
@@ -22,13 +22,13 @@ TEAM-INDICATOR
   }
 }
 .team_name-text {
-  color: #fff;
+  color: var(--font-color);
   font-weight: bold;
   padding: 5px;
 }
 
 .team_health-value {
-  color: #fff;
+  color: var(--font-color);
   font-weight: bold;
   padding: 7px;
   font-size: 25px;

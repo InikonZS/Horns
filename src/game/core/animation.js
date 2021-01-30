@@ -34,7 +34,6 @@ class Animation {
     this.height = height;
     this.numberOfFrames = numberOfFrames || 1;
     this.frameIndex = 0;
-    console.log(this.spritesheet);
     this.isStarted = false;
     this.scale = scale
   }

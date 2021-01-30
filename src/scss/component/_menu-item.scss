@@ -35,7 +35,7 @@
       content: "";
       width: 1px;
       height: 20px;
-      background-color: #fff;
+      background-color: var(--font-color);
       opacity: 0.6;
       position: absolute;
       top: 15px;
@@ -49,8 +49,8 @@
     left: calc(50% - 10px);
     width: 20px;
     height: 20px;
-    fill: white;
-    opacity: .7;
+    fill: var(--font-color);
+    // opacity: .7;
     transition: opacity .25s ease-in-out, visibility .25s ease-in-out,
       transform .25s ease-in-out;
   }
