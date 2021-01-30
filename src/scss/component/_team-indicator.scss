@@ -1,0 +1,35 @@
+
+/*---------
+TEAM-INDICATOR
+-----------*/
+.teams_wrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+.teams_item {
+  position: relative;
+  min-width: 220px;
+  padding: 5px 9px 5px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px #40d04f solid;
+  border-radius: 15px;
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+}
+.team_name-text {
+  color: #fff;
+  font-weight: bold;
+  padding: 5px;
+}
+
+.team_health-value {
+  color: #fff;
+  font-weight: bold;
+  padding: 7px;
+  font-size: 25px;
+}

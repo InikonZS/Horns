@@ -2,13 +2,6 @@
   box-sizing: border-box;
 }
 
-.page_wrapper{
-
-}
-
-.weapon_item{
-
-}
 
 .menu_wrapper{
   width: 100%;
@@ -107,12 +100,12 @@
 .gamescreen_wrapper{
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   display: flex;
   flex-direction: column;
   height: calc(100vh - 110px);
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .gamescreen_wrapper_centred{
@@ -136,13 +129,6 @@
   flex-direction: column;
   justify-content: center;
 }
-
-.gamescreen__clock{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
 
 .gamescreen_weapons {
   display: flex;
