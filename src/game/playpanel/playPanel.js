@@ -3,7 +3,7 @@ const TeamIndicator = require('./teamIndicator.js');
 const TimeIndicator = require('./timeIndicator');
 const WeaponMenu = require('./weaponMenu');
 class PlayPanel extends Control {
-  constructor(parentNode, sceneManager, gameScreenEl) {
+  constructor(parentNode, sceneManager, gameScreenEl, renderer) {
     super(parentNode, 'div', 'gamescreen_wrapper', `
       <div class="gamescreen_top menu"></div>
 
@@ -14,10 +14,11 @@ class PlayPanel extends Control {
       </div>
     `);
     this.gameScreenEl = gameScreenEl;
+    this.renderer = renderer;
     this.timeIndicator = new TimeIndicator(this.node.querySelector('#gclock'));
     this.teamIndicator = new TeamIndicator(this.node.querySelector('#tm'));
 
-    this.back = new Control(this.node.querySelector('.gamescreen_top'),
+    this.pause = new Control(this.node.querySelector('.gamescreen_top'),
       'div', 'gamescreen_pause menu__item',
       `
         <svg class="menu__icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -30,8 +31,14 @@ class PlayPanel extends Control {
         <div class="menu__text">Pause</div>
       `);
 
-    this.back.node.onclick = () => {
-      this.onBack();
+    this.pause.node.onclick = () => {
+      // this.onBack();
+      if (this.renderer.isStarted) {
+        this.renderer.stop();
+      } else {
+        this.renderer.start();
+      }
+
     }
 
     // this.weaponMenu = new Group(this.node.querySelector('.weapon_btn'), '', 'weapon_item weapon_item__selected', 'weapon_item');
