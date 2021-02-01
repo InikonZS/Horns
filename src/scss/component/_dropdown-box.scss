@@ -33,7 +33,7 @@
 }
 
 .weapon-footer, .dropdown-box__footer {
-  height: 20px;
+  padding: 20px;
 }
 
 .weapon-main, .dropdown-box__main {
@@ -127,4 +127,24 @@ SCROLLBAR
 ::-webkit-scrollbar-thumb:hover {
   background:  #6175ac;
   opacity: 0.7;
+}
+/*---------
+Pause popup
+----------*/
+
+.pausescreen_inner {
+  .dropdown-box{
+    margin: auto;
+    top: 0; left: 0; bottom: 0; right: 0;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .dropdown-box__main {
+  }
+  .dropdown-box__footer {
+    display: flex;
+    justify-content: space-around;
+  }
 }

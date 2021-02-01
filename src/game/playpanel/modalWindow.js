@@ -4,11 +4,12 @@ class ModalWindow extends Control {
   constructor(parentNode, wrapperClass, headerText) {
     super(parentNode, 'div', wrapperClass + " dropdown-overlay");
     this.dropDownBox = new Control(this.node, 'div', 'dropdown-box', '');
-    this.header = new Control(this.dropDownBox.node, 'div', 'weapon-header', headerText);
-    this.main = new Control(this.dropDownBox.node, 'div', 'weapon-main', 'main');
-    this.footer = new Control(this.dropDownBox.node, 'div', 'weapon-footer', 'footer');
+    this.header = new Control(this.dropDownBox.node, 'div', 'dropdown-box__header', headerText);
+    this.main = new Control(this.dropDownBox.node, 'div', 'dropdown-box__main', 'main');
+    this.footer = new Control(this.dropDownBox.node, 'div', 'dropdown-box__footer', 'footer');
     this.node.addEventListener( 'click', this.close.bind(this));
     this.hide();
+    this.dropDownBox.node.addEventListener( 'click', (e) => e.stopPropagation());
   }
 
   open() {
@@ -20,7 +21,7 @@ class ModalWindow extends Control {
     this.dropDownBox.node.classList.add('opened');
   }
 
-  close() {
+  close(e) {
     this.dropDownBox.node.classList.remove('opened');
     setTimeout(this.hide.bind(this), 500);
   }
