@@ -54,17 +54,9 @@ class PlayPanel extends Control {
       `);
     this.weaponButton.node.onclick = () => {
       this.openWeapon.toggle();
-      // if (this.weaponScreen.isHidden()) {
-        // this.weaponScreen.show();
-      //   this.openWeapon.open();
-      // } else {
-        // this.weaponScreen.hide();
-      //   this.openWeapon.close();
-      // }
     }
     this.weaponScreen = new Control(this.node, 'div', "weaponscreen_inner", '');
     this.weaponScreen.node.onclick = () => {
-      // this.weaponScreen.hide();
       this.openWeapon.close();
     }
 
@@ -125,7 +117,6 @@ class PlayPanel extends Control {
     }
 
     this.pause.node.onclick = () => {
-      // this.onBack();
       if (this.renderer.isStarted) {
         this.renderer.stop();
       } else {
@@ -137,7 +128,15 @@ class PlayPanel extends Control {
     this.pauseScreen.node.addEventListener( 'click', (e) => {
       this.renderer.start();
     });
-    // this.teamIndicator2 = new TeamIndicator(this.pauseScreen.main.node);
+    this.backButton = new Control(this.pauseScreen.footer.node, 'div', 'load_button', 'Back');
+    this.backButton.node.onclick = () => {
+      this.onBack();
+    };
+    this.resumeButton = new Control(this.pauseScreen.footer.node, 'div', 'load_button', 'Resume');
+    this.resumeButton.node.onclick = () => {
+      this.pauseScreen.close();
+      this.renderer.start();
+    };
     this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'),
       'div', 'wind-indicator', '0');
   }

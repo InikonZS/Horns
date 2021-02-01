@@ -6,7 +6,7 @@ class ModalWindow extends Control {
     this.dropDownBox = new Control(this.node, 'div', 'dropdown-box', '');
     this.header = new Control(this.dropDownBox.node, 'div', 'dropdown-box__header', headerText);
     this.main = new Control(this.dropDownBox.node, 'div', 'dropdown-box__main', 'main');
-    this.footer = new Control(this.dropDownBox.node, 'div', 'dropdown-box__footer', 'footer');
+    this.footer = new Control(this.dropDownBox.node, 'div', 'dropdown-box__footer', '');
     this.node.addEventListener( 'click', this.close.bind(this));
     this.hide();
     this.dropDownBox.node.addEventListener( 'click', (e) => e.stopPropagation());
