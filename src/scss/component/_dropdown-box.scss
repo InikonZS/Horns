@@ -133,17 +133,37 @@ Pause popup
 ----------*/
 
 .pausescreen_inner {
+  background-color: rgba(0, 0, 0, .6);
   .dropdown-box{
     margin: auto;
     top: 0; left: 0; bottom: 0; right: 0;
-    height: 300px;
+    height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
   .dropdown-box__main {
+    canvas {
+      display: none;
+    }
+    .teams_item {
+      margin: 0 auto;
+      margin-bottom: 10px;
+      border-radius: 0;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+    .team_info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .team_name-text, .team_health-value {
+      padding-bottom: 0;
+    }
   }
-  .dropdown-box__footer {
+  .dropdown-box__footer, .dropdown-box__header {
     display: flex;
     justify-content: space-around;
   }

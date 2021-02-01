@@ -131,13 +131,13 @@ class PlayPanel extends Control {
       } else {
         this.renderer.start();
       }
-      this.pauseScreen.toggle();
+      this.pauseScreen.toggle(this.teamIndicator);
     }
     this.pauseScreen = new ModalWindow(this.node, "pausescreen_inner", 'Teams Health');
     this.pauseScreen.node.addEventListener( 'click', (e) => {
       this.renderer.start();
     });
-    this.teamIndicator2 = new TeamIndicator(this.pauseScreen.main.node);
+    // this.teamIndicator2 = new TeamIndicator(this.pauseScreen.main.node);
     this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'),
       'div', 'wind-indicator', '0');
   }

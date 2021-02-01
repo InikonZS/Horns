@@ -26,7 +26,8 @@ class ModalWindow extends Control {
     setTimeout(this.hide.bind(this), 500);
   }
 
-  toggle() {
+  toggle(teamIndicator) {
+    this.main.node.innerHTML = teamIndicator.node.innerHTML;
     if (this.isHidden()) {
       this.open();
     } else {
