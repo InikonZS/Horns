@@ -155,7 +155,6 @@
 
 .load_button:hover, .menu_item:hover{
   transform: scale(1.05);
-  border: solid 6px rgb(129, 129, 123);
 
 }
 
