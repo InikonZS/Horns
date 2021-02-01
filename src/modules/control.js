@@ -22,8 +22,9 @@ class Control {
     this.node.className = className;
   }
 
-
-
+  isHidden() {
+    return this.node.style.display === 'none';
+  }
 }
 
 module.exports = Control;

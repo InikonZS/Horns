@@ -1,0 +1,113 @@
+/*---------
+1. GENERAL
+-----------*/
+
+.gamescreen_bottom {
+  background: var(--main-bg-color);
+  background: linear-gradient(
+    0deg,
+    var(--main-bg-color) 0%,
+    rgba(0, 96, 255, 0.2) 100%
+  );
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  // @media screen and (max-width: 1085px) {
+  //   flex-wrap: wrap;
+  // }
+}
+
+/*---------
+2. TIME-INDICATOR
+-----------*/
+
+.gamescreen__clock{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+}
+
+.clock-next {
+  position: relative;
+  font-size: 35px;
+  width: 200px;
+  height: 60px;
+  color: var(--font-color);
+  @media screen and (max-width: 992px) {
+    width: 90px;
+    font-size: 24px;
+  }
+  &__time-left {
+    font-family: Rajdhani, sans-serif;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__progress-bar {
+    position: absolute;
+    left: 45px;
+    top: 26px;
+    width: 80%;
+    height: 8px;
+    // border: 3px var(--accent-color) solid;
+    border-radius: 10px;
+    background-color: var(--accent-color);
+    z-index: 1;
+    @media screen and (max-width: 720px) {
+      left: 35px;
+    }
+    &.clock-next__progress-bar_shadow {
+      width: 79%;
+      height: 8px;
+      // border: 3px rgba(255, 255, 255, 0.1) solid;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      z-index: 0;
+    }
+  }
+}
+
+/*---------
+3. WIND
+-----------*/
+
+.gamescreen_wind {
+  min-width: 130px;
+}
+
+.wind-indicator {
+  position: relative;
+  margin-left: 35px;
+  &::before {
+    content: '';
+    position: absolute;
+    background-image: url("../assets/wind.png");
+    background-size: cover;
+    width: 26px;
+    height: 20px;
+    display: block;
+    top: 0;
+    left: -35px;
+  }
+}
+
+/*-------------
+4. Game Screen top
+--------------*/
+
+.gamescreen_top{
+  position: absolute;
+  top: -80px;
+  right: 0;
+  min-width: 160px;
+  height: 50px;
+}
+
+.gamescreen_pause, .gamescreen_weapons {
+  padding: 0;
+}

@@ -51,6 +51,10 @@ class Vector {
   reflect(n) {
     return this.sub(n.scale(this.scalar(n)).scale(2));
   }
+
+  compare(v, range = 300) {
+    return Math.abs(this.x - v.x) < range && Math.abs(this.y - v.y) < range;
+  }
 }
 
 module.exports = Vector;

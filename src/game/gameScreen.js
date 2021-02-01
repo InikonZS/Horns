@@ -1,21 +1,20 @@
 const Control = require('common/control.js');
 const SceneManager = require('./sceneManager.js');
-const PlayPanel = require('./playPanel.js');
+const PlayPanel = require('./playpanel/playPanel.js');
 const MainMenu = require('./mainMenu.js');
 
 const SettingsMenu = require('./settingsMenu1.js');
-//const EditorMenu = require('./editorMenu.js');
 const EditorScreen = require('./editorScreen.js');
 const Renderer = require('common/renderer.js');
 const Vector = require('common/vector.js');
 const Preloader = require('./preloader.js');
 
-const Team = require('./core/team.js');
 const Game = require('./core/game.js');
-const Player = require('./core/player.js');
 
-const names = 'Lorem Ipsum Dolor Sit Amet Erat Morbi Lectus Finibus Mollis Mauris Eros Sed Felis Dabi     us Turpis Elemus Genus Proin Covan Grat Coin Jaggo Netus Inos Beler Ogos Frago'.split(' ');
-const colors = ['#f00', '#fc0', '#090', '#00f', '#909', '#099'];
+const names = `Lorem Ipsum Dolor Sit Amet Erat Morbi Lectus Finibus Mollis Mauris Eros Sed Felis Dabius Turpis Elemus Genus Proin Covan Grat Coin Jaggo Netus Inos Beler Ogos Frago`.split(
+  ' ',
+);
+const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff', '#f8468d', '#ff7a51'];
 
 const defaultGameConfig = {
   format: 'easycount',
@@ -25,37 +24,27 @@ const defaultGameConfig = {
   teams: [
     {
       name: 'Progers',
-      avatar: 'PG',
+      avatar: './assets/avatar_1.jpg',
       playersNumber: 1,
       playersHealts: 100,
+      isComputer: false,
     },
     {
       name: 'Killers',
-      avatar: 'KI',
+      avatar: './assets/avatar_2.jpg',
       playersNumber: 1,
       playersHealts: 50,
+      isComputer: false,
     },
     {
       name: 'Cloners',
-      avatar: 'CR',
+      avatar: './assets/avatar_3.jpg',
       playersNumber: 1,
       playersHealts: 200,
+      isComputer: false,
     },
-  ]
-}
-/*function newGame(){
-  //let colors = ['#f00', '#fc0', '#090', '#00f', '#909'];
-  let game = new Game();
-  for (let j = 0; j < 4; j++) {
-    let team = new Team('team' + j);
-    for (let i = 0; i < 4; i++) {
-      let pl = new Player(names[i + j * 2], 100, new Vector(Math.random() * 700 + 50, Math.random() * 500 + 50), colors[j]);
-      team.addPlayer(pl);
-    }
-    game.addTeam(team);
-  }
-  return game;
-}*/
+  ],
+};
 
 class GameScreen extends Control {
   constructor(parentNode, config) {
@@ -69,26 +58,25 @@ class GameScreen extends Control {
 
     this.fps = 0;
 
-
     this.preloader = new Preloader(this.panel.node);
     this.panel.add(this.preloader);
     this.preloader.onStart = () => {
       this.panel.selectByScene(this.menu);
-    }
+    };
 
-    this.playPanel = new PlayPanel(this.panel.node, this.panel);
-    this.playPanel.openWeapon.onSelect = index => {
-      this.game.currentTeam.currentPlayer.setWeapon(index);
-    }
+    this.playPanel = new PlayPanel(this.panel.node, this.panel, this.node, this.renderer);
+    this.playPanel.openWeapon.onSelect = (index) => {
+      this.game.getCurrentPlayer().setWeapon(index);
+    };
     this.playPanel.onBack = () => {
       this.game.onFinish();
-    }
+    };
     this.panel.add(this.playPanel);
 
     this.editorScreen = new EditorScreen(this.panel.node, this.panel);
     this.editorScreen.onSave = (dataURL) => {
       defaultGameConfig.mapURL = dataURL;
-    }
+    };
     this.panel.add(this.editorScreen);
 
     this.menu = new MainMenu(this.panel.node);
@@ -96,27 +84,29 @@ class GameScreen extends Control {
 
     this.menu.onEditor = () => {
       this.panel.selectByScene(this.editorScreen);
-    }
+    };
 
     this.menu.onFight = () => {
       this.panel.selectByScene(this.playPanel);
-      this.game = new Game();//newGame();
-      this.game.onNext = (player) => {
+      this.game = new Game();
+      this.game.onNext = (player, timerSpan) => {
         this.playPanel.openWeapon.select(player.weapons.indexOf(player.currentWeapon), true);
         this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2);
+        this.playPanel.timeIndicator.setTimerDuration(timerSpan);
       }
 
       this.game.onFinish = () => {
         this.panel.selectByScene(this.menu);
         this.renderer.stop();
-      }
-      this.game.start(defaultGameConfig);
+      };
       this.playPanel.teamIndicator.clear();
-      this.game.teams.forEach((it, i) => {
-        this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: colors[i] });
-      })
-      this.renderer.start();
-    }
+      this.game.start(defaultGameConfig, ()=>{
+        this.game.teams.list.forEach((it, i) => {
+          this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: colors[i] });
+        })
+        this.renderer.start();
+      });
+    };
 
     this.settings = new SettingsMenu(this.panel.node, this.panel);
     this.panel.add(this.settings);
@@ -169,45 +159,54 @@ class GameScreen extends Control {
 
     this.renderer.onRenderFrame = (deltaTime) => {
       this.game.tick(deltaTime / 100);
-      this.playPanel.timeIndicator.node.textContent = Math.trunc(this.game.timer.counter);
+      this.playPanel.timeIndicator.update(Math.trunc(this.game.timer.counter));
 
       this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
       this.game.render(this.context, deltaTime / 100);
       this.game.processKeyboard(this.context, this.keyboardState, deltaTime / 100);
-      this.game.react(this.game.bullets, deltaTime);
 
-      let allHealth = 0;
-      this.game.teams.forEach(team => allHealth += team.getSumHealth());
-      if (this.allHealth != allHealth) {
-        this.allHealth = allHealth;
-        this.game.teams.forEach((it, i) => {
-          let tm = this.playPanel.teamIndicator.teams.find(jt => jt.name == it.name);
-          //console.log(it.getSumHealth(), allHealth);
-          tm.setHealth(100 * it.getSumHealth() / allHealth, '' + it.getSumHealth() + '/' + allHealth);
-        });
-      }
-      // this.context.stroke();
-      /* this.playPanel.teamIndicator.teams = this.playPanel.teamIndicator.teams.filter(it=>{
-         this.game.teams.find(jt=>jt.name == it.name);
-       });*/
+      this.setTeamValues();
+      this.getTeamIndicatorItems().forEach(it => {
+        it.teamAvatar.render();
+      });
+
       let averager = 128;
       this.fps = (this.fps * (averager - 1) + deltaTime) / averager;
       this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2) + ' ' + (1 / this.fps * 1000).toFixed(2);
     }
 
     this.keyboardState = {};
-    window.addEventListener('keydown', ev => {
+    window.addEventListener('keydown', (ev) => {
       this.keyboardState[ev.code] = true;
     });
 
-    window.addEventListener('keyup', ev => {
+    window.addEventListener('keyup', (ev) => {
       this.keyboardState[ev.code] = false;
     });
 
     window.addEventListener('resize', () => {
       this.autoSize();
-    })
+    });
+  }
 
+  getTeamIndicatorItems() {
+    let list = [];
+    this.game.teams.list.forEach((it, i) => {
+      let tm = this.playPanel.teamIndicator.teams.find(jt => jt.name == it.name);
+      list.push(tm);
+    });
+    return list;
+  }
+
+  setTeamValues(){
+    let allHealth = this.game.teams.getSumHealth();
+    if (this.allHealth != allHealth) {
+      this.allHealth = allHealth;
+      this.game.teams.list.forEach((it, i) => {
+        let tm = this.playPanel.teamIndicator.teams.find(jt => jt.name == it.name);
+        tm.setHealth(100 * it.getSumHealth() / allHealth, '' + it.getSumHealth() + '&nbsp;/&nbsp;' + allHealth);
+      });
+    }
   }
 
   autoSize() {
