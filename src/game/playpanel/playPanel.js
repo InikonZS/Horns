@@ -130,6 +130,7 @@ class PlayPanel extends Control {
     });
     this.backButton = new Control(this.pauseScreen.footer.node, 'div', 'load_button', 'Back');
     this.backButton.node.onclick = () => {
+      this.pauseScreen.close();
       this.onBack();
     };
     this.resumeButton = new Control(this.pauseScreen.footer.node, 'div', 'load_button', 'Resume');
