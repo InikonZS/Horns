@@ -15,7 +15,7 @@ class EditorScreen extends Control {
     this.canvas = new Control(this.canvasWrapper.node, 'canvas');
     this.autoSize();
 
-    // this.brushColor = '#000';
+    this.brushColor = '#000';
     let toolsInner = new Control(this.node, 'div', "editor_tools_inner");
     this.brushButton = new Control(toolsInner.node, 'div', 'editor_brush editor_tools_btn', 'Brush');
     let brushSizeInner = new Control(toolsInner.node, 'div', 'brush_size_inner');
@@ -37,7 +37,7 @@ class EditorScreen extends Control {
     this.context.fillRect(0, 0, this.canvas.node.width, this.canvas.node.height,
     );
     this.context.lineWidth = 20;
-    this.context.strokeStyle = '#cc3';
+    this.context.strokeStyle = '#000';
     this.context.lineCap = 'round';
 
     let isMouseDown = false;
