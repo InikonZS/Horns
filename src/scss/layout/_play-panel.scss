@@ -15,6 +15,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 15px;
+  // @media screen and (max-width: 1085px) {
+  //   flex-wrap: wrap;
+  // }
 }
 
 /*---------
@@ -25,6 +28,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+
 }
 
 .clock-next {
@@ -33,6 +37,10 @@
   width: 200px;
   height: 60px;
   color: var(--font-color);
+  @media screen and (max-width: 992px) {
+    width: 90px;
+    font-size: 24px;
+  }
   &__time-left {
     font-family: Rajdhani, sans-serif;
     font-weight: 700;
@@ -50,6 +58,9 @@
     border-radius: 10px;
     background-color: var(--accent-color);
     z-index: 1;
+    @media screen and (max-width: 720px) {
+      left: 35px;
+    }
     &.clock-next__progress-bar_shadow {
       width: 79%;
       height: 8px;

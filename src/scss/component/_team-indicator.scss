@@ -7,6 +7,12 @@ TEAM-INDICATOR
   justify-content: center;
   flex-wrap: wrap;
   flex-grow: 1;
+  max-height: 150px;
+  overflow: auto;
+  z-index: 1;
+  @media screen and (max-width: 800px) {
+    padding-left: 30px;
+  }
 }
 .teams_item {
   position: relative;
@@ -19,7 +25,12 @@ TEAM-INDICATOR
   border-radius: 15px;
   &:not(:last-child) {
     margin-right: 20px;
+    @media screen and (max-width: 720px) {
+      margin-right: 0;
+    }
   }
+  margin-bottom: 15px;
+
 }
 .team_name-text {
   color: var(--font-color);
