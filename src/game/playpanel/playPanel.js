@@ -2,6 +2,7 @@ const Control = require('common/control.js');
 const TeamIndicator = require('./teamIndicator.js');
 const TimeIndicator = require('./timeIndicator');
 const WeaponMenu = require('./weaponMenu');
+const ModalWindow = require('./modalWindow');
 class PlayPanel extends Control {
   constructor(parentNode, sceneManager, gameScreenEl, renderer) {
     super(parentNode, 'div', 'gamescreen_wrapper', `
@@ -38,10 +39,9 @@ class PlayPanel extends Control {
       } else {
         this.renderer.start();
       }
-
+      this.pauseScreen.toggle();
     }
 
-    // this.weaponMenu = new Group(this.node.querySelector('.weapon_btn'), '', 'weapon_item weapon_item__selected', 'weapon_item');
     this.weaponButton = new Control(this.node.querySelector('.gamescreen_top'),
       'div', 'gamescreen_weapons menu__item',
       `
@@ -124,6 +124,19 @@ class PlayPanel extends Control {
       }
     }
 
+    this.pause.node.onclick = () => {
+      // this.onBack();
+      if (this.renderer.isStarted) {
+        this.renderer.stop();
+      } else {
+        this.renderer.start();
+      }
+      this.pauseScreen.toggle();
+    }
+    this.pauseScreen = new ModalWindow(this.node, "pausescreen_inner", '');
+    this.pauseScreen.node.onclick = () => {
+      this.renderer.start();
+    }
     this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'),
       'div', 'wind-indicator', '0');
   }
