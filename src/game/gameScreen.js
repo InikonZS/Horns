@@ -3,7 +3,7 @@ const SceneManager = require('./sceneManager.js');
 const PlayPanel = require('./playpanel/playPanel.js');
 const MainMenu = require('./mainMenu.js');
 
-const {SettingsMenu, defaultGameConfig} = require('./settingsMenu1.js');
+const SettingsMenu = require('./settingsMenu1.js');
 const EditorScreen = require('./editorScreen.js');
 const Renderer = require('common/renderer.js');
 const Vector = require('common/vector.js');
@@ -14,8 +14,57 @@ const Game = require('./core/game.js');
 const names = `Lorem Ipsum Dolor Sit Amet Erat Morbi Lectus Finibus Mollis Mauris Eros Sed Felis Dabius Turpis Elemus Genus Proin Covan Grat Coin Jaggo Netus Inos Beler Ogos Frago`.split(
   ' ',
 );
-// const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff', '#f8468d', '#ff7a51'];
-
+const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff', '#f8468d', '#ff7a51'];
+const defaultGameConfig = {
+  format: 'easycount',
+  mapURL: './assets/bitmap3.png',
+  mapList: [
+      {
+          name: 'Desert',
+          url: './assets/bitmap1.png'
+      },
+      {
+          name: 'City',
+          url: './assets/bitmap2.png'
+      },
+      {
+          name: 'Island',
+          url: './assets/bitmap3.png'
+      },
+      {
+          name: 'Underground',
+          url: './assets/bitmap.png'
+      }
+  ],
+  nameList: names,
+  colorList: colors,
+  teams: [
+      {
+          name: 'Progers',
+          avatar: './assets/avatar_1.jpg',
+          playersNumber: 1,
+          playersHealts: 100,
+          isComputer: false,
+          color: '#fd434f',
+      },
+      {
+          name: 'Killers',
+          avatar: './assets/avatar_2.jpg',
+          playersNumber: 1,
+          playersHealts: 50,
+          isComputer: true,
+          color: '#ffe00d',
+      },
+      {
+          name: 'Cloners',
+          avatar: './assets/avatar_3.jpg',
+          playersNumber: 1,
+          playersHealts: 200,
+          isComputer: true,
+          color: '#40d04f',
+      },
+  ]
+}
 // const defaultGameConfig = {
 //   format: 'easycount',
 //   mapURL: './assets/bitmap3.png',
@@ -110,7 +159,7 @@ class GameScreen extends Control {
       });
     };
 
-    this.settings = new SettingsMenu(this.panel.node, this.panel);
+    this.settings = new SettingsMenu(this.panel.node, this.panel, defaultGameConfig);
     this.panel.add(this.settings);
     this.menu.onSettings = () => {
       this.panel.selectByScene(this.settings);
@@ -133,12 +182,17 @@ class GameScreen extends Control {
         this.panel.selectByScene(this.menu);
         this.renderer.stop();
       }
-      this.game.start(defaultGameConfig);
-      this.playPanel.teamIndicator.clear();
-      this.game.teams.forEach((it, i) => {
-        this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: it.color });
-      })
-      this.renderer.start();
+      defaultGameConfig.teams = config;
+
+      this.game.start(defaultGameConfig, ()=>{
+        this.playPanel.teamIndicator.clear();
+        console.log(this.game.teams.list);
+        this.game.teams.list.forEach((it, i) => {
+          console.log(it);
+          this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: it.color });
+        })
+        this.renderer.start();
+      });
     }
 
 

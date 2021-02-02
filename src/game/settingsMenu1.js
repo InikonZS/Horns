@@ -65,7 +65,7 @@ class TeamChoice extends Control {
     this.addButton = new Control(this.node, 'div', 'add_team_btn', 'Add new');
     this.addButton.node.onclick = () => {
       const teamData = teams.shift();
-      defaultGameConfig.teams.push(teamData);
+      // defaultGameConfig.teams.push(teamData);
       this.addItem(teamData);
     }
     // let defaultData = {
@@ -151,56 +151,7 @@ class MapChoice extends Control {
   }
 }
 
-const defaultGameConfig = {
-    format: 'easycount',
-    mapURL: './assets/bitmap3.png',
-    mapList: [
-        {
-            name: 'Desert',
-            url: './assets/bitmap1.png'
-        },
-        {
-            name: 'City',
-            url: './assets/bitmap2.png'
-        },
-        {
-            name: 'Island',
-            url: './assets/bitmap3.png'
-        },
-        {
-            name: 'Underground',
-            url: './assets/bitmap.png'
-        }
-    ],
-    nameList: '',
-    colorList: colors,
-    teams: [
-        {
-            name: 'Progers',
-            avatar: './assets/avatar_1.jpg',
-            playersNumber: 1,
-            playersHealts: 100,
-            isComputer: false,
-            color: '#fd434f',
-        },
-        {
-            name: 'Killers',
-            avatar: './assets/avatar_2.jpg',
-            playersNumber: 1,
-            playersHealts: 50,
-            isComputer: true,
-            color: '#ffe00d',
-        },
-        {
-            name: 'Cloners',
-            avatar: './assets/avatar_3.jpg',
-            playersNumber: 1,
-            playersHealts: 200,
-            isComputer: true,
-            color: '#40d04f',
-        },
-    ]
-}
+
 
 const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff', '#f8468d', '#ff7a51'];
 const teams = [
@@ -230,19 +181,21 @@ const teams = [
   },
 ]
 class SettingsMenu extends Control {
-    constructor(parentNode, sceneManager, config,) {
+    constructor(parentNode, sceneManager, config) {
         super(parentNode, 'div', 'gamescreen_wrapper_centred', '');
         // let settingsWrapper = new Control(this.node, 'div', "settings_wrapper");
         let settingsItemTeam = new Control(this.node, 'div', 'settings_item settings_team');
         this.itemTeamTitle = new Control(settingsItemTeam.node, 'div', 'settings_item_title', 'TEAMS');
-        this.team = new TeamChoice(settingsItemTeam.node).loadTeams(defaultGameConfig.teams);
+        this.team = new TeamChoice(settingsItemTeam.node);
+        this.team.loadTeams(config.teams);
 
         let settingsItemMap = new Control(this.node, 'div', 'settings_item settings_map');
         this.itemMapTitle = new Control(settingsItemMap.node, 'div', 'settings_item_title', 'MAPS');
         // let settingsMapInner = new Control(this.node, 'div', 'settings_map_inner');
         // this.mapView = new Control(settingsMapInner.node, 'div', 'settings_map_block ');
 
-        this.map = new MapChoice(settingsItemMap.node).loadMaps(defaultGameConfig.mapList);
+        this.map = new MapChoice(settingsItemMap.node);
+        this.map.loadMaps(config.mapList);
 
         this.drawMapButton = new Control(settingsItemMap.node, 'div', 'draw_map_btn', 'Draw map');
         this.drawMapButton.node.onclick = () => {
@@ -255,11 +208,19 @@ class SettingsMenu extends Control {
         };
 
         this.startGameButton = new Control(this.node, 'div', 'settings_return_btn return_btn', 'Start game');
-        this.startGameButton.node.onclick = (defaultGameConfig) => {
-            this.onFight && this.onFight(defaultGameConfig);
+        this.startGameButton.node.onclick = () => {
+            this.onFight && this.onFight(this.getConfig());
         }
 
     }
+
+    getConfig() {
+      return this.team.getTeamsData();
+    }
+
+    setConfig(teamsConfig) {
+      this.team.loadTeams(teamsConfig);
+    }
 }
 
-module.exports = { SettingsMenu, defaultGameConfig };
+module.exports = SettingsMenu;
