@@ -2,155 +2,150 @@ const Control = require('common/control.js');
 
 
 class TeamItem extends Control {
-    constructor(parentNode) {
-        super(parentNode, 'div', 'settings_team_inner');
-        this.name = new Control(this.node, 'div', 'settings_team_block team_name', ' team');
-        this.teamStatus = new Control(this.node, 'div', 'settings_team_block team_status', 'X');
-        this.teamColor = new Control(this.node, 'div', 'settings_team_block team_color', 'blue');
-        this.teamAmountPlayers = new Control(this.node, 'div', 'settings_team_block team_amountPlayers', '1');
-        this.teamPlayerHealts = new Control(this.node, 'div', 'settings_team_block team_amountPlayers', '100');
+  constructor(parentNode) {
+    super(parentNode, 'div', 'settings_team_inner');
+    this.name = new Control(this.node, 'div', 'settings_team_block team_name', ' team');
+    this.teamStatus = new Control(this.node, 'div', 'settings_team_block team_status', 'X');
+    this.teamColor = new Control(this.node, 'div', 'settings_team_block team_color', 'blue');
+    this.teamAmountPlayers = new Control(this.node, 'div', 'settings_team_block team_amountPlayers', '1');
+    this.teamPlayerHealts = new Control(this.node, 'div', 'settings_team_block team_amountPlayers', '100');
 
-        this.node.onclick = () => {
-            this.node.classList.toggle('settings_active_team');
-        }
-
-        this.addButton = new Control(this.node, 'div', 'team_btn ', '+');
-        this.addButton.node.onclick = () => {
-            if (this.data.playersNumber < 7) {
-                this.data.playersNumber += 1;
-                this.refresh();
-            }
-        }
-        this.removeButton = new Control(this.node, 'div', 'team_btn ', '-');
-
-        this.removeButton.node.onclick = () => {
-            if (this.data.playersNumber > 1) {
-                this.data.playersNumber -= 1;
-                this.refresh();
-            }
-
-        }
-
-        this.deleteButton = new Control(this.node, 'div', 'team_btn ', 'X');
-
-        this.deleteButton.node.onclick = () => {
-            this.onDelete && this.onDelete();
-        }
+    this.node.onclick = () => {
+      this.node.classList.toggle('settings_active_team');
     }
-    setData(data) {
-        this.data = JSON.parse(JSON.stringify(data));
+
+    this.addButton = new Control(this.node, 'div', 'team_btn ', '+');
+    this.addButton.node.onclick = () => {
+      if (this.data.playersNumber < 7) {
+        this.data.playersNumber += 1;
         this.refresh();
+      }
+    }
+    this.removeButton = new Control(this.node, 'div', 'team_btn ', '-');
+
+    this.removeButton.node.onclick = () => {
+      if (this.data.playersNumber > 1) {
+        this.data.playersNumber -= 1;
+        this.refresh();
+      }
     }
 
-    getData() {
-        return this.data;
-    }
+    this.deleteButton = new Control(this.node, 'div', 'team_btn ', 'X');
 
-    destroy() {
-        this.node.remove();
+    this.deleteButton.node.onclick = () => {
+      this.onDelete && this.onDelete();
     }
+  }
+  setData(data) {
+    this.data = JSON.parse(JSON.stringify(data));
+    this.refresh();
+  }
 
-    refresh() {
-        this.name.setContent(this.data.name);
-        this.teamStatus.setContent(this.data.isComputer ? 'CUP' : 'UP');
-        this.teamAmountPlayers.setContent(this.data.playersNumber);
-        this.teamPlayerHealts.setContent(this.data.playersHealts);
-    }
+  getData() {
+    return this.data;
+  }
+
+  destroy() {
+    this.node.remove();
+  }
+
+  refresh() {
+    this.name.setContent(this.data.name);
+    this.teamStatus.setContent(this.data.isComputer ? 'CUP' : 'UP');
+    this.teamAmountPlayers.setContent(this.data.playersNumber);
+    this.teamPlayerHealts.setContent(this.data.playersHealts);
+  }
 }
 
 class TeamChoice extends Control {
-    constructor(parentNode) {
-        super(parentNode);
-        this.items = [];
-        this.addButton = new Control(this.node, 'div', 'add_team_btn', 'Add new');
-        this.addButton.node.onclick = () => {
-            this.addItem(defaultData);
-        }
-        let defaultData = {
-            name: 'Winner',
-            avatar: 'PG',
-            playersNumber: 3,
-            playersHealts: 100,
-        };
-
+  constructor(parentNode) {
+    super(parentNode);
+    this.items = [];
+    this.addButton = new Control(this.node, 'div', 'add_team_btn', 'Add new');
+    this.addButton.node.onclick = () => {
+      this.addItem(defaultData);
     }
+    let defaultData = {
+      name: 'Winner',
+      avatar: 'PG',
+      playersNumber: 3,
+      playersHealts: 100,
+    };
 
-    chooseItem(data) {
-        let item = new TeamItem(this.node);
-        item.setData(data);
-        item.onDelete = () => {
-            this.items = this.items.filter(el => el == item);
-            item.choose();
-        }
+  }
 
+  chooseItem(data) {
+    let item = new TeamItem(this.node);
+    item.setData(data);
+    item.onDelete = () => {
+      this.items = this.items.filter(el => el == item);
+      item.choose();
     }
+  }
 
-    addItem(data) {
-        if (this.items.length < 6) {
-            let item = new TeamItem(this.node);
-            item.setData(data);
-            item.onDelete = () => {
-                this.items = this.items.filter(el => el == item);
-                item.destroy();
-            }
-            this.items.push(item);
-            return item;
-        }
-        return null;
-
+  addItem(data) {
+    if (this.items.length < 6) {
+      let item = new TeamItem(this.node);
+      item.setData(data);
+      item.onDelete = () => {
+        this.items = this.items.filter(el => el == item);
+        item.destroy();
+      }
+      this.items.push(item);
+      return item;
     }
+    return null;
+  }
 
 
-    loadTeams(array) {
-        array.forEach(element => {
-            this.addItem(element);
-        });
-    }
+  loadTeams(array) {
+    array.forEach(element => {
+      this.addItem(element);
+    });
+  }
 
-    getTeamsData() {
-        return this.items.map(el => el.getData());
-    }
+  getTeamsData() {
+    return this.items.map(el => el.getData());
+  }
 
 }
 
 class MapItem extends Control {
-    constructor(parentNode) {
-        super(parentNode);
-        this.name = new Control(parentNode, 'option', ' map_name', ' map');
+  constructor(parentNode) {
+    super(parentNode);
+    this.name = new Control(parentNode, 'option', ' map_name', ' map');
 
-    }
+  }
 
-    setData(data) {
-        this.data = JSON.parse(JSON.stringify(data));
-        this.refresh();
-    }
+  setData(data) {
+    this.data = JSON.parse(JSON.stringify(data));
+    this.refresh();
+  }
 
-    refresh() {
-        this.name.setContent(this.data.name);
-    }
+  refresh() {
+    this.name.setContent(this.data.name);
+  }
 }
 
 
 class MapChoice extends Control {
-    constructor(parentNode) {
-        super(parentNode, 'select', 'styled-select');
-        this.items = [];
+  constructor(parentNode) {
+    super(parentNode, 'select', 'styled-select');
+    this.items = [];
+  }
 
-    }
+  addItem(data) {
+    let item = new MapItem(this.node);
+    item.setData(data);
+    this.items.push(item);
+    return item;
+  }
 
-    addItem(data) {
-        let item = new MapItem(this.node);
-        item.setData(data);
-        this.items.push(item);
-        return item;
-    }
-
-    loadMaps(array) {
-        array.forEach(element => {
-            this.addItem(element);
-        });
-    }
-
+  loadMaps(array) {
+    array.forEach(element => {
+        this.addItem(element);
+    });
+  }
 }
 
 const defaultGameConfig = {
