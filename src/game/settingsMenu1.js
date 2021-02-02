@@ -91,7 +91,7 @@ class TeamChoice extends Control {
       let item = new TeamItem(this.node);
       item.setData(data);
       item.onDelete = () => {
-        this.items = this.items.filter(el => el == item);
+        this.items = this.items.filter(el => el !== item);
         item.destroy();
       }
       this.items.push(item);
@@ -128,6 +128,10 @@ class MapItem extends Control {
   refresh() {
     this.name.setContent(this.data.name);
   }
+
+  getData() {
+    return this.data;
+  }
 }
 
 
@@ -135,6 +139,9 @@ class MapChoice extends Control {
   constructor(parentNode) {
     super(parentNode, 'select', 'styled-select');
     this.items = [];
+    this.node.onchange = () => {
+      this.onChange(this.items[this.node.selectedIndex].getData());
+    };
   }
 
   addItem(data) {

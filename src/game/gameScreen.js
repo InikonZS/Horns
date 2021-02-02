@@ -160,6 +160,10 @@ class GameScreen extends Control {
     };
 
     this.settings = new SettingsMenu(this.panel.node, this.panel, defaultGameConfig);
+    this.settings.map.onChange = (data) => {
+      console.log(data);
+      defaultGameConfig.mapURL = data.url;
+    };
     this.panel.add(this.settings);
     this.menu.onSettings = () => {
       this.panel.selectByScene(this.settings);
