@@ -28,6 +28,17 @@ function imageToCanvas(image){
   return ctx;
 }
 
+function roundCanvas(context, center, radius){
+  if (context){
+    context.beginPath();
+    context.arc(center.x, center.y, radius, 0, Math.PI * 2);
+    context.closePath();
+    context.globalCompositeOperation='destination-out';
+    context.fillStyle = '#fff';
+    context.fill();
+  }
+}
+
 function roundImage(image, center, radius){
   let context = imageToCanvas(image);
   context.beginPath();
@@ -79,6 +90,10 @@ class GameMap{
       readImageData(data, (x, y, color)=>{
         this.map[y][x] = color[0]?0:1;
       });
+      this.image.onload = ()=>{
+        this.imc = imageToCanvas(this.image);
+        this.image = this.imc.canvas;
+      }
       this.image.src = mapToImage(this, '#cc3');
       this.hImage.src = mapToImage(this, '#663');
       onLoad();
@@ -145,70 +160,33 @@ class GameMap{
     return emptyVectors.length? emptyVectors.reduce((n, it) => n.add(it).scale(1)).scale(1/emptyVectors.length).normalize() : new Vector(0,0);
   }
 
-  render(context, deltaTime, camera){
+  drawImage(context, image, camera, spriteX, offsetY, cxScaler){
+    context.drawImage(image,
+      0,
+      0,
+      image.width,
+      image.height,
+      spriteX*image.width + camera.x/cxScaler,
+      offsetY + camera.y,
+      (image.width) ,
+      (image.height)
+    );
+  }
 
+  render(context, deltaTime, camera){
     try{
       for (let i=-2; i<7; i++){
-        context.drawImage(this.backImage,
-          0,
-          0,
-          this.backImage.width,
-          this.backImage.height,
-          i*this.backImage.width + camera.x/2,
-          400 + camera.y,
-          (this.backImage.width) ,
-          (this.backImage.height)
-        );
+        this.drawImage(context, this.backImage, camera, i, 400, 2);
+        this.drawImage(context, this.waterNImage, camera, i, 600, 1);
       }
-      for (let i=-2; i<7; i++){
-      context.drawImage(this.waterNImage,
-          0,
-          0,
-          this.backImage.width,
-          this.backImage.height,
-          i*this.backImage.width + camera.x,
-          600 + camera.y,
-          (this.backImage.width) ,
-          (this.backImage.height)
-        );
-      }
-      //context.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, this.image.width*this.size, this.image.height*this.size);
-      context.drawImage(
-        this.hImage,
-        0,
-        0,
-        this.hImage.width,
-        this.hImage.height,
-        0 + camera.x,
-        0 + camera.y,
-        (this.hImage.width)*1 ,
-        (this.hImage.height)*1
-      );
-      context.drawImage(
-        this.image,
-        0,
-        0,
-        this.image.width,
-        this.image.height,
-        0 + camera.x,
-        0 + camera.y,
-        (this.image.width)*1 ,
-        (this.image.height)*1
-      );
+      this.drawImage(context, this.hImage, camera, 0, 0, 1);
+      this.drawImage(context, this.imc.canvas, camera, 0, 0, 1);
 
       for (let i=-2; i<7; i++){
-        context.drawImage(this.waterImage,
-          0,
-          0,
-          this.backImage.width,
-          this.backImage.height,
-          i*this.backImage.width + camera.x,
-          600 + camera.y,
-          (this.backImage.width) ,
-          (this.backImage.height)
-        );
+        this.drawImage(context, this.waterImage, camera, i, 600, 1);
       }
-    }catch(e){
+
+    } catch(e) {
 
     }
   }
@@ -224,16 +202,8 @@ class GameMap{
         };
       }
     }
-    //this.image.src = mapToImage(this, '#cc3');
-    this.roundList.push({center:center.clone(), radius:radius});
-    setTimeout(() => {
-      let currentRoundList = [...this.roundList];
-      this.roundList = [];
-      roundImageAll(this.image, currentRoundList);
-    }, 1);
 
-    //roundImage(this.image, center, radius);
-
+    roundCanvas(this.imc, center, radius);
   }
 }
 
