@@ -157,7 +157,7 @@
   flex-direction: column;
   height: calc(100vh - 110px);
   position: relative;
-  background-color: rgb(225 160 160);
+  background-color: var(--deep-dark-bg-color);
 }
 
 .gamescreen_panel{

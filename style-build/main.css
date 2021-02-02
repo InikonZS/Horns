@@ -1,5 +1,7 @@
 :root {
   --main-bg-color: #1d2333;
+  --light-bg-color: #21283b;
+  --deep-dark-bg-color: #161b28;
   --accent-color: #40d04f;
   --secondary-color: #7750f8;
   --icons-color: #9b7dff;
@@ -225,8 +227,13 @@ kbd {
       -ms-flex-align: center;
           align-items: center;
   padding: 10px;
-  background-color: #fff;
-  border: solid 1px #000;
+  background-color: var(--light-bg-color);
+  border: 1px solid var(--light-bg-color);
+  border-bottom: 1px solid #4d5a79;
+}
+
+.settings_team_inner:last-child {
+  border-bottom: 1px solid var(--light-bg-color);
 }
 
 .settings_map_inner {
@@ -250,7 +257,7 @@ kbd {
 .settings_team_block {
   width: calc(50% - 20px);
   /* height: calc(50% - 20px); */
-  background-color: white;
+  background-color: var(--light-bg-color);
   font-size: 20px;
   /* margin: 1px; */
   text-align: center;
@@ -286,12 +293,12 @@ kbd {
           justify-content: center;
   /* align-items: center; */
   width: calc(70% - 20px);
-  background: radial-gradient(at top, #FEFFFF, #A7CECC);
+  background-color: var(--main-bg-color);
   border-radius: 5px;
   font-size: 20px;
   font-weight: bold;
-  -webkit-box-shadow: -7px 29px 9px 2px rgba(34, 34, 34, 0.47);
-  box-shadow: -7px 19px 9px 2px rgba(34, 34, 34, 0.47);
+  -webkit-box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.06);
+          box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.06);
   margin: 10px;
   padding: 10px;
 }
@@ -303,7 +310,7 @@ kbd {
           user-select: none;
   text-align: center;
   font-size: 20px;
-  color: #030303;
+  color: var(--font-color);
   font-weight: bold;
   letter-spacing: 10px;
   margin-bottom: 10px;
@@ -687,7 +694,11 @@ kbd {
 }
 
 .settings_active_team {
-  background: #a2a8c4;
+  border: 1px solid var(--accent-color);
+}
+
+.settings_active_team:last-child {
+  border: 1px solid var(--accent-color);
 }
 
 /*---------

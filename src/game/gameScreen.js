@@ -3,7 +3,7 @@ const SceneManager = require('./sceneManager.js');
 const PlayPanel = require('./playpanel/playPanel.js');
 const MainMenu = require('./mainMenu.js');
 
-const SettingsMenu = require('./settingsMenu1.js');
+const {SettingsMenu, defaultGameConfig} = require('./settingsMenu1.js');
 const EditorScreen = require('./editorScreen.js');
 const Renderer = require('common/renderer.js');
 const Vector = require('common/vector.js');
@@ -14,37 +14,37 @@ const Game = require('./core/game.js');
 const names = `Lorem Ipsum Dolor Sit Amet Erat Morbi Lectus Finibus Mollis Mauris Eros Sed Felis Dabius Turpis Elemus Genus Proin Covan Grat Coin Jaggo Netus Inos Beler Ogos Frago`.split(
   ' ',
 );
-const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff', '#f8468d', '#ff7a51'];
+// const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff', '#f8468d', '#ff7a51'];
 
-const defaultGameConfig = {
-  format: 'easycount',
-  mapURL: './assets/bitmap3.png',
-  nameList: names,
-  colorList: colors,
-  teams: [
-    {
-      name: 'Progers',
-      avatar: './assets/avatar_1.jpg',
-      playersNumber: 1,
-      playersHealts: 100,
-      isComputer: false,
-    },
-    {
-      name: 'Killers',
-      avatar: './assets/avatar_2.jpg',
-      playersNumber: 1,
-      playersHealts: 50,
-      isComputer: false,
-    },
-    {
-      name: 'Cloners',
-      avatar: './assets/avatar_3.jpg',
-      playersNumber: 1,
-      playersHealts: 200,
-      isComputer: false,
-    },
-  ],
-};
+// const defaultGameConfig = {
+//   format: 'easycount',
+//   mapURL: './assets/bitmap3.png',
+//   nameList: names,
+//   colorList: colors,
+//   teams: [
+//     {
+//       name: 'Progers',
+//       avatar: './assets/avatar_1.jpg',
+//       playersNumber: 2,
+//       playersHealts: 100,
+//       isComputer: false,
+//     },
+//     {
+//       name: 'Killers',
+//       avatar: './assets/avatar_2.jpg',
+//       playersNumber: 1,
+//       playersHealts: 50,
+//       isComputer: false,
+//     },
+//     {
+//       name: 'Cloners',
+//       avatar: './assets/avatar_3.jpg',
+//       playersNumber: 1,
+//       playersHealts: 200,
+//       isComputer: false,
+//     },
+//   ],
+// };
 
 class GameScreen extends Control {
   constructor(parentNode, config) {
@@ -101,8 +101,10 @@ class GameScreen extends Control {
       };
       this.playPanel.teamIndicator.clear();
       this.game.start(defaultGameConfig, ()=>{
+        console.log(this.game.teams.list);
         this.game.teams.list.forEach((it, i) => {
-          this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: colors[i] });
+          console.log(it);
+          this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: it.color });
         })
         this.renderer.start();
       });
@@ -119,7 +121,7 @@ class GameScreen extends Control {
       this.panel.selectByScene(this.editorScreen);
     }
 
-    this.settings.onFight = () => {
+    this.settings.onFight = (config) => {
       this.panel.selectByScene(this.playPanel);
       this.game = new Game();//newGame();
       this.game.onNext = (player) => {
@@ -134,7 +136,7 @@ class GameScreen extends Control {
       this.game.start(defaultGameConfig);
       this.playPanel.teamIndicator.clear();
       this.game.teams.forEach((it, i) => {
-        this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: colors[i] });
+        this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: it.color });
       })
       this.renderer.start();
     }

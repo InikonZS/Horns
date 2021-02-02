@@ -54,13 +54,13 @@ class Game {
     this.map = new GameMap(options.mapURL, ()=>{
       for (let j = 0; j < options.teams.length; j++) {
         let jteam = options.teams[j];
-        let team = new Team(jteam.name, jteam.avatar, jteam.isComputer);
+        let team = new Team(jteam.name, jteam.avatar, jteam.isComputer, jteam.color);
         for (let i = 0; i < jteam.playersNumber; i++) {
           let pl = new Player(
             options.nameList[i + j * options.teams.length],
             jteam.playersHealts,
             getRandomSpawnVector(),
-            options.colorList[j],
+            options.teams[j].color,
           );
           team.addPlayer(pl);
         }
@@ -137,7 +137,7 @@ class Game {
     this.bullets.render(context, deltaTime, this.map, this.camera, false);
 
     this.boxes.render(context, deltaTime, this.camera, this.map, this.teams.getPlayerList()),
- 
+
     this.teams.process(this.map, deltaTime);
     this.teams.render(context, deltaTime, this.camera);
   }

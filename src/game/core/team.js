@@ -1,10 +1,11 @@
 class Team{
-  constructor(name, avatar, isComputer){
+  constructor(name, avatar, isComputer, color){
     this.players = [];
     this.name = name;
     this.avatar = avatar;
     this.currentPlayer = null;
     this.isComputer = isComputer;
+    this.color = color;
   }
 
   nextPlayer(){

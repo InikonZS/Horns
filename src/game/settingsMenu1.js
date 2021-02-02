@@ -6,7 +6,7 @@ class TeamItem extends Control {
     super(parentNode, 'div', 'settings_team_inner');
     this.name = new Control(this.node, 'div', 'settings_team_block team_name', ' team');
     this.teamStatus = new Control(this.node, 'div', 'settings_team_block team_status', 'X');
-    this.teamColor = new Control(this.node, 'div', 'settings_team_block team_color', 'blue');
+    this.teamColor = new Control(this.node, 'div', 'settings_team_block team_color', 'color');
     this.teamAmountPlayers = new Control(this.node, 'div', 'settings_team_block team_amountPlayers', '1');
     this.teamPlayerHealts = new Control(this.node, 'div', 'settings_team_block team_amountPlayers', '100');
 
@@ -51,9 +51,10 @@ class TeamItem extends Control {
 
   refresh() {
     this.name.setContent(this.data.name);
-    this.teamStatus.setContent(this.data.isComputer ? 'CUP' : 'UP');
+    this.teamStatus.setContent(this.data.isComputer ? 'BOT' : 'PLAYER');
     this.teamAmountPlayers.setContent(this.data.playersNumber);
     this.teamPlayerHealts.setContent(this.data.playersHealts);
+    this.teamColor.node.style.backgroundColor = this.data.color;
   }
 }
 
@@ -63,14 +64,16 @@ class TeamChoice extends Control {
     this.items = [];
     this.addButton = new Control(this.node, 'div', 'add_team_btn', 'Add new');
     this.addButton.node.onclick = () => {
-      this.addItem(defaultData);
+      const teamData = teams.shift();
+      defaultGameConfig.teams.push(teamData);
+      this.addItem(teamData);
     }
-    let defaultData = {
-      name: 'Winner',
-      avatar: 'PG',
-      playersNumber: 3,
-      playersHealts: 100,
-    };
+    // let defaultData = {
+    //   name: 'Winner',
+    //   avatar: 'PG',
+    //   playersNumber: 3,
+    //   playersHealts: 100,
+    // };
 
   }
 
@@ -170,29 +173,62 @@ const defaultGameConfig = {
         }
     ],
     nameList: '',
-    colorList: '',
+    colorList: colors,
     teams: [
         {
             name: 'Progers',
-            avatar: 'PG',
+            avatar: './assets/avatar_1.jpg',
             playersNumber: 1,
             playersHealts: 100,
+            isComputer: false,
+            color: '#fd434f',
         },
         {
             name: 'Killers',
-            avatar: 'KI',
+            avatar: './assets/avatar_2.jpg',
             playersNumber: 1,
             playersHealts: 50,
+            isComputer: true,
+            color: '#ffe00d',
         },
         {
             name: 'Cloners',
-            avatar: 'CR',
+            avatar: './assets/avatar_3.jpg',
             playersNumber: 1,
             playersHealts: 200,
+            isComputer: true,
+            color: '#40d04f',
         },
     ]
 }
 
+const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff', '#f8468d', '#ff7a51'];
+const teams = [
+  {
+      name: 'Winners',
+      avatar: './assets/avatar_4.jpg',
+      playersNumber: 3,
+      playersHealts: 200,
+      isComputer: true,
+      color: '#007bff',
+  },
+  {
+      name: 'Gamers',
+      avatar: './assets/avatar_5.png',
+      playersNumber: 1,
+      playersHealts: 200,
+      isComputer: true,
+      color: '#7b5dfa',
+  },
+  {
+      name: 'Horns',
+      avatar: './assets/avatar_6.jpg',
+      playersNumber: 1,
+      playersHealts: 200,
+      isComputer: true,
+      color: '#1abcff',
+  },
+]
 class SettingsMenu extends Control {
     constructor(parentNode, sceneManager, config,) {
         super(parentNode, 'div', 'gamescreen_wrapper_centred', '');
@@ -219,15 +255,11 @@ class SettingsMenu extends Control {
         };
 
         this.startGameButton = new Control(this.node, 'div', 'settings_return_btn return_btn', 'Start game');
-        this.startGameButton.node.onclick = () => {
-            this.onFight && this.onFight();
+        this.startGameButton.node.onclick = (defaultGameConfig) => {
+            this.onFight && this.onFight(defaultGameConfig);
         }
 
     }
 }
 
-
-
-
-
-module.exports = SettingsMenu;
+module.exports = { SettingsMenu, defaultGameConfig };
