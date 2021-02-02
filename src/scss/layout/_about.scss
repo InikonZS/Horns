@@ -1,24 +1,16 @@
-*{
-    box-sizing: border-box;
-    margin: 0;   
-    font-family: 'Balsamiq Sans', cursive;
-    font-size: 10px;
-  
-  }
-
-  .about_wrapper {      
+  .about_wrapper {
       display: flex;
       flex-direction:column;
       justify-content: space-between;
       align-items: center;
-      background: radial-gradient(40% 50%, #FAECD5, #CAE4D8); 
+      background: radial-gradient(40% 50%, #FAECD5, #CAE4D8);
   }
 
   .about_title {
       font-size: 5rem;
       margin: 20px;
       letter-spacing: 1rem;
-      
+
   }
 
   .about_content {
@@ -33,15 +25,14 @@
     border-style: solid;
     border-width: 1px 1px 3px;
     box-shadow: -1px 1px 1px #484848, 1px 1px 1px #484848;
-    font-family: "Courier New",Courier,monospace;
     font-size: 2.5rem;
     font-weight: bold;
     padding: 2px 8px;
     margin: 0.5rem;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    color: rgb(253, 253, 253);    
+    color: rgb(253, 253, 253);
     }
 
   .description_camera_control {
-      
+
   }

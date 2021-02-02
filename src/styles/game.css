@@ -25,7 +25,6 @@
 .navi{
   background-color:rgb(190, 161, 162);
   height: 30px;
-  color: rgb(97, 73, 68);
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -41,9 +40,6 @@
   cursor: pointer;
   user-select: none;
   font-size: 20px;
-  color: #000;
-  letter-spacing: 8px;
-  text-transform: uppercase;
 }
 
 .navi_item:hover{
@@ -66,10 +62,7 @@
   color: rgb(47, 45, 45);
   font-size: 45px;
   font-weight: bold;
-  text-shadow: 0px 0px 3px #fff, 0px 0px 2px #fff, 0px 0px 1px #fff, 0px 0px 1px #fff;
-  /* text-align: center; */
   padding-left: 70px;
-  letter-spacing: 20px;
 }
 
 .menu_item {
@@ -79,24 +72,17 @@
   width: calc(35% - 30px);
   height: calc(40% - 10px);
   border-radius: 5px;
-  border: solid 3px #000;
   font-size: 43px;
-  background: radial-gradient(40% 50%, #FAECD5, #CAE4D8);
   cursor: pointer;
   user-select: none;
   transition-duration: 200ms;
   font-weight: bold;
-  text-shadow: 2px 8px 6px rgba(0,0,0,0.2),
-   0px -5px 35px rgba(255,255,255,0.3);
   letter-spacing: 10px;
-  color: rgb(0, 0, 0);
-  -webkit-box-shadow: -7px 29px 9px 2px  rgba(34, 34, 34, 0.47);
-  -moz-box-shadow: -7px 29px 9px 2px  rgba(34, 34, 34, 0.47);
-  box-shadow: -7px 19px 9px 2px rgba(34, 34, 34, 0.47);
   margin: 10px;
   padding: 10px;
   text-transform: uppercase;
-
+  background-color: var(--accent-color);
+  box-shadow: 4px 7px 12px 0 rgb(64 208 79 / 20%);
 }
 
 
@@ -118,7 +104,7 @@
 
   .navi_item{
     font-size: 16px;
-   letter-spacing: 6px;
+    letter-spacing: 6px;
   }
 }
 
@@ -126,18 +112,14 @@
 @media only screen and (max-width:900px){
   .menu_item{
     font-size: 30px;
-
   }
-
 }
 
 @media only screen and (max-width:1000px){
   .menu_item{
     font-size: 40px;
     letter-spacing: 4px;
-
   }
-
 }
 
 
@@ -150,12 +132,10 @@
   cursor: pointer;
   user-select: none;
   transition-duration: 200ms;
-
 }
 
 .load_button:hover, .menu_item:hover{
   transform: scale(1.05);
-
 }
 
 
@@ -167,7 +147,6 @@
   flex-direction: column;
   height: calc(100vh - 110px);
   position: relative;
-  /* overflow: hidden; */
 }
 
 .gamescreen_wrapper_centred{
@@ -183,9 +162,7 @@
 }
 
 .gamescreen_panel{
-  /* width: 100%; */
   height: 100%;
-  /* background-color: #0004; */
   padding: 5px;
   display: flex;
   flex-direction: column;
@@ -195,7 +172,6 @@
 .gamescreen_weapons {
   display: flex;
   justify-content: flex-end;
-
 }
 
 /* ----------- */
