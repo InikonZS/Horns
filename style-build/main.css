@@ -18,19 +18,12 @@ body {
 -----------*/
 .gamescreen_bottom {
   background: var(--main-bg-color);
-  background: -webkit-gradient(linear, left bottom, left top, from(var(--main-bg-color)), to(rgba(0, 96, 255, 0.2)));
   background: linear-gradient(0deg, var(--main-bg-color) 0%, rgba(0, 96, 255, 0.2) 100%);
   width: 100%;
   min-height: 100px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
   padding: 0 15px;
 }
 
@@ -38,15 +31,9 @@ body {
 2. TIME-INDICATOR
 -----------*/
 .gamescreen__clock {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .clock-next {
@@ -56,28 +43,19 @@ body {
   height: 60px;
   color: var(--font-color);
 }
-
 @media screen and (max-width: 992px) {
   .clock-next {
     width: 90px;
     font-size: 24px;
   }
 }
-
 .clock-next__time-left {
   font-family: Rajdhani, sans-serif;
   font-weight: 700;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
 }
-
 .clock-next__progress-bar {
   position: absolute;
   left: 45px;
@@ -88,13 +66,11 @@ body {
   background-color: var(--accent-color);
   z-index: 1;
 }
-
 @media screen and (max-width: 720px) {
   .clock-next__progress-bar {
     left: 35px;
   }
 }
-
 .clock-next__progress-bar.clock-next__progress-bar_shadow {
   width: 79%;
   height: 8px;
@@ -114,9 +90,8 @@ body {
   position: relative;
   margin-left: 35px;
 }
-
 .wind-indicator::before {
-  content: '';
+  content: "";
   position: absolute;
   background-image: url("../assets/wind.png");
   background-size: cover;
@@ -146,22 +121,14 @@ body {
 TEAM-INDICATOR
 -----------*/
 .teams_wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-grow: 1;
   max-height: 150px;
   overflow: auto;
   z-index: 1;
 }
-
 @media screen and (max-width: 800px) {
   .teams_wrapper {
     padding-left: 30px;
@@ -172,24 +139,16 @@ TEAM-INDICATOR
   position: relative;
   min-width: 220px;
   padding: 5px 9px 5px 15px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
   border: 1px #40d04f solid;
   border-radius: 15px;
   margin-bottom: 15px;
 }
-
 .teams_item:not(:last-child) {
   margin-right: 20px;
 }
-
 @media screen and (max-width: 720px) {
   .teams_item:not(:last-child) {
     margin-right: 0;
@@ -211,43 +170,31 @@ TEAM-INDICATOR
 
 .menu {
   background-color: var(--secondary-color);
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   z-index: 1;
-  -webkit-transition: width .5s ease;
-  transition: width .5s ease;
+  transition: width 0.5s ease;
   border-radius: 10px;
 }
-
 .menu__item {
   width: 100px;
   height: 100%;
   position: relative;
   cursor: pointer;
 }
-
 .menu__item:hover {
   border-bottom: 4px solid var(--accent-color);
 }
-
 .menu__item:hover .menu__icon {
   visibility: hidden;
-  -webkit-transform: translateY(-20px);
-          transform: translateY(-20px);
+  transform: translateY(-20px);
   opacity: 0;
 }
-
 .menu__item:hover .menu__text {
-  -webkit-transform: translate(0);
-          transform: translate(0);
+  transform: translate(0);
   opacity: 1;
   visibility: visible;
 }
-
 .menu__item:not(:last-child)::after {
   display: block;
   content: "";
@@ -259,7 +206,6 @@ TEAM-INDICATOR
   top: 15px;
   right: 0;
 }
-
 .menu__icon {
   position: absolute;
   top: calc(50% - 10px);
@@ -267,25 +213,17 @@ TEAM-INDICATOR
   width: 20px;
   height: 20px;
   fill: var(--font-color);
-  -webkit-transition: opacity .25s ease-in-out, visibility .25s ease-in-out, -webkit-transform .25s ease-in-out;
-  transition: opacity .25s ease-in-out, visibility .25s ease-in-out, -webkit-transform .25s ease-in-out;
-  transition: opacity .25s ease-in-out, visibility .25s ease-in-out, transform .25s ease-in-out;
-  transition: opacity .25s ease-in-out, visibility .25s ease-in-out, transform .25s ease-in-out, -webkit-transform .25s ease-in-out;
+  transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out, transform 0.25s ease-in-out;
 }
-
 .menu__text {
   position: absolute;
   top: calc(50% - 10px);
   width: 100%;
   text-align: center;
-  -webkit-transform: translateY(20px);
-          transform: translateY(20px);
+  transform: translateY(20px);
   opacity: 0;
   visibility: hidden;
-  -webkit-transition: opacity .25s ease-in-out, visibility .25s ease-in-out, -webkit-transform .25s ease-in-out;
-  transition: opacity .25s ease-in-out, visibility .25s ease-in-out, -webkit-transform .25s ease-in-out;
-  transition: opacity .25s ease-in-out, visibility .25s ease-in-out, transform .25s ease-in-out;
-  transition: opacity .25s ease-in-out, visibility .25s ease-in-out, transform .25s ease-in-out, -webkit-transform .25s ease-in-out;
+  transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out, transform 0.25s ease-in-out;
 }
 
 .weaponscreen_inner, .dropdown-overlay {
@@ -301,27 +239,17 @@ TEAM-INDICATOR
   width: 330px;
   border-radius: 10px;
   background-color: var(--main-bg-color);
-  -webkit-box-shadow: 3px 5px 40px 0 rgba(0, 0, 0, 0.06);
-          box-shadow: 3px 5px 40px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 3px 5px 40px 0 rgba(0, 0, 0, 0.06);
   opacity: 0;
   visibility: hidden;
-  -webkit-transform: translate(0px, -40px);
-          transform: translate(0px, -40px);
-  -webkit-transition: opacity 0.4s ease-in-out 0s, visibility 0.4s ease-in-out 0s, -webkit-transform 0.4s ease-in-out 0s;
-  transition: opacity 0.4s ease-in-out 0s, visibility 0.4s ease-in-out 0s, -webkit-transform 0.4s ease-in-out 0s;
+  transform: translate(0px, -40px);
   transition: transform 0.4s ease-in-out 0s, opacity 0.4s ease-in-out 0s, visibility 0.4s ease-in-out 0s;
-  transition: transform 0.4s ease-in-out 0s, opacity 0.4s ease-in-out 0s, visibility 0.4s ease-in-out 0s, -webkit-transform 0.4s ease-in-out 0s;
 }
-
 .weaponscreen_wrapper.opened, .dropdown-box.opened {
   opacity: 1;
   visibility: visible;
-  -webkit-transform: translate(0px, 0px);
-          transform: translate(0px, 0px);
-  -webkit-transition: opacity 0.4s ease-in-out 0s, visibility 0.4s ease-in-out 0s, -webkit-transform 0.4s ease-in-out 0s;
-  transition: opacity 0.4s ease-in-out 0s, visibility 0.4s ease-in-out 0s, -webkit-transform 0.4s ease-in-out 0s;
+  transform: translate(0px, 0px);
   transition: transform 0.4s ease-in-out 0s, opacity 0.4s ease-in-out 0s, visibility 0.4s ease-in-out 0s;
-  transition: transform 0.4s ease-in-out 0s, opacity 0.4s ease-in-out 0s, visibility 0.4s ease-in-out 0s, -webkit-transform 0.4s ease-in-out 0s;
 }
 
 .weapon-header, .dropdown-box__header {
@@ -339,25 +267,15 @@ TEAM-INDICATOR
   overflow: auto;
   padding: 25px 10px 10px 25px;
   padding-bottom: 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .weaponscreen_item {
   position: relative;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  user-select: none;
   width: 75px;
   height: 75px;
   border-radius: 10px;
@@ -370,7 +288,6 @@ TEAM-INDICATOR
   background-repeat: no-repeat;
   background-position: bottom 5px left 5px;
 }
-
 .weaponscreen_item_title {
   padding: 5px;
   text-align: center;
@@ -386,7 +303,7 @@ TEAM-INDICATOR
   background-image: url("../assets/Grenade.png");
 }
 
-.weaponscreen_item:nth-child(n + 4) {
+.weaponscreen_item:nth-child(n+4) {
   background-image: url("../assets/Bazooka-2.png");
 }
 
@@ -408,8 +325,7 @@ TEAM-INDICATOR
 
 .weaponscreen_item_unavailable {
   cursor: auto;
-  -webkit-filter: grayscale(100%);
-          filter: grayscale(100%);
+  filter: grayscale(100%);
 }
 
 .weaponscreen_item_active {
@@ -444,7 +360,6 @@ Pause popup
 .pausescreen_inner {
   background-color: rgba(0, 0, 0, 0.6);
 }
-
 .pausescreen_inner .dropdown-box {
   margin: auto;
   top: 0;
@@ -452,22 +367,13 @@ Pause popup
   bottom: 0;
   right: 0;
   height: 400px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  flex-direction: column;
+  justify-content: space-between;
 }
-
 .pausescreen_inner .dropdown-box__main canvas {
   display: none;
 }
-
 .pausescreen_inner .dropdown-box__main .teams_item {
   margin: 0 auto;
   margin-bottom: 10px;
@@ -476,31 +382,18 @@ Pause popup
   border-left: none;
   border-right: none;
 }
-
 .pausescreen_inner .dropdown-box__main .team_info {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
 }
-
 .pausescreen_inner .dropdown-box__main .team_name-text, .pausescreen_inner .dropdown-box__main .team_health-value {
   padding-bottom: 0;
 }
-
 .pausescreen_inner .dropdown-box__footer, .pausescreen_inner .dropdown-box__header {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  justify-content: space-around;
 }
-
 .pausescreen_inner .load_button {
   font-size: 20px;
   padding: 10px 25px;
@@ -509,4 +402,5 @@ Pause popup
 .logo {
   color: red;
 }
+
 /*# sourceMappingURL=main.css.map */
