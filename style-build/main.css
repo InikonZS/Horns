@@ -110,28 +110,87 @@ kbd {
           justify-content: flex-start;
 }
 
+@media screen and (max-width: 900px) {
+  .editor_tools_inner {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .editor_tools_inner {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+}
+
 .editor_tools_btn, .return_btn, .draw_map_btn {
-  width: 60%;
   cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  padding: 7px;
+  padding: 10px 20px;
   font-size: 20px;
-  font-weight: bold;
   text-align: center;
-  border-radius: 10px;
-  background: #cac7c7;
-  border: solid 1px #000;
-  text-align: center;
-  border-radius: 2px;
-  color: #6b6b68;
-  margin: 10px;
+  border-radius: 5px;
+  margin-left: 25px;
+  background-color: var(--accent-color);
+  -webkit-box-shadow: 4px 7px 12px 0 rgba(64, 208, 79, 0.2);
+          box-shadow: 4px 7px 12px 0 rgba(64, 208, 79, 0.2);
+  -webkit-transition-duration: 200ms;
+          transition-duration: 200ms;
+}
+
+@media screen and (max-width: 900px) {
+  .editor_tools_btn, .return_btn, .draw_map_btn {
+    margin: 0;
+    margin-right: 30px;
+    padding: 7px 15px;
+  }
+}
+
+.editor_tools_btn:not(:last-child), .return_btn:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 900px) {
+  .editor_tools_btn:not(:last-child), .return_btn:not(:last-child) {
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .editor_tools_btn:last-child, .return_btn:last-child {
+    margin: 0;
+  }
+}
+
+.return_btn {
+  background-color: var(--secondary-color);
+  -webkit-box-shadow: 4px 7px 12px 0 rgba(119, 80, 248, 0.2);
+          box-shadow: 4px 7px 12px 0 rgba(119, 80, 248, 0.2);
 }
 
 .settings_return_btn {
   width: 150px;
+}
+
+@media screen and (max-width: 600px) {
+  .editor_clean {
+    margin-right: 0;
+  }
 }
 
 .draw_map_btn {
@@ -141,12 +200,8 @@ kbd {
 }
 
 .editor_tools_btn:hover, .return_btn:hover, .draw_map_btn:hover {
-  background-color: #A7CECC;
-  opacity: 0.85;
-}
-
-.editor_tools_btn:active {
-  outline: solid 3px #000;
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
 }
 
 .editor_brush_size {
@@ -494,16 +549,27 @@ kbd {
 
 .editor_canvas {
   border: 1px solid #ccc;
-  margin-bottom: 30px;
-  margin-left: 30px;
   width: 80%;
   position: relative;
 }
 
 .brush_size_inner {
-  width: 60%;
   height: 60px;
   margin: 10px;
+  margin-left: 25px;
+}
+
+@media screen and (max-width: 900px) {
+  .brush_size_inner {
+    font-size: 14px;
+    margin: 15px 15px 0 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .brush_size_inner {
+    width: 46%;
+  }
 }
 
 .switcher_brush_size {
@@ -518,6 +584,14 @@ kbd {
   -webkit-transition: opacity .2s;
   transition: opacity .2s;
   margin-bottom: 20px;
+  margin-top: 12px;
+}
+
+@media screen and (max-width: 900px) {
+  .switcher_brush_size {
+    height: 8px;
+    width: 80%;
+  }
 }
 
 .switcher_brush_size:hover {
@@ -530,16 +604,30 @@ kbd {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: black;
+  background: var(--secondary-color);
   cursor: pointer;
+}
+
+@media screen and (max-width: 900px) {
+  .switcher_brush_size::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .switcher_brush_size::-moz-range-thumb {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: #000;
+  background: var(--secondary-color);
   cursor: pointer;
+}
+
+@media screen and (max-width: 900px) {
+  .switcher_brush_size::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .switcher_brush_color {
@@ -593,14 +681,8 @@ kbd {
         -ms-flex-direction: column;
             flex-direction: column;
   }
-  .editor_tools_inner {
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
-  }
   .editor_tools_btn {
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 

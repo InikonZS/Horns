@@ -18,15 +18,15 @@ class EditorScreen extends Control {
     this.brushColor = '#000';
     let toolsInner = new Control(this.node, 'div', "editor_tools_inner");
     this.brushButton = new Control(toolsInner.node, 'div', 'editor_brush editor_tools_btn', 'Brush');
-    let brushSizeInner = new Control(toolsInner.node, 'div', 'brush_size_inner');
+    let brushSizeInner = new Control(toolsInner.node, 'div', 'brush_size_inner', '<div>Brush size</div>');
     this.brushSize = new Control(brushSizeInner.node, 'input', 'switcher_brush_size ');
     this.brushSize.node.setAttribute('type', 'range');
-    this.brushSize.node.setAttribute('min', '10');
-    this.brushSize.node.setAttribute('max', '70');
+    this.brushSize.node.setAttribute('min', '30');
+    this.brushSize.node.setAttribute('max', '100');
 
-    this.brushColor = new Control(brushSizeInner.node, 'input', 'switcher_brush_color');
-    this.brushColor.node.setAttribute('type', 'color');
-    this.brushColor.node.setAttribute('value', '#f63444');
+    // this.brushColor = new Control(brushSizeInner.node, 'input', 'switcher_brush_color');
+    // this.brushColor.node.setAttribute('type', 'color');
+    // this.brushColor.node.setAttribute('value', '#f63444');
 
 
     this.eraserButton = new Control(toolsInner.node, 'div', 'editor_eraser editor_tools_btn', 'Eraser');
@@ -36,17 +36,16 @@ class EditorScreen extends Control {
     this.context.fillStyle = '#ffffff';
     this.context.fillRect(0, 0, this.canvas.node.width, this.canvas.node.height,
     );
-    this.context.lineWidth = 20;
+    this.context.lineWidth = 50;
     this.context.strokeStyle = '#000';
     this.context.lineCap = 'round';
 
     let isMouseDown = false;
-    //this.mousePos = new Vector(-1, -1);
     this.mousePrevPos = new Vector(-1, -1);
 
     this.brushButton.node.onclick = () => {
       this.context.beginPath();
-      this.context.strokeStyle = this.brushColor.node.value;
+      this.context.strokeStyle = '#000';//this.brushColor.node.value;
     }
 
     this.brushSize.node.onchange = () => {
@@ -54,25 +53,21 @@ class EditorScreen extends Control {
       this.context.lineWidth = this.brushSize.node.value;
     }
 
-    this.brushColor.node.onchange = () => {
-      this.context.beginPath();
-      this.context.strokeStyle = this.brushColor.node.value;
-    }
+    // this.brushColor.node.onchange = () => {
+    //   this.context.beginPath();
+    //   this.context.strokeStyle = this.brushColor.node.value;
+    // }
 
     this.eraserButton.node.onclick = () => {
       this.context.beginPath();
       this.context.strokeStyle = '#fff';
     }
 
-
     this.cleanButton.node.onclick = () => {
       this.context.beginPath();
       this.context.clearRect(0, 0, this.canvas.node.width, this.canvas.node.height);
       this.context.fillStyle = '#ffffff';
       this.context.fillRect(0, 0, this.canvas.node.width, this.canvas.node.height);
-
-
-
     }
 
     this.saveButton = new Control(toolsInner.node, 'div', 'editor_tools_btn return_btn', 'Save');
@@ -86,7 +81,6 @@ class EditorScreen extends Control {
       sceneManager.back(); //selectByName('mainMenu');
     };
 
-
     const getCursorVector = (event) => {
       return new Vector(
         event.layerX - this.canvas.node.offsetLeft,
@@ -96,9 +90,7 @@ class EditorScreen extends Control {
 
     this.canvas.node.onmousedown = (e) => {
       isMouseDown = true;
-      this.mousePrevPos.from(getCursorVector(e));//.x = e.layerX - this.canvas.node.offsetLeft;
-      //this.mousePrevPos.y = e.layerY - this.canvas.node.offsetTop;// - this.node.offsetTop;
-      //console.log(this.mousePrevPos, this.node.offsetTop);
+      this.mousePrevPos.from(getCursorVector(e));
     };
     this.canvas.node.onmouseup = (e) => {
       isMouseDown = false;
@@ -106,10 +98,8 @@ class EditorScreen extends Control {
     };
     this.canvas.node.onmousemove = (e) => {
       if (isMouseDown) {
-        //console.log('fd');
-        let mousePos = getCursorVector(e);//.x = e.clientX - this.canvas.node.offsetLeft;
-        //this.mousePos.y = e.clientY - this.canvas.node.offsetTop - this.node.offsetTop;
-        this.context.strokeStyle = this.brushColor;
+        let mousePos = getCursorVector(e);
+        // this.context.strokeStyle = this.brushColor;
         this.context.moveTo(this.mousePrevPos.x, this.mousePrevPos.y);
         this.context.lineTo(mousePos.x, mousePos.y);
         this.context.stroke();
@@ -123,7 +113,6 @@ class EditorScreen extends Control {
     this.canvas.node.height = 400;//this.canvasWrapper.node.clientHeight/scaler;
     this.canvas.node.width = 1000;//this.canvasWrapper.node.offsetWidth/scaler;
     this.canvas.node.style.width = '100%';
-    //this.canvas.node.style.height = '100%';
   }
 }
 
