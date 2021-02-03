@@ -5,7 +5,7 @@
   --accent-color: #40d04f;
   --secondary-color: #7750f8;
   --icons-color: #9b7dff;
-  --light-bg-color: #293249;
+  --ex-light-bg-color: #394666;
   --font-color: #fff;
   --secondary-font-color: #616a82;
 }
@@ -218,6 +218,7 @@ kbd {
 }
 
 .settings_team_inner {
+  gap: 15px;
   width: 100%;
   /* height: 100%; */
   display: -webkit-box;
@@ -273,6 +274,20 @@ kbd {
   font-size: 20px;
   /* margin: 1px; */
   text-align: center;
+}
+
+.team_amountPlayers {
+  margin: 0 -12px;
+}
+
+.team_status, .team_healthPlayers {
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px 0;
+}
+
+.team_status:hover, .team_healthPlayers:hover {
+  background-color: var(--ex-light-bg-color);
 }
 
 .settings_map_block {
@@ -675,17 +690,21 @@ kbd {
 }
 
 .team_btn {
-  background-color: #585b5d;
   border: none;
   color: white;
-  padding: 5px 9px;
+  padding: 3px 10px;
   font-size: 16px;
   cursor: pointer;
-  margin: 3px;
+  margin: 3px 0;
+  border-radius: 5px;
 }
 
 .team_btn:hover {
-  opacity: 0.8;
+  background-color: var(--ex-light-bg-color);
+}
+
+.team_btn.delete:hover {
+  background-color: #fd434f;
 }
 
 .add_team_btn {

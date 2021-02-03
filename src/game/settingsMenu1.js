@@ -6,31 +6,42 @@ class TeamItem extends Control {
     super(parentNode, 'div', 'settings_team_inner');
     this.name = new Control(this.node, 'div', 'settings_team_block team_name', ' team');
     this.teamStatus = new Control(this.node, 'div', 'settings_team_block team_status', 'X');
+    this.teamStatus.node.onclick = (e) => {
+      e.stopPropagation();
+      this.data.isComputer = !this.data.isComputer;
+      this.teamStatus.setContent(this.data.isComputer ? 'BOT' : 'PLAYER');
+    };
+
     this.teamColor = new Control(this.node, 'div', 'settings_team_block team_color', 'color');
-    this.teamAmountPlayers = new Control(this.node, 'div', 'settings_team_block team_amountPlayers', '1');
-    this.teamPlayerHealts = new Control(this.node, 'div', 'settings_team_block team_amountPlayers', '100');
+    this.removeButton = new Control(this.node, 'div', 'team_btn ', '－');
 
-    this.node.onclick = () => {
-      this.node.classList.toggle('settings_active_team');
-    }
-
-    this.addButton = new Control(this.node, 'div', 'team_btn ', '+');
-    this.addButton.node.onclick = () => {
-      if (this.data.playersNumber < 7) {
-        this.data.playersNumber += 1;
-        this.refresh();
-      }
-    }
-    this.removeButton = new Control(this.node, 'div', 'team_btn ', '-');
-
-    this.removeButton.node.onclick = () => {
+    this.removeButton.node.onclick = (e) => {
+      e.stopPropagation();
       if (this.data.playersNumber > 1) {
         this.data.playersNumber -= 1;
         this.refresh();
       }
     }
+    this.teamAmountPlayers = new Control(this.node, 'div', 'team_amountPlayers', '1');
+    this.addButton = new Control(this.node, 'div', 'team_btn ', '＋');
+    this.addButton.node.onclick = (e) => {
+      e.stopPropagation();
+      if (this.data.playersNumber < 7) {
+        this.data.playersNumber += 1;
+        this.refresh();
+      }
+    }
 
-    this.deleteButton = new Control(this.node, 'div', 'team_btn ', 'X');
+    this.teamPlayerHealts = new Control(this.node, 'div', 'settings_team_block team_healthPlayers', '100');
+
+    this.node.onclick = () => {
+      this.node.classList.toggle('settings_active_team');
+    }
+
+
+
+
+    this.deleteButton = new Control(this.node, 'div', 'team_btn delete', '✕');
 
     this.deleteButton.node.onclick = () => {
       this.onDelete && this.onDelete();
