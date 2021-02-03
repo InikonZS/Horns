@@ -180,6 +180,12 @@ kbd {
   }
 }
 
+@media screen and (max-width: 900px) {
+  .return_btn:last-child {
+    margin-left: 25px;
+  }
+}
+
 .return_btn {
   background-color: var(--secondary-color);
   -webkit-box-shadow: 4px 7px 12px 0 rgba(119, 80, 248, 0.2);

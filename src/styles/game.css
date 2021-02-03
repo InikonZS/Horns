@@ -185,9 +185,54 @@
   padding: 20px;
 }
 
-
 .main {
   background-image: url('../assets/main-bg.jpg');
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.footer {
+  margin: 0;
+  padding: 0;
+  color: #8b93a8;
+  font-size: 14px;
+  padding-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-links-wrapper {
+padding-left: 25px;
+}
+
+.footer a {
+  margin: 0;
+  padding: 0;
+  color: #8b93a8;
+  padding: 3px 15px 0;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.rss-logo img{
+  height: 18px;
+}
+
+.editor .return_btn, .editor .return_btn:not(:last-child) {
+  margin-left: 25px;
+}
+
+.return_btn:last-child {
+  margin-top: 15px;
+}
+
+@media screen and (max-width: ) {
+  .return_btn:last-child {
+    margin-left: 25px;
+  }
 }
