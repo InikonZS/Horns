@@ -43,9 +43,10 @@ class Player {
     this.name = name;
     this.health = health;
     this.weapons = [
-      new WeaponEx(10, true),
+      new WeaponEx(10, true, 40),
       new Weapon(10, true),
       new WeaponS(10, true),
+      new WeaponEx(10, true, 15),
     ];
     this.currentWeapon = this.weapons[0];
     this.angle = 0;

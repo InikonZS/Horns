@@ -14,7 +14,7 @@ class GraphicPoint {
     let position = this.position.clone().add(camera);
     context.fillStyle = this.color;
     context.strokeStyle = '#FFF';
-    context.lineWidth = 3;
+    context.lineWidth = 1;
     context.beginPath();
     context.arc(position.x, position.y, this.radius, 0, Math.PI * 2);
     context.closePath();
