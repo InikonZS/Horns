@@ -15,37 +15,39 @@ const names = `Lorem Ipsum Dolor Sit Amet Erat Morbi Lectus Finibus Mollis Mauri
   ' ',
 );
 const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff', '#f8468d', '#ff7a51'];
-
 const defaultGameConfig = {
   format: 'easycount',
   mapURL: './assets/bitmap3.png',
+
   nameList: names,
   colorList: colors,
   teams: [
-    {
-      name: 'Progers',
-      avatar: './assets/avatar_1.jpg',
-      playersNumber: 1,
-      playersHealts: 100,
-      isComputer: false,
-    },
-    {
-      name: 'Killers',
-      avatar: './assets/avatar_2.jpg',
-      playersNumber: 1,
-      playersHealts: 50,
-      isComputer: false,
-    },
-    {
-      name: 'Cloners',
-      avatar: './assets/avatar_3.jpg',
-      playersNumber: 1,
-      playersHealts: 200,
-      isComputer: false,
-    },
-  ],
-};
-
+      {
+          name: 'Progers',
+          avatar: './assets/avatar_1.jpg',
+          playersNumber: 1,
+          playersHealts: 100,
+          isComputer: false,
+          color: '#fd434f',
+      },
+      {
+          name: 'Killers',
+          avatar: './assets/avatar_2.jpg',
+          playersNumber: 1,
+          playersHealts: 50,
+          isComputer: true,
+          color: '#ffe00d',
+      },
+      {
+          name: 'Cloners',
+          avatar: './assets/avatar_3.jpg',
+          playersNumber: 1,
+          playersHealts: 200,
+          isComputer: true,
+          color: '#40d04f',
+      },
+  ]
+}
 class GameScreen extends Control {
   constructor(parentNode, config) {
     super(parentNode, 'div', 'gamescreen_wrapper');
@@ -101,18 +103,54 @@ class GameScreen extends Control {
       };
       this.playPanel.teamIndicator.clear();
       this.game.start(defaultGameConfig, ()=>{
+        console.log(this.game.teams.list);
         this.game.teams.list.forEach((it, i) => {
-          this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: colors[i] });
+          console.log(it);
+          this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: it.color });
         })
         this.renderer.start();
       });
     };
 
-    this.settings = new SettingsMenu(this.panel.node, this.panel);
+    this.settings = new SettingsMenu(this.panel.node, this.panel, defaultGameConfig);
+    this.settings.map.onChange = (data) => {
+      console.log(data);
+      defaultGameConfig.mapURL = data.url;
+    };
     this.panel.add(this.settings);
     this.menu.onSettings = () => {
       this.panel.selectByScene(this.settings);
-    };
+    }
+
+
+    this.settings.onEditor = () => {
+      this.panel.selectByScene(this.editorScreen);
+    }
+
+    this.settings.onFight = (config) => {
+      this.panel.selectByScene(this.playPanel);
+      this.game = new Game();//newGame();
+      this.game.onNext = (player) => {
+        this.playPanel.openWeapon.select(player.weapons.indexOf(player.currentWeapon), true);
+        this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2);
+      }
+
+      this.game.onFinish = () => {
+        this.panel.selectByScene(this.menu);
+        this.renderer.stop();
+      }
+      defaultGameConfig.teams = config;
+
+      this.game.start(defaultGameConfig, ()=>{
+        this.playPanel.teamIndicator.clear();
+        console.log(this.game.teams.list);
+        this.game.teams.list.forEach((it, i) => {
+          console.log(it);
+          this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: it.color });
+        })
+        this.renderer.start();
+      });
+    }
 
     this.panel.selectByScene(this.preloader);
 

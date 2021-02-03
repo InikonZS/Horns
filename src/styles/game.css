@@ -2,7 +2,6 @@
   box-sizing: border-box;
 }
 
-
 .menu_wrapper{
   width: 100%;
   height: 100%;
@@ -26,13 +25,13 @@
 .navi{
   background-color:rgb(190, 161, 162);
   height: 30px;
-  color: rgb(97, 73, 68);
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
 
 .navi_item{
+  font-weight: 700;
   height: 100%;
   display: flex;
   align-items: center;
@@ -41,12 +40,17 @@
   cursor: pointer;
   user-select: none;
   font-size: 20px;
-  color: #000;
-  letter-spacing: 8px;
 }
 
 .navi_item:hover{
-  background-color: #fff5;
+  background-color: rgb(236, 236, 219);
+  opacity: 0.8;
+  color: rgb(179, 48, 48);
+  transform: scale(1.05);
+}
+
+.navi_item:active {
+  color: #000;
 }
 
 .logo{
@@ -55,13 +59,9 @@
   background-size: contain;
   background-repeat: no-repeat;
   height: 50px;
-  color: rgb(56, 42, 39);;
   font-size: 45px;
-  font-weight: bold;
-  text-shadow: 0px 0px 3px #fff, 0px 0px 2px #fff, 0px 0px 1px #fff, 0px 0px 1px #fff;
-  /* text-align: center; */
+  font-weight: 900;
   padding-left: 70px;
-  letter-spacing: 10px;
 }
 
 .menu_item {
@@ -70,32 +70,73 @@
   align-items: center;
   width: calc(35% - 30px);
   height: calc(40% - 10px);
-  background-color: rgb(190, 161, 162);
-  border-radius: 30px;
-  font-size: 60px;
+  border-radius: 5px;
+  font-size: 43px;
+  cursor: pointer;
+  user-select: none;
+  transition-duration: 200ms;
   font-weight: bold;
-  /* font-family: 'Andika New Basic', sans-serif;
-  letter-spacing: 20px; */
-  color: rgb(104, 50, 16);
-  box-shadow: 0 5px 0 rgb(97, 73, 68);
+  letter-spacing: 10px;
   margin: 10px;
   padding: 10px;
-
+  text-transform: uppercase;
+  background-color: var(--accent-color);
+  box-shadow: 4px 7px 12px 0 rgb(64 208 79 / 20%);
 }
+
+
+@media only screen and (max-width:500px){
+
+  .navi_item{
+    font-size: 14px;
+    letter-spacing: 6px;
+  }
+}
+
+@media only screen and (max-width:767px){
+  .menu_item{
+    width: calc(100% - 20px);
+    height: calc(25% - 20px);
+    font-size: 30px;
+
+  }
+
+  .navi_item{
+    font-size: 16px;
+    letter-spacing: 6px;
+  }
+}
+
+
+@media only screen and (max-width:900px){
+  .menu_item{
+    font-size: 30px;
+  }
+}
+
+@media only screen and (max-width:1000px){
+  .menu_item{
+    font-size: 40px;
+    letter-spacing: 4px;
+  }
+}
+
+
 .load_button{
   border-radius: 5px;
   padding: 5px;
   font-size: 43px;
   background-color: var(--accent-color);
-  box-shadow: 4px 7px 12px 0 rgb(64 208 79 / 20%);
+  box-shadow: 4px 7px 12px 0 rgba(64, 208, 79, 0.2);
   cursor: pointer;
   user-select: none;
   transition-duration: 200ms;
 }
 
-.load_button:hover{
+.load_button:hover, .menu_item:hover{
   transform: scale(1.05);
 }
+
 
 .gamescreen_wrapper{
   width: 100%;
@@ -105,7 +146,6 @@
   flex-direction: column;
   height: calc(100vh - 110px);
   position: relative;
-  /* overflow: hidden; */
 }
 
 .gamescreen_wrapper_centred{
@@ -117,13 +157,11 @@
   flex-direction: column;
   height: calc(100vh - 110px);
   position: relative;
-  background-color: rgb(179, 48, 48);
+  background-color: var(--deep-dark-bg-color);
 }
 
 .gamescreen_panel{
-  /* width: 100%; */
   height: 100%;
-  /* background-color: #0004; */
   padding: 5px;
   display: flex;
   flex-direction: column;
@@ -133,7 +171,6 @@
 .gamescreen_weapons {
   display: flex;
   justify-content: flex-end;
-
 }
 
 /* ----------- */
@@ -146,340 +183,4 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
-}
-
-.editor_wrapper, .editor {
-  display: flex;
-  flex-direction: row;
-
-}
-
-.editor_pole {
-  margin: 10px;
-  background-color: #fff;
-  width: 800px;
-  height: 400px;
-  border: solid 2px #000;
-}
-
-
-.editor_tools_inner {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.editor_tools_btn {
-  cursor: pointer;
-  user-select: none;
-  padding: 7px;
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-  border-radius: 5px;
-  margin: 20px;
-  color:  rgb(97, 73, 68);
-  background-color: #cc0;
-  /* border: solid 1px transparent; */
-}
-
-.editor_tools_btn:hover {
-  opacity: 0.85;
-}
-
-.editor_tools_btn:active {
-
-  outline: solid 3px #000;
-}
-
-.editor_brush_size {
-  background-color: #fff;
-}
-
-.settings_team_inner {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-}
-
-.settings_map_inner {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.settings_team_block {
-  width: calc(50% - 20px);
-  height: calc(50% - 20px);
-  background-color: rgb(235, 218, 218);
-  font-size: 20px;
-  margin: 1px;
-}
-
-.settings_map_block {
-  width: 250px;
-  height: 150px;
-  border: solid 1px black;
-  margin-bottom: 10px;
-  background-image: url(/src/assets/bitmap1.png);
-  background-size: contain;
-}
-
-.settings_item {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-width: calc(50% - 20px);
-/* height: calc(50% - 20px); */
-background-color: rgb(190, 161, 162);
-border-radius: 5px;
-font-size: 20px;
-font-weight: bold;
-color: rgb(104, 50, 16);
-box-shadow: 0 5px 0 rgb(97, 73, 68);
-margin: 10px;
-padding: 10px;
-}
-
-.table_title {
-  background-color: rgb(122, 118, 118);
-}
-
-.settings_title, .settings_item_title {
-  user-select: none;
-  text-align: center;
-  font-size: 20px;
-  color:  rgb(97, 73, 68);
-  font-family: 'Andika New Basic', sans-serif;
-  margin-bottom: 10px;
-}
-
-.settings_chart_inner {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 10px;
-}
-
-.styled-select select {
-
-  width: 268px;
-  padding: 5px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  height: 34px;
-}
-
-.startGame_btn, .return_btn {
-  user-select: none;
-  padding: 10px;
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-  border-radius: 5px;
-  margin: 20px;
-  color:  rgb(97, 73, 68);
-  background-color: rgb(206, 199, 197);
-}
-
-.startGame_btn:hover,.return_btn:hover {
-  transform: scale(1.1);
-  cursor: pointer;
-  background-color:  rgb(228, 228, 216);
-}
-
-
-.team_color {
-  background-color: hotpink;
-}
-
-
-.settings_game {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-
-}
-.settings_game_block {
-  width: calc(45%);
-  background-color: rgb(206, 154, 154);
-  background-size: cover;
-  padding: 5px;
-
-}
-.settings_game_item{
-  margin-right: 10px;
-  cursor: pointer;
-  user-select: none;
-  border-radius: 20px;
-  width: 70px;
-  height: 70px;
-  border: 1px solid dimgrey;
-  background-color: rgb(233, 227, 227);
-
-  text-shadow: 0px 0px 3px #fff, 0px 0px 2px #fff, 0px 0px 1px #fff, 0px 0px 1px #fff;
-
-}
-
-.settings_game_item:hover {
-  opacity: 0.85;
-  background-color: rgb(13, 13, 14);
-}
-
-.settings_game_item:active {
-  border: 2px solid yellow;
-  transition: background 0s;
-}
-
-.block_title {
-  user-select: none;
-  font-size: 20px;
-  font-weight: bold;
-  margin: 10px;
-  text-decoration: underline;
-}
-.main_settings_amount_health {
-  background-image: url(/src/assets/amountHealth.png);
-  font-size: 35px;
-  vertical-align: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-
-}
-
-.main_settings_amount_rounds {
-  background-image: url(/src/assets/KMines_mines_game_6146.png);
-  font-size: 35px;
-  vertical-align: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.settings_inner_item {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.object_settings_amount_barrel{
-  background-image: url(/src/assets/Bloody-Mary-icon_30349.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.main_settings_lose_health {
-  background-image: url(/src/assets/Skeleton_icon-icons.com_75031.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.main_settings_grow_water {
-  background-image: url(/src/assets/waterBtn.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.main_settings_run_jump {
-  background-image: url(/src/assets/Footsteps_icon-icons.com_67556.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.main_settings_choice_worm {
-  background-image: url(/src/assets/settingsChart.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.main_settings_time_step {
-  background-image: url(/src/assets/Time_icon-icons.com_67501.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.main_settings_time_round {
-  background-image: url(/src/assets/Historical_icon-icons.com_54175.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-.main_settings_time_prepare {
-  background-image: url(/src/assets/javawebstart_java_we_13069.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.main_settings_place_worm {
-  background-image: url(/src/assets/starthere_map_11060.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.main_settings_bullet_update {
-  background-image: url(/src/assets/bullet.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.main_settings_amount_kit {
-  background-image: url(/src/assets/kit.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.main_settings_chance_box_weapon {
-  background-image: url(/src/assets/boxfly.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.main_settings_day_time {
-  background-image: url(/src/assets/dayNight.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.main_settings_change_season {
-  background-image: url(/src/assets/season.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.main_settings_chance_toolbox {
-  background-image: url(/src/assets/tollbox.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.settings_weapon{
-  width: 200px;
-  height: 150px;
-  margin: 1px;
-  background-image: url(/src/assets/menuChartWeapon.png);
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-color: black;
-}
-
-.settings_game {
-  width: 200px;
-  height: 150px;
-  margin: 1px;
-  background-image: url(/src/assets/settingsChart.png);
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-color: black;
-}
-.editor_canvas {
-  border: 1px solid #ccc;
-  margin-bottom: 30px;
-  width: 80%;
-  position: relative;
 }
