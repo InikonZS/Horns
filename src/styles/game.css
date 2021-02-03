@@ -54,7 +54,7 @@
   }
 }
 
-..navi_item:not(:last-child) {
+.navi_item:not(:last-child) {
   margin-right: 30px;
 }
 
@@ -252,7 +252,7 @@ padding-left: 25px;
   margin-top: 15px;
 }
 
-@media screen and (max-width: ) {
+@media screen and (max-width: 767px) {
   .return_btn:last-child {
     margin-left: 25px;
   }

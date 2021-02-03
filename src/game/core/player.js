@@ -106,6 +106,7 @@ class Player {
     if (this.isPower) {
       this.power += deltaTime;
     }
+    this.powerIndicator.radius = this.power*2;
     this.powerIndicator.position = this.getDirectionVector()
       .scale(this.power * 20)
       .add(this.graphic.position);
