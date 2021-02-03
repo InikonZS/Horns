@@ -16,17 +16,18 @@ class GraphicPlayer extends GraphicPoint {
   }
 
   render(context, deltaTime, camera, data) {
-    context.fillStyle = '#000';
+    context.fillStyle = this.color;
     let position = this.position.clone().add(camera);
+    context.font = '12px bold "Arial"';
     context.fillText(
       data.health,
       position.x - context.measureText(data.health).width / 2,
-      position.y - 15,
+      position.y - 20,
     );
     context.fillText(
       data.name,
       position.x - context.measureText(data.name).width / 2,
-      position.y - 30,
+      position.y - 33,
     );
     super.render(context, deltaTime, camera);
     this.animation.render(
@@ -51,9 +52,9 @@ class Player {
     this.angleSpeed = 0;
 
     this.physic = new PhysicPoint(pos);
-    this.graphic = new GraphicPlayer(pos, 10, color);
+    this.graphic = new GraphicPlayer(pos, 1, color);
     this.target = new GraphicPoint(pos, 5, color);
-    this.powerIndicator = new GraphicPoint(pos, 5, color);
+    this.powerIndicator = new GraphicPoint(pos, 0, color);
     this.power = 0;
     this.jumped = false;
   }
@@ -153,8 +154,6 @@ class Player {
   }
 
   render(context, deltaTime, camera) {
-    //this.physic.acceleration.y=0.1;
-    //this.physic.process(deltaTime);
     this.graphic.position = this.physic.position;
     this.powerUp(deltaTime);
 
@@ -287,7 +286,7 @@ function movePlayer(
       physic.position.from(nextPoint);//.add(new Vector(0, -size * 2));
     } else {
       physic.acceleration.y = 0;
-      
+
       physic.speed.y = 0;
       physic.speed.x = 0;
       player.jumped = false;

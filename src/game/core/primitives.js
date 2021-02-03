@@ -100,7 +100,7 @@ class Physical {
     this.graphic.position = this.physic.position;
     this.graphic.render(context, deltaTime, camera);
   }
-  
+
 }
 
 module.exports = { GraphicPoint, PhysicPoint, Physical };
