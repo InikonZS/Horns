@@ -103,9 +103,7 @@ class GameScreen extends Control {
       };
       this.playPanel.teamIndicator.clear();
       this.game.start(defaultGameConfig, ()=>{
-        console.log(this.game.teams.list);
         this.game.teams.list.forEach((it, i) => {
-          console.log(it);
           this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: it.color });
         })
         this.renderer.start();
@@ -114,7 +112,6 @@ class GameScreen extends Control {
 
     this.settings = new SettingsMenu(this.panel.node, this.panel, defaultGameConfig);
     this.settings.map.onChange = (data) => {
-      console.log(data);
       defaultGameConfig.mapURL = data.url;
     };
     this.panel.add(this.settings);
@@ -143,9 +140,7 @@ class GameScreen extends Control {
 
       this.game.start(defaultGameConfig, ()=>{
         this.playPanel.teamIndicator.clear();
-        console.log(this.game.teams.list);
         this.game.teams.list.forEach((it, i) => {
-          console.log(it);
           this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: it.color });
         })
         this.renderer.start();

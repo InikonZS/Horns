@@ -18,7 +18,6 @@ class TeamIndicatorItem extends Control {
       color: data.color,
     }
     this.teamAvatar = new TeamIndicatorProgress(this.node, options);
-    console.log(data);
     this.node.style['border-color'] = data.color;
   }
 
