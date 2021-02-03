@@ -202,16 +202,16 @@ const teams = [
 
 const mapList = [
   {
+      name: 'Island',
+      url: './assets/bitmap3.png'
+  },
+  {
       name: 'Desert',
       url: './assets/bitmap1.png'
   },
   {
       name: 'City',
       url: './assets/bitmap2.png'
-  },
-  {
-      name: 'Island',
-      url: './assets/bitmap3.png'
   },
   {
       name: 'Underground',
