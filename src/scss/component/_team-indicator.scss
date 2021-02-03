@@ -23,6 +23,9 @@ TEAM-INDICATOR
   align-items: center;
   border: 1px #40d04f solid;
   border-radius: 15px;
+  @media screen and (max-width: 700px) {
+    min-width: 190px;
+  }
   &:not(:last-child) {
     margin-right: 20px;
     @media screen and (max-width: 720px) {
@@ -43,4 +46,7 @@ TEAM-INDICATOR
   font-weight: bold;
   padding: 7px;
   font-size: 25px;
+  @media screen and (max-width: 700px) {
+    font-size: 20px;
+  }
 }

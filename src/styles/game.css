@@ -23,11 +23,17 @@
 }
 
 .navi{
-  background-color:rgb(190, 161, 162);
-  height: 30px;
+  background-color: #7750f8;
+  height: 70px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+}
+
+@media only screen and (max-width: 700px) {
+ .navi {
+  padding-left: 10px;
+ }
 }
 
 .navi_item{
@@ -35,18 +41,25 @@
   height: 100%;
   display: flex;
   align-items: center;
-  margin-right: 30px;
-  padding: 0px 10px;
+  padding: 0px 25px;
   cursor: pointer;
   user-select: none;
-  font-size: 20px;
+  font-size: 18px;
+  transition: color 0.5s ease;
+}
+
+@media only screen and (max-width: 700px) {
+  .navi_item {
+    padding: 0px 15px;
+  }
+}
+
+..navi_item:not(:last-child) {
+  margin-right: 30px;
 }
 
 .navi_item:hover{
-  background-color: rgb(236, 236, 219);
-  opacity: 0.8;
-  color: rgb(179, 48, 48);
-  transform: scale(1.05);
+  color: var(--accent-color);
 }
 
 .navi_item:active {
@@ -54,14 +67,25 @@
 }
 
 .logo{
-  background-color: rgba(165, 163, 161, 0.746);
-  background-image: url(/src/assets/draw_svg20200611-26544-gjkffg.png);
+  background-image: url(../assets/logo-horns-bold.png);
+  font-family: 'Titillium Web', sans-serif;
   background-size: contain;
   background-repeat: no-repeat;
   height: 50px;
-  font-size: 45px;
+  font-size: 35px;
   font-weight: 900;
   padding-left: 70px;
+  padding-right: 40px;
+  text-transform: uppercase;
+}
+
+@media only screen and (max-width:700px) {
+ .logo {
+  height: 30px;
+  font-size: 20px;
+  padding-left: 45px;
+  padding-right: 20px;
+ }
 }
 
 .menu_item {
@@ -76,7 +100,6 @@
   user-select: none;
   transition-duration: 200ms;
   font-weight: bold;
-  letter-spacing: 10px;
   margin: 10px;
   padding: 10px;
   text-transform: uppercase;
@@ -89,7 +112,6 @@
 
   .navi_item{
     font-size: 14px;
-    letter-spacing: 6px;
   }
 }
 
@@ -103,7 +125,6 @@
 
   .navi_item{
     font-size: 16px;
-    letter-spacing: 6px;
   }
 }
 
@@ -116,8 +137,7 @@
 
 @media only screen and (max-width:1000px){
   .menu_item{
-    font-size: 40px;
-    letter-spacing: 4px;
+    font-size: 35px;
   }
 }
 
@@ -144,7 +164,7 @@
   justify-content: flex-end;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 110px);
+  height: calc(100vh - 100px);
   position: relative;
 }
 
@@ -155,7 +175,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 110px);
+  height: calc(100vh - 100px);
   position: relative;
   background-color: var(--deep-dark-bg-color);
 }

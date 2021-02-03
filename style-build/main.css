@@ -361,7 +361,6 @@ kbd {
   font-size: 20px;
   color: var(--font-color);
   font-weight: bold;
-  letter-spacing: 10px;
   margin-bottom: 25px;
 }
 
@@ -723,7 +722,6 @@ kbd {
 @media only screen and (max-width: 500px) {
   .navi_item {
     font-size: 14px;
-    letter-spacing: 6px;
   }
 }
 
@@ -855,6 +853,12 @@ kbd {
   padding: 0 15px;
 }
 
+@media screen and (max-width: 700px) {
+  .gamescreen_bottom {
+    padding: 0 5px;
+  }
+}
+
 /*---------
 2. TIME-INDICATOR
 -----------*/
@@ -953,10 +957,16 @@ kbd {
 --------------*/
 .gamescreen_top {
   position: absolute;
-  top: -80px;
+  top: -60px;
   right: 0;
   min-width: 160px;
   height: 50px;
+}
+
+@media screen and (max-width: 700px) {
+  .gamescreen_top {
+    width: 200px;
+  }
 }
 
 .gamescreen_pause, .gamescreen_weapons {
@@ -1007,6 +1017,12 @@ TEAM-INDICATOR
   margin-bottom: 15px;
 }
 
+@media screen and (max-width: 700px) {
+  .teams_item {
+    min-width: 190px;
+  }
+}
+
 .teams_item:not(:last-child) {
   margin-right: 20px;
 }
@@ -1028,6 +1044,12 @@ TEAM-INDICATOR
   font-weight: bold;
   padding: 7px;
   font-size: 25px;
+}
+
+@media screen and (max-width: 700px) {
+  .team_health-value {
+    font-size: 20px;
+  }
 }
 
 .menu {
@@ -1067,6 +1089,12 @@ TEAM-INDICATOR
           transform: translate(0);
   opacity: 1;
   visibility: visible;
+}
+
+@media screen and (max-width: 700px) {
+  .menu__item:hover .menu__text {
+    font-size: 14px;
+  }
 }
 
 .menu__item:not(:last-child)::after {

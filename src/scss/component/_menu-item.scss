@@ -29,6 +29,9 @@
         transform: translate(0);
         opacity: 1;
         visibility: visible;
+        @media screen and (max-width: 700px) {
+          font-size: 14px;
+        }
       }
     }
     &:not(:last-child)::after {

@@ -7,7 +7,7 @@ const AnotherScreen = require('./another/anotherPage.js');
 class Application extends Control {
   constructor(parentNode, config) {
     super(parentNode);
-    this.logo = new Control(this.node, 'div', 'logo', 'Horns');
+    // this.logo = new Control(this.node, 'div', 'logo', 'Horns');
     this.pageManager = new PageManager(this.node, 'navi');
     this.gameScreen = new GameScreen(this.node);
     this.pageManager.add(this.gameScreen, 'Game');
