@@ -184,3 +184,10 @@
   align-items: center;
   padding: 20px;
 }
+
+
+.main {
+  background-image: url('../assets/main-bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}

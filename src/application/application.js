@@ -16,8 +16,8 @@ class Application extends Control {
     this.pageManager.add(this.gameScreen, 'Game');
     this.aboutScreen = new AboutScreen(this.node);
     this.pageManager.add(this.aboutScreen, 'About');
-    this.anotherScreen = new AnotherScreen(this.node);
-    this.pageManager.add(this.anotherScreen, 'Something');
+    // this.anotherScreen = new AnotherScreen(this.node);
+    // this.pageManager.add(this.anotherScreen, 'Something');
 
     this.pageManager.select(0);
     //<a href="https://github.com/InikonZS">Inikon</a>
