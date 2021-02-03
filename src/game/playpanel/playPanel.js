@@ -66,17 +66,6 @@ class PlayPanel extends Control {
     this.openWeapon.addButton('<div class="weaponscreen_item_title">Bullets</div>');
     this.openWeapon.addButton('<div class="weaponscreen_item_title">Multy</div>');
     this.openWeapon.addButton('<div class="weaponscreen_item_title">Grenade</div>');
-    this.openWeapon.addButton('<div class="weaponscreen_item_title">Bazuka</div>');
-    this.openWeapon.addButton('<div class="weaponscreen_item_title">Bazuka</div>');
-    this.openWeapon.addButton('<div class="weaponscreen_item_title">Bazuka</div>');
-    this.openWeapon.addButton('<div class="weaponscreen_item_title">Bazuka</div>');
-    this.openWeapon.addButton('<div class="weaponscreen_item_title">Bazuka</div>');
-    this.openWeapon.addButton('<div class="weaponscreen_item_title">Bazuka</div>');
-    this.openWeapon.addButton('<div class="weaponscreen_item_title">Bazuka</div>');
-    this.openWeapon.addButton('<div class="weaponscreen_item_title">Bazuka</div>');
-    this.openWeapon.addButton('<div class="weaponscreen_item_title">Bazuka</div>');
-    this.openWeapon.addButton('<div class="weaponscreen_item_title">Bazuka</div>');
-    this.openWeapon.addButton('<div class="weaponscreen_item_title">Bazuka</div>');
 
     this.fullScreenButton = new Control(this.node.querySelector('.gamescreen_top'),
       'div', 'gamescreen_fullscreen menu__item',

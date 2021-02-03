@@ -151,6 +151,7 @@
   cursor: pointer;
   user-select: none;
   transition-duration: 200ms;
+  padding: 7px 42px;
 }
 
 .load_button:hover, .menu_item:hover{
