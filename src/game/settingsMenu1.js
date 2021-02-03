@@ -9,7 +9,7 @@ class TeamItem extends Control {
     this.teamStatus.node.onclick = (e) => {
       e.stopPropagation();
       this.data.isComputer = !this.data.isComputer;
-      this.teamStatus.setContent(this.data.isComputer ? 'BOT' : 'PLAYER');
+      this.refresh();
     };
 
     this.teamColor = new Control(this.node, 'div', 'settings_team_block team_color', 'color');
@@ -33,6 +33,15 @@ class TeamItem extends Control {
     }
 
     this.teamPlayerHealts = new Control(this.node, 'div', 'settings_team_block team_healthPlayers', '100');
+    this.teamPlayerHealts.node.onclick = (e) => {
+      e.stopPropagation();
+      if (this.data.playersHealts < 200) {
+        this.data.playersHealts += 10;
+      } else {
+        this.data.playersHealts =10;
+      }
+      this.refresh();
+    }
 
     this.node.onclick = () => {
       this.node.classList.toggle('settings_active_team');
