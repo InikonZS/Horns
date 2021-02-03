@@ -5,6 +5,7 @@ const GamePage = require('./game/gamePage.js');
 class PageManager extends Control{
   constructor (parentNode, className){
     super(parentNode, 'div', className);
+    this.logo = new Control(this.node, 'div', 'logo', 'Horns');
     this.pages = [];
     this.marks = [];
     this.currentPage = null;

@@ -108,7 +108,7 @@ class WeaponS {
       .clone()
       .scale(this.bulletSpeed * ((power + 1) / 2));
     bullets.list.push(bullet);
-    bullet.timer.counter = 80;
+    bullet.timer.counter = 30;
     bullet.magnitude = 50;
     bullet.timer.onTimeout = () => {
       bullet.isDeleted = true;
@@ -117,11 +117,12 @@ class WeaponS {
 }
 
 class WeaponEx {
-  constructor(bulletSpeed, gravitable = false) {
+  constructor(bulletSpeed, gravitable = false, timer) {
     this.bulletSpeed = bulletSpeed;
     this.gravitable = gravitable;
     this.isDeleted = false;
     this.tracer = new Bullet(new Vector(0, 0), 3, 'red');
+    this.timerTime = timer;
   }
 
   setShotOptions(point, direction, power = 0, wind) {
@@ -150,7 +151,7 @@ class WeaponEx {
       .scale(this.bulletSpeed * (power + 1));
 
     bullets.list.push(bullet);
-    bullet.timer.counter = 40;
+    bullet.timer.counter = this.timerTime;
     bullet.timer.onTimeout = () => {
       for (let i = 0; i < 5; i++) {
         //let bull = new Physical(point.clone().add(direction.clone().scale(11)), 5, '#000');

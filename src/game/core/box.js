@@ -4,7 +4,7 @@ const Animation = require('./animation');
 
 class Box{
   constructor(pos){
-    this.graphic = new GraphicPoint(pos, 20, '#999');
+    this.graphic = new GraphicPoint(pos, 0, '#999');
     this.physic = new PhysicPoint(pos);
     this.physic.acceleration.y=1;
     this.animation = new Animation('./assets/aid-100.png', 4000, 100, 40, 1.5);

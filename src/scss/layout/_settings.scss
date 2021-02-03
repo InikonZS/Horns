@@ -72,6 +72,12 @@
     }
   }
 
+  @media screen and (max-width: 900px) {
+    .return_btn:last-child {
+      margin-left: 25px;
+    }
+  }
+
   .return_btn {
     background-color: var(--secondary-color);
     box-shadow: 4px 7px 12px 0 rgba(119, 80, 248, 0.2);
@@ -198,7 +204,7 @@
   }
 
   .settings_team {
-    margin-top: 25px;
+    margin-top: 80px;
   }
 
   .settings_title, .settings_item_title {
@@ -207,7 +213,6 @@
     font-size: 20px;
     color:  var(--font-color);
     font-weight: bold;
-    letter-spacing: 10px;
     margin-bottom: 25px;
   }
 
@@ -531,7 +536,6 @@
 
     .navi_item{
       font-size: 14px;
-      letter-spacing: 6px;
     }
   }
 
@@ -585,6 +589,7 @@
   justify-content: space-around;
   align-items: center;
   padding: 25px;
+  margin: auto;
 }
 
 .return_btn {
@@ -600,4 +605,8 @@
 .gamescreen_wrapper-settings {
   overflow: auto;
   display: block;
+}
+
+.settings_item, .settings_return_btn-wrapper {
+  max-width: 680px;
 }

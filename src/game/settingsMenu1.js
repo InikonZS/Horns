@@ -5,6 +5,7 @@ class TeamItem extends Control {
   constructor(parentNode) {
     super(parentNode, 'div', 'settings_team_inner');
     this.name = new Control(this.node, 'div', 'settings_team_block team_name', ' team');
+    this.teamColor = new Control(this.node, 'div', 'settings_team_block team_color', 'color');
     this.teamStatus = new Control(this.node, 'div', 'settings_team_block team_status', 'X');
     this.teamStatus.node.onclick = (e) => {
       e.stopPropagation();
@@ -12,7 +13,6 @@ class TeamItem extends Control {
       this.refresh();
     };
 
-    this.teamColor = new Control(this.node, 'div', 'settings_team_block team_color', 'color');
     this.removeButton = new Control(this.node, 'div', 'team_btn ', '－');
 
     this.removeButton.node.onclick = (e) => {
