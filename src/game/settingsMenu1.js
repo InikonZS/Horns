@@ -187,6 +187,25 @@ const teams = [
       color: '#1abcff',
   },
 ]
+
+const mapList = [
+  {
+      name: 'Desert',
+      url: './assets/bitmap1.png'
+  },
+  {
+      name: 'City',
+      url: './assets/bitmap2.png'
+  },
+  {
+      name: 'Island',
+      url: './assets/bitmap3.png'
+  },
+  {
+      name: 'Underground',
+      url: './assets/bitmap.png'
+  }
+];
 class SettingsMenu extends Control {
     constructor(parentNode, sceneManager, config) {
         super(parentNode, 'div', 'gamescreen_wrapper_centred', '');
@@ -202,7 +221,7 @@ class SettingsMenu extends Control {
         // this.mapView = new Control(settingsMapInner.node, 'div', 'settings_map_block ');
 
         this.map = new MapChoice(settingsItemMap.node);
-        this.map.loadMaps(config.mapList);
+        this.map.loadMaps(mapList);
 
         this.drawMapButton = new Control(settingsItemMap.node, 'div', 'draw_map_btn', 'Draw map');
         this.drawMapButton.node.onclick = () => {

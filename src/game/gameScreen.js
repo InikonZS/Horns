@@ -18,24 +18,7 @@ const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff'
 const defaultGameConfig = {
   format: 'easycount',
   mapURL: './assets/bitmap3.png',
-  mapList: [
-      {
-          name: 'Desert',
-          url: './assets/bitmap1.png'
-      },
-      {
-          name: 'City',
-          url: './assets/bitmap2.png'
-      },
-      {
-          name: 'Island',
-          url: './assets/bitmap3.png'
-      },
-      {
-          name: 'Underground',
-          url: './assets/bitmap.png'
-      }
-  ],
+  
   nameList: names,
   colorList: colors,
   teams: [
@@ -65,36 +48,6 @@ const defaultGameConfig = {
       },
   ]
 }
-// const defaultGameConfig = {
-//   format: 'easycount',
-//   mapURL: './assets/bitmap3.png',
-//   nameList: names,
-//   colorList: colors,
-//   teams: [
-//     {
-//       name: 'Progers',
-//       avatar: './assets/avatar_1.jpg',
-//       playersNumber: 2,
-//       playersHealts: 100,
-//       isComputer: false,
-//     },
-//     {
-//       name: 'Killers',
-//       avatar: './assets/avatar_2.jpg',
-//       playersNumber: 1,
-//       playersHealts: 50,
-//       isComputer: false,
-//     },
-//     {
-//       name: 'Cloners',
-//       avatar: './assets/avatar_3.jpg',
-//       playersNumber: 1,
-//       playersHealts: 200,
-//       isComputer: false,
-//     },
-//   ],
-// };
-
 class GameScreen extends Control {
   constructor(parentNode, config) {
     super(parentNode, 'div', 'gamescreen_wrapper');
