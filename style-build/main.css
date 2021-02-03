@@ -7,6 +7,7 @@
   --icons-color: #9b7dff;
   --light-bg-color: #293249;
   --font-color: #fff;
+  --secondary-font-color: #616a82;
 }
 
 body {
@@ -137,7 +138,7 @@ kbd {
   }
 }
 
-.editor_tools_btn, .return_btn, .draw_map_btn {
+.editor_tools_btn, .return_btn, .draw_map_btn, .add_team_btn {
   cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -156,7 +157,7 @@ kbd {
 }
 
 @media screen and (max-width: 900px) {
-  .editor_tools_btn, .return_btn, .draw_map_btn {
+  .editor_tools_btn, .return_btn, .draw_map_btn, .add_team_btn {
     margin: 0;
     margin-right: 30px;
     padding: 7px 15px;
@@ -195,13 +196,19 @@ kbd {
   }
 }
 
-.draw_map_btn {
+.draw_map_btn, .add_team_btn {
   width: 200px;
   margin: 0;
-  margin-top: 10;
+  margin-top: 10px;
 }
 
-.editor_tools_btn:hover, .return_btn:hover, .draw_map_btn:hover {
+@media screen and (max-width: 750px) {
+  .draw_map_btn {
+    margin-top: 25px;
+  }
+}
+
+.editor_tools_btn:hover, .return_btn:hover, .draw_map_btn:hover, .add_team_btn:hover {
   -webkit-transform: scale(1.05);
           transform: scale(1.05);
 }
@@ -232,7 +239,7 @@ kbd {
   border-bottom: 1px solid #4d5a79;
 }
 
-.settings_team_inner:nth-child(2) {
+.settings_team_inner:first-child {
   border-radius: 10px 10px 0 0;
 }
 
@@ -304,8 +311,24 @@ kbd {
   font-weight: bold;
   -webkit-box-shadow: 3px 3px 5px 7px rgba(0, 0, 0, 0.06);
           box-shadow: 3px 3px 5px 7px rgba(0, 0, 0, 0.06);
-  margin: 10px;
-  padding: 25px;
+  margin: 10px auto;
+  padding: 30px;
+}
+
+@media screen and (max-width: 800px) {
+  .settings_item {
+    width: calc(90% - 20px);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .settings_item {
+    width: calc(100% - 40px);
+  }
+}
+
+.settings_team {
+  margin-top: 25px;
 }
 
 .settings_title, .settings_item_title {
@@ -318,7 +341,7 @@ kbd {
   color: var(--font-color);
   font-weight: bold;
   letter-spacing: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
 }
 
 .settings_chart_inner {
@@ -338,6 +361,7 @@ kbd {
   padding: 7px;
   font-size: 18px;
   border: 1px solid black;
+  margin-top: 15px;
 }
 
 .startGame_btn {
@@ -665,12 +689,10 @@ kbd {
 }
 
 .add_team_btn {
-  background: #cac7c7;
   text-align: center;
-  border-radius: 2px;
-  border: solid 1px #000;
-  color: #6b6b68;
-  margin-bottom: 10px;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 25px;
 }
 
 @media only screen and (max-width: 500px) {
@@ -704,6 +726,82 @@ kbd {
 
 .settings_active_team:last-child {
   border: 1px solid var(--accent-color);
+}
+
+.settings_map_inner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+@media screen and (max-width: 550px) {
+  .settings_map_inner {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+}
+
+.settings_map_choice-wrapper {
+  color: var(--secondary-font-color);
+  font-weight: 500;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.settings_return_btn-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 25px;
+}
+
+.return_btn {
+  margin: 0;
+}
+
+.return_btn:not(:last-child) {
+  margin: 0;
+}
+
+.return_btn:first-child {
+  margin-right: 35px;
+}
+
+.gamescreen_wrapper-settings {
+  overflow: auto;
+  display: block;
 }
 
 /*---------

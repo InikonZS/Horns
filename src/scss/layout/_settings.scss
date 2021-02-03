@@ -41,7 +41,7 @@
     }
   }
 
-  .editor_tools_btn, .return_btn, .draw_map_btn  {
+  .editor_tools_btn, .return_btn, .draw_map_btn, .add_team_btn  {
     cursor: pointer;
     user-select: none;
     padding: 10px 20px;
@@ -87,13 +87,19 @@
     }
   }
 
-  .draw_map_btn {
+  .draw_map_btn, .add_team_btn {
     width: 200px;
     margin: 0;
-    margin-top: 10;
+    margin-top: 10px;
   }
 
-  .editor_tools_btn:hover, .return_btn:hover, .draw_map_btn:hover {
+  .draw_map_btn {
+    @media screen and (max-width: 750px) {
+      margin-top: 25px;
+    }
+  }
+
+  .editor_tools_btn:hover, .return_btn:hover, .draw_map_btn:hover, .add_team_btn:hover {
     transform: scale(1.05);
   }
 
@@ -114,7 +120,7 @@
     border-bottom: 1px solid #4d5a79;
   }
 
-  .settings_team_inner:nth-child(2) {
+  .settings_team_inner:first-child {
     border-radius: 10px 10px 0 0;
   }
   .settings_team_inner:last-child {
@@ -166,10 +172,19 @@
   font-size: 20px;
   font-weight: bold;
   box-shadow: 3px 3px 5px 7px rgba(0, 0, 0, 0.06);
-  margin: 10px;
-  padding: 25px;
+  margin: 10px auto;
+  padding: 30px;
+  @media screen and (max-width: 800px) {
+    width: calc(90% - 20px);
+  }
+  @media screen and (max-width: 600px) {
+    width: calc(100% - 40px);
+  }
   }
 
+  .settings_team {
+    margin-top: 25px;
+  }
 
   .settings_title, .settings_item_title {
     user-select: none;
@@ -178,7 +193,7 @@
     color:  var(--font-color);
     font-weight: bold;
     letter-spacing: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
   }
 
   .settings_chart_inner {
@@ -193,7 +208,7 @@
     padding: 7px;
     font-size: 18px;
     border: 1px solid rgb(0, 0, 0);
-
+    margin-top: 15px;
   }
 
   .startGame_btn {
@@ -487,12 +502,10 @@
   }
 
   .add_team_btn {
-    background: rgb(202, 199, 199);
     text-align: center;
-    border-radius: 2px;
-    border: solid 1px #000;
-    color: rgb(107, 107, 104);
-    margin-bottom: 10px;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 25px;
   }
 
   @media only screen and (max-width:500px){
@@ -528,4 +541,44 @@
     border: 1px solid var(--accent-color);
   }
 
+  .settings_map_inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    @media screen and (max-width: 550px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 
+  .settings_map_choice-wrapper {
+    color: var(--secondary-font-color);
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+.settings_return_btn-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 25px;
+}
+
+.return_btn {
+  margin: 0;
+}
+.return_btn:not(:last-child) {
+  margin: 0;
+}
+.return_btn:first-child {
+  margin-right: 35px;
+}
+
+.gamescreen_wrapper-settings {
+  overflow: auto;
+  display: block;
+}

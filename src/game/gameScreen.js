@@ -18,7 +18,7 @@ const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff'
 const defaultGameConfig = {
   format: 'easycount',
   mapURL: './assets/bitmap3.png',
-  
+
   nameList: names,
   colorList: colors,
   teams: [
@@ -151,22 +151,6 @@ class GameScreen extends Control {
         this.renderer.start();
       });
     }
-
-
-
-    /* this.editor = new EditorMenu(this.panel.node);
-     this.panel.add(this.editor);
-     this.menu.onEditor = () => {
-       this.panel.selectByScene(this.editor);
-     }*/
-
-    /* this.editor.onExit = () => {
-       this.panel.selectByScene(this.menu);
-     }*/
-
-    /*this.settings.onExit = () => {
-      this.panel.selectByScene(this.menu);
-    }*/
 
     this.panel.selectByScene(this.preloader);
 

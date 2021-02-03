@@ -59,22 +59,14 @@ class TeamItem extends Control {
 }
 
 class TeamChoice extends Control {
-  constructor(parentNode) {
+  constructor(parentNode, wrapper) {
     super(parentNode);
     this.items = [];
-    this.addButton = new Control(this.node, 'div', 'add_team_btn', 'Add new');
+    this.addButton = new Control(wrapper, 'div', 'add_team_btn', 'Add new');
     this.addButton.node.onclick = () => {
       const teamData = teams.shift();
-      // defaultGameConfig.teams.push(teamData);
       this.addItem(teamData);
     }
-    // let defaultData = {
-    //   name: 'Winner',
-    //   avatar: 'PG',
-    //   playersNumber: 3,
-    //   playersHealts: 100,
-    // };
-
   }
 
   chooseItem(data) {
@@ -208,32 +200,33 @@ const mapList = [
 ];
 class SettingsMenu extends Control {
     constructor(parentNode, sceneManager, config) {
-        super(parentNode, 'div', 'gamescreen_wrapper_centred', '');
-        // let settingsWrapper = new Control(this.node, 'div', "settings_wrapper");
+        super(parentNode, 'div', 'gamescreen_wrapper_centred gamescreen_wrapper-settings', '');
         let settingsItemTeam = new Control(this.node, 'div', 'settings_item settings_team');
         this.itemTeamTitle = new Control(settingsItemTeam.node, 'div', 'settings_item_title', 'TEAMS');
-        this.team = new TeamChoice(settingsItemTeam.node);
+        this.team = new TeamChoice(settingsItemTeam.node, settingsItemTeam.node);
         this.team.loadTeams(config.teams);
 
         let settingsItemMap = new Control(this.node, 'div', 'settings_item settings_map');
         this.itemMapTitle = new Control(settingsItemMap.node, 'div', 'settings_item_title', 'MAPS');
-        // let settingsMapInner = new Control(this.node, 'div', 'settings_map_inner');
-        // this.mapView = new Control(settingsMapInner.node, 'div', 'settings_map_block ');
 
-        this.map = new MapChoice(settingsItemMap.node);
+        const settingsMapInner = new Control(settingsItemMap.node, 'div', 'settings_map_inner');
+        const mapChoiceWrapper = new Control(settingsMapInner.node, 'div', 'settings_map_choice-wrapper', 'Select map');
+
+        this.map = new MapChoice(mapChoiceWrapper.node);
         this.map.loadMaps(mapList);
 
-        this.drawMapButton = new Control(settingsItemMap.node, 'div', 'draw_map_btn', 'Draw map');
+        this.drawMapButton = new Control(settingsMapInner.node, 'div', 'draw_map_btn', 'Draw map');
         this.drawMapButton.node.onclick = () => {
             this.onEditor && this.onEditor();
         }
 
-        this.backButton = new Control(this.node, 'div', ' settings_return_btn return_btn', 'Back');
+        const returnBtns = new Control(this.node, 'div', 'settings_return_btn-wrapper');
+        this.backButton = new Control(returnBtns.node, 'div', ' settings_return_btn return_btn', 'Back');
         this.backButton.node.onclick = () => {
             sceneManager.back();
         };
 
-        this.startGameButton = new Control(this.node, 'div', 'settings_return_btn return_btn', 'Start game');
+        this.startGameButton = new Control(returnBtns.node, 'div', 'settings_return_btn return_btn', 'Start game');
         this.startGameButton.node.onclick = () => {
             this.onFight && this.onFight(this.getConfig());
         }
