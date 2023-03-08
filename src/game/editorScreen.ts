@@ -5,10 +5,10 @@ import SceneManager from './sceneManager';
 
 class EditorScreen extends Control {
   canvasWrapper: Control;
-  canvas: Control;
+  canvas: Control<HTMLCanvasElement>;
   brushColor: string;
   brushButton: Control;
-  brushSize: Control;
+  brushSize: Control<HTMLInputElement>;
   eraserButton: Control;
   cleanButton: Control;
   context: CanvasRenderingContext2D;
@@ -63,7 +63,7 @@ class EditorScreen extends Control {
 
     this.brushSize.node.onchange = () => {
       this.context.beginPath();
-      this.context.lineWidth = this.brushSize.node.value;
+      this.context.lineWidth = Number(this.brushSize.node.value);
     }
 
     // this.brushColor.node.onchange = () => {

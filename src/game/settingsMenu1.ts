@@ -85,8 +85,8 @@ class TeamItem extends Control {
   refresh() {
     this.name.setContent(this.data.name);
     this.teamStatus.setContent(this.data.isComputer ? 'BOT' : 'PLAYER');
-    this.teamAmountPlayers.setContent(this.data.playersNumber);
-    this.teamPlayerHealts.setContent(this.data.playersHealts);
+    this.teamAmountPlayers.setContent(this.data.playersNumber.toString());
+    this.teamPlayerHealts.setContent(this.data.playersHealts.toString());
     this.teamColor.node.style.backgroundColor = this.data.color;
   }
 }
@@ -142,6 +142,7 @@ class TeamChoice extends Control {
 
 interface IMapItemData{
    name: string; 
+   url?: string;
 }
 class MapItem extends Control {
   name: Control;

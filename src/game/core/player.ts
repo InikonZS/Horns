@@ -199,7 +199,7 @@ class Player {
     }
   }
 
-  move(freeMode, moveVector, map, move, tryJump, deltaTime, keyCode) {
+  move(freeMode: boolean, moveVector: Vector, map: GameMap, move: boolean, tryJump: boolean, deltaTime: number, keyCode: string) {
     if (freeMode) {
       movePlayerFree(this, moveVector, map);
     } else {
@@ -211,7 +211,7 @@ class Player {
     fallPlayer(this, map, deltaTime);
   }
 
-  setTargetPoint(playersToHit, camera, map, wind) {
+  setTargetPoint(playersToHit: Player[], camera: Vector, map: GameMap, wind: number) {
     let minGap = Number.MAX_VALUE;
     let target = 0;
     let speed = 0;

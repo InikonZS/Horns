@@ -59,7 +59,7 @@ const defaultGameConfig = {
   ]
 }
 export default class GameScreen extends Control implements IPage{
-  canvas: Control;
+  canvas: Control<HTMLCanvasElement>;
   context: CanvasRenderingContext2D;
   renderer: Renderer;
   panel: SceneManager;

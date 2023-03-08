@@ -10,7 +10,7 @@ interface ITeamIndicatorOptions {
   src: string; 
   color: string; 
 }
-class TeamIndicatorProgress extends Control {
+class TeamIndicatorProgress extends Control<HTMLCanvasElement> {
   radius: number;
   options: ITeamIndicatorOptions;
   ctx: CanvasRenderingContext2D;

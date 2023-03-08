@@ -150,17 +150,17 @@ class Game {
     }
     this.camera.process(context, deltaTime);
 
-    this.map.renderGradient(context, deltaTime, this.camera);
-    this.parts.render(context, deltaTime, this.camera, this.wind);
-    this.map.render(context, deltaTime, this.camera);
+    this.map.renderGradient(context, deltaTime, this.camera.position);
+    this.parts.render(context, deltaTime, this.camera.position, this.wind);
+    this.map.render(context, deltaTime, this.camera.position);
 
     this.bullets.process(deltaTime, this.map, this.teams.getPlayerList());
-    this.bullets.render(context, deltaTime, this.map, this.camera, false);
+    this.bullets.render(context, deltaTime, this.map, this.camera.position, false);
 
-    this.boxes.render(context, deltaTime, this.camera, this.map, this.teams.getPlayerList()),
+    this.boxes.render(context, deltaTime, this.camera.position, this.map, this.teams.getPlayerList()),
 
     this.teams.process(this.map, deltaTime);
-    this.teams.render(context, deltaTime, this.camera);
+    this.teams.render(context, deltaTime, this.camera.position);
   }
 
   processKeyboard(context: CanvasRenderingContext2D, keyboardState: IKeyboardState, deltaTime: number) {

@@ -43,7 +43,7 @@ export class Bullet {
     let prev = this.physic.position.clone();
     for (let i = 1; i < 100; i += 1) {
       let current = this.physic.getPosition(i);
-      let c = current.clone().add(camera.position);
+      let c = current.clone().add(camera);
       context && context.lineTo(c.x, c.y);
       let nearest = map.getNearIntersection(prev, current);
       if (nearest) {

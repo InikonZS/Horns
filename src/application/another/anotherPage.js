@@ -1,4 +1,4 @@
-const Control = require('common/control.js');
+const Control = require('common/control.js').default;
 
 class AnotherPage extends Control{
   constructor(parentNode, config){
