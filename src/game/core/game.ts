@@ -10,6 +10,7 @@ import BoxList from './boxList';
 import BulletList from './bulletList';
 import TeamList from './teamList';
 import { IKeyboardState } from './IKeyboardState';
+import { IStartOptions } from './IStartOptions';
 
 const freeMovement = false;
 
@@ -69,7 +70,7 @@ class Game {
     this.parts = new Particles(100);
   }
 
-  start(options: any, onStart:()=>void) {
+  start(options: IStartOptions, onStart:()=>void) {
     this.map = new GameMap(options.mapURL, ()=>{
       for (let j = 0; j < options.teams.length; j++) {
         let jteam = options.teams[j];

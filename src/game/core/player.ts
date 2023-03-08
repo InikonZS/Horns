@@ -58,6 +58,7 @@ class Player {
   isActive: boolean;
   isPower: boolean;
   onShot: () => void;
+  onKilled: () => void;
 
   constructor(name: string, health: number, pos: Vector, color: string) {
     this.name = name;
@@ -106,9 +107,6 @@ class Player {
       this.health = 0;
       this.onKilled();
     }
-  }
-  onKilled() {
-    throw new Error('Method not implemented.');
   }
 
   cure(damage: number) {
