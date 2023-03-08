@@ -1,4 +1,4 @@
-import { Weapon, WeaponEx, WeaponS } from './weapon';
+import { Bullet, Weapon, WeaponEx, WeaponS } from './weapon';
 import { GraphicPoint, PhysicPoint, Physical } from './primitives';
 import Vector from 'common/vector';
 import Animation from './animation';
@@ -139,7 +139,7 @@ class Player {
     return new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
   }
 
-  shot(bullets: Array<any>, wind: number) {
+  shot(bullets: BulletList, wind: number) {
     let direction = this.getDirectionVector();
     if (this.currentWeapon) {
       this.currentWeapon.shot(

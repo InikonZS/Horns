@@ -11,7 +11,7 @@ class TimeIndicator extends Control {
   timerDuration: number;
   progressBar: Control;
   progressBarShadow: Control;
-  timeLeft: number;
+  timeLeft: Control;
 
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'div', 'gamescreen__clock clock-next', '');
@@ -35,7 +35,7 @@ class TimeIndicator extends Control {
   }
 
   update(count: number){
-    this.timeLeft.node.textContent = count;
+    this.timeLeft.node.textContent = count.toString();
     const progressBarWidth = (count / this.timerDuration) * 80;
     this.progressBar.node.style.width = `${progressBarWidth}%`;
   }

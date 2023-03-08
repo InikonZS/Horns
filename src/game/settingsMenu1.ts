@@ -262,7 +262,7 @@ export default class SettingsMenu extends Control {
     onEditor: () => void;
     backButton: Control;
     startGameButton: Control;
-    onFight: () => void;
+    onFight: (data: Array<ITeamItemData>) => void;
 
     constructor(parentNode: HTMLElement, sceneManager: SceneManager, config: any) {
         super(parentNode, 'div', 'gamescreen_wrapper_centred gamescreen_wrapper-settings', '');
