@@ -1,8 +1,14 @@
-const Control = require('common/control.js');
+import Control from 'common/control';
 
 // options {part, nextPart, size, lineWidth, decrease = true, src, color}
 class TeamIndicatorProgress extends Control {
-  constructor(parentNode, options) {
+  radius: number;
+  options: any;
+  ctx: CanvasRenderingContext2D;
+  center: number;
+  image: HTMLImageElement;
+
+  constructor(parentNode: HTMLElement, options: { part: number; nextPart: number; size: number; lineWidth: number; decrease: boolean; src: string; color: string; }) {
     super(parentNode, 'canvas', 'team_progress-avatar', '');
     this.options = options;
     this.ctx = this.node.getContext('2d');
@@ -65,9 +71,9 @@ class TeamIndicatorProgress extends Control {
     this.options.part *= scaler;
   }
 
-  setProgressOptions(health) {
+  setProgressOptions(health: number) {
     this.options.nextPart = health / 100;
   }
 }
 
-module.exports = TeamIndicatorProgress;
+export default TeamIndicatorProgress;

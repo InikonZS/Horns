@@ -1,8 +1,13 @@
-const Control = require('common/control.js');
-const TeamIndicatorProgress = require('./teamProgress');
+import Control from 'common/control.js';
+import TeamIndicatorProgress from './teamProgress';
 
 class TeamIndicatorItem extends Control {
-  constructor(parentNode, data) {
+  name: string;
+  teamName: Control;
+  teamHealth: Control;
+  teamAvatar: TeamIndicatorProgress;
+
+  constructor(parentNode: HTMLElement, data: { name: string; avatar: string; color: string; }) {
     super(parentNode, 'div', 'teams_item', '');
     this.name = data.name;
     let infoBlock = new Control(this.node, 'div', "team_block team_info");
@@ -21,7 +26,7 @@ class TeamIndicatorItem extends Control {
     this.node.style['border-color'] = data.color;
   }
 
-  setHealth(health, absHealth){
+  setHealth(health: number, absHealth: string){
     if (health == 0){
       this.hide();
     }
@@ -34,4 +39,4 @@ class TeamIndicatorItem extends Control {
   }
 }
 
-module.exports = TeamIndicatorItem;
+export default TeamIndicatorItem;

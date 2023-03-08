@@ -4,7 +4,7 @@ import { RadioGroup, Toggle } from 'common/group';
 class WeaponItem extends Toggle {
   itemW: Control;
   
-  constructor(parentNode: HTMLElement, activeClass: string, inactiveClass: string, caption: string, onClick) {
+  constructor(parentNode: HTMLElement, activeClass: string, inactiveClass: string, caption: string, onClick: ()=>void) {
     super(parentNode, activeClass, inactiveClass, caption, onClick);
     this.itemW = new Control(this.node, 'div', 'weapon_amount_available', '22');
   }

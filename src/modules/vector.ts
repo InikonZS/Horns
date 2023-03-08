@@ -1,5 +1,8 @@
-class Vector {
-  constructor(x, y) {
+export default class Vector {
+  x: number;
+  y: number;
+  
+  constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
   }
@@ -8,25 +11,25 @@ class Vector {
     return new Vector(this.x, this.y);
   }
 
-  from(vector){
+  from(vector: Vector){
     this.x = vector.x;
     this.y = vector.y;
     return this;
   }
 
-  add(vector) {
+  add(vector: Vector) {
     this.x += vector.x;
     this.y += vector.y;
     return this;
   }
 
-  sub(vector) {
+  sub(vector: Vector) {
     this.x -= vector.x;
     this.y -= vector.y;
     return this;
   }
 
-  scale(scaler) {
+  scale(scaler: number) {
     this.x *= scaler;
     this.y *= scaler;
     return this;
@@ -44,17 +47,16 @@ class Vector {
     return (this.x ** 2 + this.y ** 2) ** 0.5;
   }
 
-  scalar(v) {
+  scalar(v: { x: number; y: number; }) {
     return this.x * v.x + this.y * v.y;
   }
 
-  reflect(n) {
+  reflect(n: Vector) {
     return this.sub(n.scale(this.scalar(n)).scale(2));
   }
 
-  compare(v, range = 300) {
+  compare(v: { x: number; y: number; }, range = 300) {
     return Math.abs(this.x - v.x) < range && Math.abs(this.y - v.y) < range;
   }
 }
 
-module.exports = Vector;

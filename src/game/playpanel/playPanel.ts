@@ -1,10 +1,10 @@
-import Control from 'common/control.js';
-import TeamIndicator from './teamIndicator.js';
+import Control from 'common/control';
+import TeamIndicator from './teamIndicator';
 import TimeIndicator from './timeIndicator';
 import WeaponMenu from './weaponMenu';
 import ModalWindow from './modalWindow';
-import renderer from 'common/renderer.js';
-import SceneManager from '../sceneManager.js';
+import renderer from 'common/renderer';
+import SceneManager from '../sceneManager';
 
 class PlayPanel extends Control {
   gameScreenEl: HTMLElement;
@@ -20,7 +20,7 @@ class PlayPanel extends Control {
   backButton: Control;
   resumeButton: Control;
   windIndicator: Control;
-  
+
   constructor(parentNode: HTMLElement, sceneManager: SceneManager, gameScreenEl: HTMLElement, renderer: renderer) {
     super(parentNode, 'div', 'gamescreen_wrapper', `
       <div class="gamescreen_top menu"></div>

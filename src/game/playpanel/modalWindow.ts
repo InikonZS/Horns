@@ -1,7 +1,14 @@
-const Control = require('common/control.js');
+import Control from 'common/control.js';
+import TeamIndicator from './teamIndicator';
+import TeamIndicatorItem from './teamIndicatorItem';
 
 class ModalWindow extends Control {
-  constructor(parentNode, wrapperClass, headerText) {
+  dropDownBox: Control;
+  header: Control;
+  main: Control;
+  footer: Control;
+
+  constructor(parentNode: HTMLElement, wrapperClass: string, headerText: string) {
     super(parentNode, 'div', wrapperClass + " dropdown-overlay");
     this.dropDownBox = new Control(this.node, 'div', 'dropdown-box', '');
     this.header = new Control(this.dropDownBox.node, 'div', 'dropdown-box__header', headerText);
@@ -21,13 +28,13 @@ class ModalWindow extends Control {
     this.dropDownBox.node.classList.add('opened');
   }
 
-  close(e) {
+  close() {
     this.dropDownBox.node.classList.remove('opened');
     setTimeout(this.hide.bind(this), 500);
   }
 
-  toggle(teamIndicator) {
-    this.main.node.innerHTML = teamIndicator.node.innerHTML;
+  toggle(teamIndicator: TeamIndicator) {
+    this.main.node.innerHTML = teamIndicator.node.innerHTML; //badpractice
     if (this.isHidden()) {
       this.open();
     } else {
@@ -36,4 +43,4 @@ class ModalWindow extends Control {
   }
 }
 
-module.exports = ModalWindow;
+export default ModalWindow;

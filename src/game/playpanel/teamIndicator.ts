@@ -1,13 +1,15 @@
-const Control = require('common/control.js');
-const TeamIndicatorItem = require('./teamIndicatorItem');
+import Control from 'common/control';
+import TeamIndicatorItem from './teamIndicatorItem';
 
 class TeamIndicator extends Control {
-  constructor(parentNode) {
+  teams: TeamIndicatorItem[];
+
+  constructor(parentNode: HTMLElement) {
     super(parentNode, 'div', 'teams_wrapper', '');
     this.teams = [];
   }
 
-  addTeam(data) {
+  addTeam(data: { name: string; avatar: string; color: string; }) {
     let team = new TeamIndicatorItem(this.node, data);
     this.teams.push(team);
   }
@@ -21,4 +23,4 @@ class TeamIndicator extends Control {
   }
 }
 
-module.exports = TeamIndicator;
+export default TeamIndicator;

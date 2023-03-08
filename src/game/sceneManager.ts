@@ -1,7 +1,12 @@
-const Control = require('common/control.js');
+import Control from 'common/control';
 
 class SceneManager extends Control{
-  constructor (parentNode){
+  scenes: any[];
+  currentScene: any;
+  currentIndex: number;
+  history: any[];
+  
+  constructor (parentNode: HTMLElement){
     super(parentNode);
     this.node.style.position = 'relative';
     this.scenes = [];
@@ -45,4 +50,4 @@ class SceneManager extends Control{
   }
 }
 
-module.exports = SceneManager;
+export default SceneManager;
