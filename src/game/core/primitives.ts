@@ -1,5 +1,5 @@
-import Timer from './timer.js';
-import Vector from 'common/vector.js';
+import Timer from './timer';
+import Vector from 'common/vector';
 
 export class GraphicPoint {
   position: Vector;

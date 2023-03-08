@@ -1,5 +1,5 @@
-const Control = require('common/control.js');
-const Utils = require('../../modules/utils').default;
+import Control from 'common/control.js';
+import { createNodes } from '../../modules/utils';
 
 const timeIndicatorNodes = {
   timeLeft:{tag: 'div', class: 'clock-next__time-left'},
@@ -10,7 +10,7 @@ const timeIndicatorNodes = {
 class TimeIndicator extends Control {
   constructor(parentNode) {
     super(parentNode, 'div', 'gamescreen__clock clock-next', '');
-    Utils.createNodes(this, timeIndicatorNodes, Control);
+    createNodes(this, timeIndicatorNodes, Control);
     this.timerDuration = 0;
   }
 
@@ -36,4 +36,4 @@ class TimeIndicator extends Control {
   }
 }
 
-module.exports = TimeIndicator;
+export default TimeIndicator;
