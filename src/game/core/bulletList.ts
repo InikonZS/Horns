@@ -1,16 +1,23 @@
-const Vector = require('common/vector.js');
+import Vector from 'common/vector';
+import Camera from './camera';
+import { GameMap } from './map';
+import Player from './player';
+import { Bullet } from './weapon';
 
 class BulletList{
+  list: Bullet[];
+  allowTrace: boolean;
+  
   constructor(){
     this.list = [];
     this.allowTrace = false;
   }
 
-  add(bullet){
+  add(bullet: Bullet){
     this.list.push(bullet);
   }
 
-  process(deltaTime, map, playerList){
+  process(deltaTime: number, map: GameMap, playerList: Array<Player>){
     this.list.forEach((it) => {
       if (it.physic.position.y > map.waterLineX) {
         it.isDeleted=true;
@@ -40,7 +47,7 @@ class BulletList{
     });
   }
 
-  render(context, deltaTime, map, camera, process){
+  render(context: CanvasRenderingContext2D, deltaTime: number, map: GameMap, camera: Vector, process: boolean){
     this.list = this.list.filter((it) => !it.isDeleted);
     this.list.forEach((it) => {
         it.render(context, deltaTime, camera, process);
@@ -49,7 +56,7 @@ class BulletList{
   }
 }
 
-function bulletExplode(bullet, position, map, playerList){
+function bulletExplode(bullet: Bullet, position: Vector, map: GameMap, playerList: Array<Player>){
   map.round(position, bullet.magnitude || 30);
   bullet.isDeleted = true;
   playerList.forEach((jt) => {
@@ -59,7 +66,7 @@ function bulletExplode(bullet, position, map, playerList){
   });
 }
 
-function damageFromDistance(posA, posB){
+function damageFromDistance(posA: Vector, posB: Vector){
   let damage = 0;
   let accScaler = 0;
   let lvec = posA.clone().sub(posB);
@@ -76,4 +83,4 @@ function damageFromDistance(posA, posB){
   return {damage, acceleration: lvec.normalize().scale(accScaler)};
 }
 
-module.exports = BulletList;
+export default BulletList;

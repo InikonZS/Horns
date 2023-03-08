@@ -1,11 +1,15 @@
 class Timer{
+  counter: number;
+  isPaused: boolean;
+  onTimeout: () => void;
+  onTick: (time: number) => void;
   constructor(){
     this.counter = 0;
     this.isPaused = true;
     this.onTimeout = ()=>{};
   }
 
-  tick(deltaTime){
+  tick(deltaTime: number){
     if (this.isPaused == false){
       this.onTick && this.onTick(this.counter);
       this.counter-=deltaTime;
@@ -24,10 +28,10 @@ class Timer{
     this.isPaused = false;
   }
 
-  start(counter){
+  start(counter: number){
     this.isPaused = false;
     this.counter = counter;
   }
 }
 
-module.exports = Timer;
+export default Timer;

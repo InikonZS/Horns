@@ -1,9 +1,22 @@
-const Control = require('common/control.js');
+import Control from 'common/control.js';
 
-const Vector = require('../modules/vector');
+import Vector from '../modules/vector';
+import SceneManager from './sceneManager';
 
 class EditorScreen extends Control {
-  constructor(parentNode, sceneManager) {
+  canvasWrapper: Control;
+  canvas: Control;
+  brushColor: string;
+  brushButton: Control;
+  brushSize: Control;
+  eraserButton: Control;
+  cleanButton: Control;
+  context: CanvasRenderingContext2D;
+  mousePrevPos: Vector;
+  saveButton: Control;
+  onSave: (dataURL: string)=>void;
+  backButton: Control;
+  constructor(parentNode: HTMLElement, sceneManager: SceneManager) {
     super(
       parentNode,
       'div',
@@ -116,4 +129,4 @@ class EditorScreen extends Control {
   }
 }
 
-module.exports = EditorScreen;
+export default EditorScreen;

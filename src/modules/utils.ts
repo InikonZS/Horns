@@ -1,25 +1,28 @@
-function inBox(LH, TB, P){
+import Control from "./control";
+import Vector from "./vector";
+
+export function inBox(LH: Vector, TB: Vector, P: Vector){
   return (LH.x<=P.x && LH.y<=P.y && TB.x>=P.x && TB.y>=P.y);
 }
 
-function cycle(a,am){
+export function cycle(a: number, am: number){
   return a>=0?a%am:am-(1+ -(a+1)%am)
 }
 
-function loadBitmap(path, onLoad){
+export function loadBitmap(path: string, onLoad: (data: ImageData)=>void){
   let im = new Image();
   im.onload = ()=>{
     let canvas = document.createElement('canvas');
     canvas.width = im.width;
     canvas.height = im.height;
-    ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
     ctx.drawImage(im,0,0);
     onLoad(ctx.getImageData(0,0,im.width, im.height));
   }
   im.src = path;
 }
 
-function readImageData(imageData, onReadPixel){
+export function readImageData(imageData: ImageData, onReadPixel: (x: number, y: number, color: number[])=>void){
   let channels = Math.round(imageData.data.length / (imageData.width*imageData.height));
   for (let i=0; i<imageData.data.length/channels; i++){
     let color = [];
@@ -32,15 +35,8 @@ function readImageData(imageData, onReadPixel){
   }
 }
 
-function createNodes(obj, nodes, Class) {
+export function createNodes(obj: any, nodes: any, Class: typeof Control) {
   Object.keys(nodes).forEach(it => {
     obj[it] = new Class(obj.node, nodes[it].tag, nodes[it].class);
   });
-}
-
-module.exports = {
-  inBox,
-  loadBitmap,
-  readImageData,
-  createNodes
 }

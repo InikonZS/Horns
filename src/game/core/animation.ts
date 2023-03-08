@@ -1,3 +1,5 @@
+import Vector from "common/vector";
+
 const options = [
   {
     name: 'right',
@@ -26,7 +28,15 @@ const options = [
 ]
 
 class Animation {
-  constructor(imageURL, width, height, numberOfFrames, scale = 1) {
+  spritesheet: HTMLImageElement;
+  width: number;
+  height: number;
+  numberOfFrames: number;
+  frameIndex: number;
+  isStarted: boolean;
+  scale: number;
+
+  constructor(imageURL: string, width: number, height: number, numberOfFrames: number, scale = 1) {
     let spritesheet = new Image();
     spritesheet.src = imageURL;
     this.spritesheet = spritesheet;
@@ -37,7 +47,7 @@ class Animation {
     this.isStarted = false;
     this.scale = scale
   }
-  start(keyCode) {
+  start(keyCode?: string) {
     this.isStarted = true;
     this.frameIndex = 0;
     if (keyCode) {
@@ -49,14 +59,14 @@ class Animation {
     this.isStarted = false;
   }
 
-  update(deltaTime) {
+  update(deltaTime: number) {
     this.frameIndex+=deltaTime*3;
     if (this.frameIndex >= this.numberOfFrames) {
       this.frameIndex = 0;
     }
   }
 
-  drawFrame(context, frame, x, y) {
+  drawFrame(context: CanvasRenderingContext2D, frame: number, x: number, y: number) {
     context.drawImage(this.spritesheet,
                       frame * this.width / this.numberOfFrames,
                       0,
@@ -68,7 +78,7 @@ class Animation {
                       this.height / this.scale)  
   }
 
-  drawCurrentFrame(context, x, y){ 
+  drawCurrentFrame(context: CanvasRenderingContext2D, x: number, y: number){ 
     try{
       this.drawFrame(context, Math.trunc(this.frameIndex), x, y)
     } catch(e){
@@ -76,14 +86,14 @@ class Animation {
     }
   }
 
-  render(context, deltaTime, position){
+  render(context: CanvasRenderingContext2D, deltaTime: number, position: Vector){
     if (this.isStarted) {
       this.update(deltaTime);
     }
     this.drawCurrentFrame(context, position.x, position.y);
   }
 
-  setOptions(keyCode) {
+  setOptions(keyCode: string) {
     const currentOptions = options.filter(it => it.keyCode === keyCode)[0];
     this.spritesheet.src = currentOptions.src;
     this.width = currentOptions.width;
@@ -92,4 +102,4 @@ class Animation {
   }
 }
 
-module.exports = Animation;
+export default Animation;

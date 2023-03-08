@@ -1,9 +1,15 @@
-const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
-const Vector = require('common/vector.js');
-const Animation = require('./animation');
+import { GraphicPoint, PhysicPoint, Physical } from './primitives';
+import Vector from 'common/vector';
+import Animation from './animation';
+import { GameMap } from './map';
 
 class Box{
-  constructor(pos){
+  graphic: GraphicPoint;
+  physic: PhysicPoint;
+  animation: Animation;
+  isDeleted: boolean;
+
+  constructor(pos: Vector){
     this.graphic = new GraphicPoint(pos, 0, '#999');
     this.physic = new PhysicPoint(pos);
     this.physic.acceleration.y=1;
@@ -11,7 +17,7 @@ class Box{
     this.animation.start();
   }
 
-  render(context, deltaTime, camera, map, players){
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, map: GameMap, players: any[]){
     if (this.physic.position.y>map.waterLineX){ this.isDeleted = true; return;}
     if (this.isDeleted){ return false;}
     players.forEach(it=>{
@@ -37,4 +43,4 @@ class Box{
   }
 }
 
-module.exports = Box;
+export default Box;

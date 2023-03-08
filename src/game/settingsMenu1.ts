@@ -1,8 +1,20 @@
-const Control = require('common/control.js');
-
+import Control from "common/control";
 
 class TeamItem extends Control {
-  constructor(parentNode) {
+  name: Control;
+  teamColor: Control;
+  teamStatus: Control;
+  data: any;
+  removeButton: Control;
+  teamAmountPlayers: Control;
+  addButton: Control;
+  teamPlayerHealts: Control;
+  deleteButton: Control;
+  onDelete: any;
+  choose() {
+    throw new Error("Method not implemented.");
+  }
+  constructor(parentNode: HTMLElement) {
     super(parentNode, 'div', 'settings_team_inner');
     this.name = new Control(this.node, 'div', 'settings_team_block team_name', ' team');
     this.teamColor = new Control(this.node, 'div', 'settings_team_block team_color', 'color');
@@ -79,7 +91,9 @@ class TeamItem extends Control {
 }
 
 class TeamChoice extends Control {
-  constructor(parentNode, wrapper) {
+  items: TeamItem[];
+  addButton: Control;
+  constructor(parentNode: HTMLElement, wrapper: HTMLElement) {
     super(parentNode);
     this.items = [];
     this.addButton = new Control(wrapper, 'div', 'add_team_btn', 'Add new');
@@ -126,7 +140,9 @@ class TeamChoice extends Control {
 }
 
 class MapItem extends Control {
-  constructor(parentNode) {
+  name: Control;
+  data: any;
+  constructor(parentNode: HTMLElement) {
     super(parentNode);
     this.name = new Control(parentNode, 'option', ' map_name', ' map');
 
@@ -148,12 +164,16 @@ class MapItem extends Control {
 
 
 class MapChoice extends Control {
-  constructor(parentNode) {
+  items: MapItem[];
+  constructor(parentNode: HTMLElement) {
     super(parentNode, 'select', 'styled-select');
     this.items = [];
     this.node.onchange = () => {
       this.onChange(this.items[this.node.selectedIndex].getData());
     };
+  }
+  onChange(arg0: any) {
+    throw new Error("Method not implemented.");
   }
 
   addItem(data) {
@@ -209,6 +229,7 @@ import map1 from "../assets/bitmap3.png";
 import map2 from "../assets/bitmap1.png";
 import map3 from "../assets/bitmap2.png";
 import map4 from "../assets/bitmap.png";
+import SceneManager from "./sceneManager";
 
 const mapList = [
   {
@@ -229,7 +250,17 @@ const mapList = [
   }
 ];
 export default class SettingsMenu extends Control {
-    constructor(parentNode, sceneManager, config) {
+    itemTeamTitle: Control;
+    team: TeamChoice;
+    itemMapTitle: Control;
+    map: MapChoice;
+    drawMapButton: Control;
+    onEditor: any;
+    backButton: Control;
+    startGameButton: Control;
+    onFight: any;
+
+    constructor(parentNode: HTMLElement, sceneManager: SceneManager, config: any) {
         super(parentNode, 'div', 'gamescreen_wrapper_centred gamescreen_wrapper-settings', '');
         let settingsItemTeam = new Control(this.node, 'div', 'settings_item settings_team');
         this.itemTeamTitle = new Control(settingsItemTeam.node, 'div', 'settings_item_title', 'TEAMS');

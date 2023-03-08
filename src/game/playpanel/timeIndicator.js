@@ -1,5 +1,5 @@
 const Control = require('common/control.js');
-const Utils = require('../../modules/utils');
+const Utils = require('../../modules/utils').default;
 
 const timeIndicatorNodes = {
   timeLeft:{tag: 'div', class: 'clock-next__time-left'},

@@ -1,16 +1,16 @@
-const {inBox, loadBitmap, readImageData} = require('common/utils.js');
-const Vector = require('../../modules/vector');
+import {inBox, loadBitmap, readImageData} from 'common/utils';
+import Vector from '../../modules/vector';
 
 import water from "../../assets/water.png";
 import waterNT from "../../assets/water_nt.png";
 import back from "../../assets/back.png";
 
-function mapToImage(map, color){
+function mapToImage(map: GameMap, color: string){
   let canvas = document.createElement('canvas');
   let size=2;
   canvas.width = map.width*size;
   canvas.height = map.height*size;
-  ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d');
   ctx.fillStyle = color;
   for (let i=0; i<map.map.length; i++){
     for (let j=0; j<map.map[0].length; j++){
@@ -22,17 +22,17 @@ function mapToImage(map, color){
   return ctx.canvas.toDataURL();
 }
 
-function imageToCanvas(image){
+function imageToCanvas(image: HTMLImageElement){
   let canvas = document.createElement('canvas');
   canvas.width = image.width;
   canvas.height = image.height;
-  ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d');
   //ctx.fillStyle = color;
   ctx.drawImage(image,0,0);
   return ctx;
 }
 
-function roundCanvas(context, center, radius){
+function roundCanvas(context: CanvasRenderingContext2D, center: Vector, radius: number){
   if (context){
     context.beginPath();
     context.arc(center.x, center.y, radius, 0, Math.PI * 2);
@@ -70,7 +70,17 @@ function roundImageAll(image, rounds){
 }
 
 export class GameMap{
-  constructor(mapURL, onLoad){
+  map: any[];
+  roundList: any[];
+  size: number;
+  waterLineX: number;
+  waterImage: HTMLImageElement;
+  waterNImage: HTMLImageElement;
+  backImage: HTMLImageElement;
+  image: HTMLImageElement;
+  hImage: HTMLImageElement;
+  imc: any;
+  constructor(mapURL: string, onLoad: ()=>void){
     this.map = [];
     this.roundList = [];
     this.size = 2;
@@ -112,16 +122,16 @@ export class GameMap{
     return this.map.length;
   }
 
-  isEmpty(x, y){
+  isEmpty(x: number, y: number){
     let row = this.map[Math.trunc(y/this.size)]
     return !row || (row && !row[Math.trunc(x/this.size)]);
   }
 
-  isEmptyByVector(v){
+  isEmptyByVector(v: Vector){
     return this.isEmpty(v.x, v.y);
   }
 
-  getNearIntersection(a, b, prev){
+  getNearIntersection(a: Vector, b: Vector, prev?:boolean){
     let v = b.clone().sub(a);
     let va = v.abs();
     let vn = v.clone().normalize();
@@ -135,7 +145,7 @@ export class GameMap{
     return null;
   }
 
-  renderGradient(context, deltaTime, camera){
+  renderGradient(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector){
     const gradient = context.createLinearGradient(0, camera.y-500, 0, camera.y+context.canvas.height+100);
     gradient.addColorStop(0, "blue");
     gradient.addColorStop(1, "white");
@@ -143,7 +153,7 @@ export class GameMap{
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
   }
 
-  getNormal(collisionPoint) {
+  getNormal(collisionPoint: Vector) {
     const emptyVectors = [];
     for (let x = collisionPoint.x - 2; x < collisionPoint.x + 3; x++) {
       for (let y = collisionPoint.y - 2; y < collisionPoint.y + 3; y++) {
@@ -164,7 +174,7 @@ export class GameMap{
     return emptyVectors.length? emptyVectors.reduce((n, it) => n.add(it).scale(1)).scale(1/emptyVectors.length).normalize() : new Vector(0,0);
   }
 
-  drawImage(context, image, camera, spriteX, offsetY, cxScaler){
+  drawImage(context: CanvasRenderingContext2D, image: HTMLCanvasElement | HTMLImageElement, camera: Vector, spriteX: number, offsetY: number, cxScaler: number){
     context.drawImage(image,
       0,
       0,
@@ -177,7 +187,7 @@ export class GameMap{
     );
   }
 
-  render(context, deltaTime, camera){
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector){
     try{
       for (let i=-2; i<7; i++){
         this.drawImage(context, this.backImage, camera, i, 400, 2);
@@ -195,7 +205,7 @@ export class GameMap{
     }
   }
 
-  round(center, radius){
+  round(center: Vector, radius: number){
     for (let i=0; i<radius/this.size; i+=0.5){
       let max = 2*Math.PI*i;
       for (let a=0; a<max; a++){

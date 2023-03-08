@@ -1,9 +1,17 @@
-const { GraphicPoint, PhysicPoint, Physical } = require('./primitives.js');
-const Vector = require('common/vector.js');
-const Timer = require('./timer.js');
+import { GraphicPoint, PhysicPoint, Physical } from './primitives';
+import Vector from 'common/vector';
+import Timer from './timer';
+import BulletList from './bulletList';
+import { GameMap } from './map';
 
-class Bullet {
-  constructor(pos, radius, color) {
+export class Bullet {
+  graphic: GraphicPoint;
+  physic: PhysicPoint;
+  timer: Timer;
+  isReflectable: boolean;
+  magnitude: number;
+  isDeleted: boolean;
+  constructor(pos: Vector, radius: number, color: string) {
     this.graphic = new GraphicPoint(pos, radius, color);
     this.physic = new PhysicPoint(pos);
     this.timer = new Timer();
@@ -11,7 +19,7 @@ class Bullet {
     this.isReflectable = false;
   }
 
-  render(context, deltaTime, camera, proc) {
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, proc: any) {
     this.timer.tick(deltaTime);
     !proc && this.physic.process(deltaTime);
     this.graphic.position = this.physic.position;
@@ -20,13 +28,13 @@ class Bullet {
     context.fillStyle = '#000';
     let position = this.graphic.position.clone().add(camera);
     context.fillText(
-      Math.trunc(this.timer.counter),
-      position.x - context.measureText(Math.trunc(this.timer.counter)).width / 2,
+      Math.trunc(this.timer.counter).toFixed(0),
+      position.x - context.measureText(Math.trunc(this.timer.counter).toFixed(0)).width / 2,
       position.y - 15,
     );
   }
 
-  trace(map, camera, context) {
+  trace(map: GameMap, camera: Vector, context: CanvasRenderingContext2D) {
     if (context) {
       context.strokeStyle = '#000';
       context.beginPath();
@@ -49,16 +57,19 @@ class Bullet {
   }
 }
 
-class Weapon {
-  constructor(bulletSpeed, gravitable = false) {
+export class Weapon {
+  bulletSpeed: any;
+  gravitable: boolean;
+  isDeleted: boolean;
+  constructor(bulletSpeed: number, gravitable = false) {
     this.bulletSpeed = bulletSpeed;
     this.gravitable = gravitable;
     this.isDeleted = false;
     //this.reflectable = true;
   }
 
-  shot(bullets, point, direction, power = 5) {
-    makeBullet = (cnt) => {
+  shot(bullets: BulletList, point: Vector, direction: Vector, power = 5) {
+    const makeBullet = (cnt: number) => {
       let bullet = new Bullet(
         point.clone().add(direction.clone().scale(11)),
         5,
@@ -87,14 +98,17 @@ class Weapon {
   }
 }
 
-class WeaponS {
-  constructor(bulletSpeed, gravitable = false) {
+export class WeaponS {
+  bulletSpeed: any;
+  gravitable: boolean;
+  isDeleted: boolean;
+  constructor(bulletSpeed: number, gravitable = false) {
     this.bulletSpeed = bulletSpeed;
     this.gravitable = gravitable;
     this.isDeleted = false;
   }
 
-  shot(bullets, point, direction, power = 5) {
+  shot(bullets: BulletList, point: Vector, direction: Vector, power = 5) {
     let bullet = new Bullet(
       point.clone().add(direction.clone().scale(11)),
       5,
@@ -116,8 +130,13 @@ class WeaponS {
   }
 }
 
-class WeaponEx {
-  constructor(bulletSpeed, gravitable = false, timer) {
+export class WeaponEx {
+  bulletSpeed: any;
+  gravitable: boolean;
+  isDeleted: boolean;
+  tracer: Bullet;
+  timerTime: number;
+  constructor(bulletSpeed: number, gravitable = false, timer: number) {
     this.bulletSpeed = bulletSpeed;
     this.gravitable = gravitable;
     this.isDeleted = false;
@@ -125,7 +144,7 @@ class WeaponEx {
     this.timerTime = timer;
   }
 
-  setShotOptions(point, direction, power = 0, wind) {
+  setShotOptions(point: Vector, direction: Vector, power = 0, wind: number) {
     this.tracer.physic.position.from(point);
     if (this.gravitable) {
       this.tracer.physic.acceleration.y = 3;
@@ -136,7 +155,7 @@ class WeaponEx {
       .scale(this.bulletSpeed * (power + 1));
   }
 
-  shot(bullets, point, direction, power = 5, wind) {
+  shot(bullets: BulletList, point: Vector, direction: Vector, power = 5, wind: number) {
     let bullet = new Bullet(
       point.clone().add(direction.clone().scale(11)),
       5,
@@ -176,4 +195,4 @@ class WeaponEx {
   }
 }
 
-module.exports = { WeaponEx, Weapon, WeaponS };
+//export default { WeaponEx, Weapon, WeaponS };

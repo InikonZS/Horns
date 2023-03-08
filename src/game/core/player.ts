@@ -2,6 +2,8 @@ import { Weapon, WeaponEx, WeaponS } from './weapon';
 import { GraphicPoint, PhysicPoint, Physical } from './primitives';
 import Vector from 'common/vector';
 import Animation from './animation';
+import { GameMap } from './map';
+import BulletList from './bulletList';
 
 class GraphicPlayer extends GraphicPoint {
   animation: Animation;
@@ -94,7 +96,7 @@ class Player {
     }
   }
 
-  setWeapon(index) {
+  setWeapon(index: number) {
     this.currentWeapon = this.weapons[index];
   }
 
@@ -164,7 +166,7 @@ class Player {
     }
   }
 
-  react(bullets, deltaTime) {
+  react(bullets: BulletList, deltaTime: number) {
     bullets.list.forEach((it) => {
       if (it.graphic.position.clone().sub(this.graphic.position).abs() < 10) {
         if (!it.isDeleted) {
@@ -205,7 +207,7 @@ class Player {
     }
   }
 
-  fall(map, deltaTime) {
+  fall(map: GameMap, deltaTime: number) {
     fallPlayer(this, map, deltaTime);
   }
 
@@ -238,12 +240,12 @@ class Player {
     this.power = speed;
   }
 
-  moveTarget(angle) {
+  moveTarget(angle: number) {
     this.angle = angle;
   }
 }
 
-function fallPlayer(player, map, deltaTime) {
+function fallPlayer(player: Player, map: GameMap, deltaTime: number) {
   let it = player;
   if (it.physic.position.y > map.waterLineX) {
     it.hurt(1000);
@@ -264,7 +266,7 @@ function fallPlayer(player, map, deltaTime) {
   }
 }
 
-function movePlayerFree(player, moveVector, map) {
+function movePlayerFree(player: Player, moveVector: Vector, map: GameMap) {
   let size = map.size;
   let physic = player.physic;
   let s = physic.position.clone().add(moveVector);
@@ -279,13 +281,13 @@ function movePlayerFree(player, moveVector, map) {
 }
 
 function movePlayer(
-  player,
-  moveVector,
-  map,
-  move,
-  tryJump,
-  deltaTime,
-  keyCode,
+  player: Player,
+  moveVector: Vector,
+  map: GameMap,
+  move: boolean,
+  tryJump: boolean,
+  deltaTime: number,
+  keyCode: string,
 ) {
   let size = map.size;
   let physic = player.physic;

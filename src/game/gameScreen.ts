@@ -1,14 +1,13 @@
-import Control from 'common/control.js';
-import SceneManager from './sceneManager.js';
-import PlayPanel from './playpanel/playPanel.js';
+import Control from 'common/control';
+import SceneManager from './sceneManager';
+import PlayPanel from './playpanel/playPanel';
 import MainMenu from './mainMenu';
 
-const SettingsMenu = require('./settingsMenu1.js').default;
-console.log(SettingsMenu);
-import EditorScreen from './editorScreen.js';
+import SettingsMenu from './settingsMenu1';
+import EditorScreen from './editorScreen';
 import Renderer from 'common/renderer';
-import Vector from 'common/vector.js';
-import Preloader from './preloader.js';
+import Vector from 'common/vector';
+import Preloader from './preloader';
 
 import Game from './core/game';
 
@@ -21,6 +20,8 @@ import { IPage } from "src/application/IPage";
 import av1 from "../assets/avatar_1.jpg";
 import av2 from "../assets/avatar_2.jpg";
 import av3 from "../assets/avatar_3.jpg";
+import Player from './core/player.js';
+import { IKeyboardState } from './core/IKeyboardState.js';
 
 const defaultGameConfig = {
   format: 'easycount',
@@ -57,18 +58,18 @@ const defaultGameConfig = {
 }
 export default class GameScreen extends Control implements IPage{
   canvas: Control;
-  context: any;
+  context: CanvasRenderingContext2D;
   renderer: Renderer;
   panel: SceneManager;
   fps: number;
   preloader: Preloader;
   playPanel: PlayPanel;
-  game: any;
+  game: Game;
   editorScreen: EditorScreen;
-  settings: any;
+  settings: SettingsMenu;
   allHealth: any;
   menu: MainMenu;
-  keyboardState: any;
+  keyboardState: IKeyboardState;
 
   constructor(parentNode:HTMLElement, config?:any) {
     super(parentNode, 'div', 'gamescreen_wrapper');
@@ -112,7 +113,7 @@ export default class GameScreen extends Control implements IPage{
     this.menu.onFight = () => {
       this.panel.selectByScene(this.playPanel);
       this.game = new Game();
-      this.game.onNext = (player, timerSpan) => {
+      this.game.onNext = (player: Player, timerSpan) => {
         this.playPanel.openWeapon.select(player.weapons.indexOf(player.currentWeapon), true);
         this.playPanel.windIndicator.node.textContent = this.game.wind.toFixed(2);
         this.playPanel.timeIndicator.setTimerDuration(timerSpan);

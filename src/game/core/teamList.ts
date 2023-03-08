@@ -1,11 +1,20 @@
-class TeamList {
+import Camera from "./camera";
+import { GameMap } from "./map";
+import Player from "./player";
+import Team from "./team";
+
+export default class TeamList {
+  list: Team[];
+  currentTeam: any;
+  onLastTeam: () => void;
+
   constructor (){
     this.list = [];
     this.currentTeam = null;
     this.onLastTeam = ()=>{}
   }
 
-  add(team){
+  add(team: Team){
     this.list.push(team);
     team.onKilled = () => {
       if (this.getActiveTeams().length <= 1) {
@@ -29,7 +38,7 @@ class TeamList {
   }
 
   getPlayerList() {
-    let playerList = [];
+    let playerList: Array<Player> = [];
     this.list.forEach((team) =>
       team.players.forEach((it) => {
         playerList.push(it);
@@ -38,7 +47,7 @@ class TeamList {
     return playerList;
   }
 
-  nextTeam(teamIndex){
+  nextTeam(teamIndex: number){
     let nextTeamIndex = teamIndex;
     if (teamIndex === undefined) {
       nextTeamIndex =
@@ -57,13 +66,13 @@ class TeamList {
     return currentPlayer;
   }
 
-  process(map, deltaTime){
+  process(map: GameMap, deltaTime: number){
     this.getPlayerList().forEach((player) => {
       player.fall(map, deltaTime);
     });
   }
 
-  render(context, deltaTime, camera){
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Camera){
     this.list.forEach((it) => {
       it.render(context, deltaTime, camera);
     });
@@ -73,5 +82,3 @@ class TeamList {
     return this.list.reduce((allHealth, team) => allHealth += team.getSumHealth(), 0);
   }
 }
-
-module.exports = TeamList;

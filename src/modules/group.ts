@@ -1,7 +1,13 @@
-const Control = require('./control.js');
+import Control from './control';
 
-class Toggle extends Control {
-  constructor(parentNode, activeClass, inactiveClass, caption, onClick) {
+export class Toggle extends Control {
+  activeClass: string;
+  inactiveClass: string;
+  onClick: (state: boolean) => void;
+  isToggled: boolean;
+  onChange: (state: boolean)=>void;
+
+  constructor(parentNode: HTMLElement, activeClass: string, inactiveClass: string, caption: string, onClick: (state: boolean) => void) {
     super(parentNode, 'div', inactiveClass, caption);
     this.activeClass = activeClass;
     this.inactiveClass = inactiveClass;
@@ -16,7 +22,7 @@ class Toggle extends Control {
     }
   }
 
-  changeState(state) {
+  changeState(state?: boolean) {
     if (state === undefined) {
       this.isToggled = !this.isToggled;
     } else {
@@ -29,8 +35,13 @@ class Toggle extends Control {
   }
 }
 
-class RadioGroup extends Control {
-  constructor(parentNode, wrapperClass, activeItemClass, inactiveItemClass) {
+export class RadioGroup extends Control {
+  activeItemClass: any;
+  inactiveItemClass: any;
+  buttons: Toggle[];
+  onSelect: (index: number)=>void;
+
+  constructor(parentNode: HTMLElement, wrapperClass: string, activeItemClass: string, inactiveItemClass: string) {
     super(parentNode, 'div', wrapperClass);
     this.activeItemClass = activeItemClass;
     this.inactiveItemClass = inactiveItemClass;
@@ -38,18 +49,18 @@ class RadioGroup extends Control {
     this.onSelect;
   }
 
-  addButton(caption) {
+  addButton(caption: string) {
     let but = new Toggle(this.node, this.activeItemClass, this.inactiveItemClass, caption, () => {
       this.select(this.buttons.findIndex(it => but == it));
     });
     this.buttons.push(but);
   }
 
-  select(index, noCallback) {
+  select(index: number, noCallback?: boolean) {
     this.buttons.forEach(it => it.changeState(false));
     this.buttons[index].changeState(true);
     !noCallback && this.onSelect && this.onSelect(index);
   }
 }
 
-module.exports = { Group: RadioGroup, Toggle };
+//export default { Group: RadioGroup, Toggle };

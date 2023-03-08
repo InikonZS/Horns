@@ -1,23 +1,29 @@
-const Control = require('common/control.js');
-const { Group, Toggle } = require('common/group.js');
+import Control from 'common/control';
+import { RadioGroup, Toggle } from 'common/group';
 
 class WeaponItem extends Toggle {
-  constructor(parentNode, activeClass, inactiveClass, caption, onClick) {
+  itemW: Control;
+  
+  constructor(parentNode: HTMLElement, activeClass: string, inactiveClass: string, caption: string, onClick) {
     super(parentNode, activeClass, inactiveClass, caption, onClick);
     this.itemW = new Control(this.node, 'div', 'weapon_amount_available', '22');
   }
 
 }
 
-class WeaponMenu extends Group {
-  constructor(parentNode, wrapperClass, activeItemClass, inactiveItemClass) {
+class WeaponMenu extends RadioGroup {
+  header: Control;
+  main: Control;
+  footer: Control;
+
+  constructor(parentNode: HTMLElement, wrapperClass: string, activeItemClass: string, inactiveItemClass: string) {
     super(parentNode, wrapperClass, activeItemClass, inactiveItemClass);
     this.header = new Control(this.node, 'div', 'weapon-header', 'Weapons available');
     this.main = new Control(this.node, 'div', 'weapon-main', '');
     this.footer = new Control(this.node, 'div', 'weapon-footer', '');
   }
 
-  addButton(caption) {
+  addButton(caption: string) {
     let but = new WeaponItem(this.main.node, this.activeItemClass, this.inactiveItemClass, caption, () => {
       this.select(this.buttons.findIndex(it => but == it));
     });
@@ -37,4 +43,4 @@ class WeaponMenu extends Group {
   }
 }
 
-module.exports = WeaponMenu;
+export default WeaponMenu;

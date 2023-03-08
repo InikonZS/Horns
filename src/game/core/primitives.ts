@@ -106,7 +106,7 @@ export class Physical {
     this.isReflectable = false;
   }
 
-  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, proc: boolean) {
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, proc?: boolean) {
     this.timer.tick(deltaTime);
     !proc && this.physic.process(deltaTime);
     this.graphic.position = this.physic.position;

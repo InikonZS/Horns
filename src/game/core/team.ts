@@ -1,3 +1,7 @@
+import BulletList from "./bulletList";
+import Camera from "./camera";
+import Player from "./player";
+
 export default class Team{
   players: any[];
   name: string;
@@ -30,7 +34,7 @@ export default class Team{
     return this.players.reduce((a, it)=>a+=+it.health, 0);
   }
 
-  addPlayer(player){
+  addPlayer(player: Player){
     this.players.push(player);
     player.onKilled = ()=>{
       this.players = this.players.filter(it=>it!=player);
@@ -40,13 +44,13 @@ export default class Team{
     }
   }
 
-  react(bullets, deltaTime){
+  react(bullets: BulletList, deltaTime: number){
     this.players.forEach(it=>{
       it.react(bullets, deltaTime);
     })
   }
 
-  render(context, deltaTime, camera){
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Camera){
     this.players.forEach(it=>{
       it.render(context, deltaTime, camera);
     })

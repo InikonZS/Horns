@@ -9,6 +9,7 @@ import Team from './team';
 import BoxList from './boxList';
 import BulletList from './bulletList';
 import TeamList from './teamList';
+import { IKeyboardState } from './IKeyboardState';
 
 const freeMovement = false;
 
@@ -18,7 +19,7 @@ class SilentWatcher {
     this.events = [];
   }
 
-  add(event) {
+  add(event: ()=>void) {
     this.events.push(event);
   }
 }
@@ -70,7 +71,7 @@ class Game {
     throw new Error('Method not implemented.');
   }
 
-  start(options, onStart) {
+  start(options: any, onStart:()=>void) {
     this.map = new GameMap(options.mapURL, ()=>{
       for (let j = 0; j < options.teams.length; j++) {
         let jteam = options.teams[j];
@@ -123,7 +124,7 @@ class Game {
     this.computerShotTimer.tick(deltaTime);
   }
 
-  react(bullets, deltaTime: number) {
+  react(bullets: BulletList, deltaTime: number) {
     this.teams.forEach((it) => {
       it.react(bullets, deltaTime);
     });
@@ -162,7 +163,7 @@ class Game {
     this.teams.render(context, deltaTime, this.camera);
   }
 
-  processKeyboard(context: CanvasRenderingContext2D, keyboardState, deltaTime: number) {
+  processKeyboard(context: CanvasRenderingContext2D, keyboardState: IKeyboardState, deltaTime: number) {
     this.camera.move(context, keyboardState, 80, deltaTime);
 
     if (!this.teams.currentTeam.isComputer) {
@@ -253,7 +254,7 @@ class Game {
     return this.teams.getCurrentPlayer();
   }
 
-  getCenterVector(context) {
+  getCenterVector(context: CanvasRenderingContext2D) {
     return new Vector(context.canvas.width / 2, context.canvas.height / 2);
   }
 }

@@ -1,9 +1,14 @@
-const Vector = require('common/vector.js');
-const inBox = require('common/utils.js');
-const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
+import Vector from 'common/vector';
+import { IKeyboardState } from './IKeyboardState';
+import { GraphicPoint, PhysicPoint, Physical } from './primitives';
 
 class Camera extends PhysicPoint{
-  constructor (pos){
+  targetVector: Vector;
+  cameraAutoMode: number;
+  enableAutoMove: boolean;
+  scaler: number;
+
+  constructor (pos: Vector){
     super(pos);
     this.targetVector = null;
     this.cameraAutoMode = 0;
@@ -11,13 +16,13 @@ class Camera extends PhysicPoint{
     this.scaler = 1;
   }
 
-  setTargetVector(targetVector, mode, scaler){
+  setTargetVector(targetVector: Vector, mode: number, scaler: number){
     this.targetVector = targetVector.add(new Vector(0, 100));
     this.cameraAutoMode = mode;
     this.scaler = scaler;
   }
 
-  move(context, keyboardState, moveSpeed=8, deltaTime){
+  move(context: CanvasRenderingContext2D, keyboardState: IKeyboardState, moveSpeed=8, deltaTime: number){
     let moveVector = new Vector(0, 0);
     if (keyboardState['ArrowUp']){moveVector.y=-4;}
     if (keyboardState['ArrowDown']){moveVector.y=4;}
@@ -30,7 +35,7 @@ class Camera extends PhysicPoint{
     }
   }
 
-  limit(context, nextPosition){
+  limit(context: CanvasRenderingContext2D, nextPosition: Vector){
       let minX = 800;
       if (nextPosition.x>minX){ nextPosition.x = minX }
       let limX = -800-2000+context.canvas.width;
@@ -42,7 +47,7 @@ class Camera extends PhysicPoint{
       this.position.from(nextPosition);
   }
 
-  process(context, deltaTime){
+  process(context: CanvasRenderingContext2D, deltaTime: number){
     if (this.enableAutoMove && this.targetVector){
       let cameraAutoMode = this.cameraAutoMode;
       let toTarget = this.position.clone().scale(-1).sub(this.targetVector);
@@ -65,4 +70,4 @@ class Camera extends PhysicPoint{
   }
 }
 
-module.exports = Camera;
+export default Camera;

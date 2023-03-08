@@ -1,10 +1,27 @@
-const Control = require('common/control.js');
-const TeamIndicator = require('./teamIndicator.js');
-const TimeIndicator = require('./timeIndicator');
-const WeaponMenu = require('./weaponMenu');
-const ModalWindow = require('./modalWindow');
+import Control from 'common/control.js';
+import TeamIndicator from './teamIndicator.js';
+import TimeIndicator from './timeIndicator';
+import WeaponMenu from './weaponMenu';
+import ModalWindow from './modalWindow';
+import renderer from 'common/renderer.js';
+import SceneManager from '../sceneManager.js';
+
 class PlayPanel extends Control {
-  constructor(parentNode, sceneManager, gameScreenEl, renderer) {
+  gameScreenEl: HTMLElement;
+  renderer: renderer;
+  timeIndicator: TimeIndicator;
+  teamIndicator: TeamIndicator;
+  pause: Control;
+  pauseScreen: ModalWindow;
+  weaponButton: Control;
+  openWeapon: WeaponMenu;
+  weaponScreen: Control;
+  fullScreenButton: Control;
+  backButton: Control;
+  resumeButton: Control;
+  windIndicator: Control;
+  
+  constructor(parentNode: HTMLElement, sceneManager: SceneManager, gameScreenEl: HTMLElement, renderer: renderer) {
     super(parentNode, 'div', 'gamescreen_wrapper', `
       <div class="gamescreen_top menu"></div>
 
@@ -92,8 +109,8 @@ class PlayPanel extends Control {
         </svg>
         <div class="menu__text">Fullscreen</div>
       `);
-    const fullscreen = this.fullScreenButton.node.querySelector('.fullscreen');
-    const fullscreenOut = this.fullScreenButton.node.querySelector('.fullscreen-out');
+    const fullscreen: HTMLButtonElement = this.fullScreenButton.node.querySelector('.fullscreen');
+    const fullscreenOut: HTMLButtonElement = this.fullScreenButton.node.querySelector('.fullscreen-out');
     this.fullScreenButton.node.onclick = () => {
       if (document.fullscreenElement) {
         document.exitFullscreen();
@@ -131,7 +148,10 @@ class PlayPanel extends Control {
     this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'),
       'div', 'wind-indicator', '0');
   }
+  onBack() {
+    throw new Error('Method not implemented.');
+  }
 }
 
 
-module.exports = PlayPanel;
+export default PlayPanel;

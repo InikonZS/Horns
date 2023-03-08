@@ -1,8 +1,11 @@
-const Vector = require('common/vector.js');
-const {GraphicPoint, PhysicPoint, Physical} = require('./primitives.js');
+import Vector from 'common/vector';
+import Camera from './camera';
+import { GraphicPoint, PhysicPoint, Physical } from './primitives';
 
 class Particles{
-  constructor(count){
+  parts: Array<Physical>;
+  
+  constructor(count: number){
     this.parts = [];
     for (let i=0; i<count; i++){
       let part = new Physical(new Vector(Math.random()*2500, Math.random()*2000-1000), 5, "#0f0");
@@ -11,7 +14,7 @@ class Particles{
     }
   }
 
-  render(context, deltaTime, camera, wind){
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, wind: number){
     this.parts.forEach(it=>{
       if (it.physic.position.y>1000){
         it.physic.position.y=-1000;
@@ -28,4 +31,4 @@ class Particles{
   }
 }
 
-module.exports = Particles;
+export default Particles;

@@ -1,12 +1,16 @@
-const Box = require('./box.js');
-const Vector = require('common/vector.js');
+import Box from './box';
+import Vector from 'common/vector';
+import Camera from './camera';
+import { GameMap } from './map';
 
 class BoxList{
+  list: Box[];
+
   constructor(){
     this.list = [];
   }
   
-  add(box){
+  add(box: Box){
     this.list.push(box);
   }
 
@@ -24,7 +28,7 @@ class BoxList{
     }
   }
 
-  render(context, deltaTime, camera, map, teams){
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, map: GameMap, teams: any[]){
     this.list = this.list.filter((it) => !it.isDeleted);
     this.list.forEach((it) => {
       it.render(context, deltaTime, camera, map, teams)
@@ -32,4 +36,4 @@ class BoxList{
   }
 }
 
-module.exports = BoxList;
+export default BoxList;
