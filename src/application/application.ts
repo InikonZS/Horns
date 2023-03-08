@@ -1,10 +1,16 @@
-const Control = require('common/control.js');
-const PageManager = require('./pageManager.js');
-const GameScreen = require('game/gameScreen.js').default;
-const AboutScreen = require('./about/aboutPage.js');
-const AnotherScreen = require('./another/anotherPage.js');
+import Control from 'common/control';
+import PageManager from './pageManager';
+import GameScreen from 'game/gameScreen';
+import AboutScreen from './about/aboutPage';
+import AnotherScreen from './another/anotherPage';
 
 class Application extends Control {
+  pageManager: PageManager;
+  node: any;
+  gameScreen: GameScreen;
+  aboutScreen: AboutScreen;
+  footer: any;
+
   constructor(parentNode, config) {
     super(parentNode);
     // this.logo = new Control(this.node, 'div', 'logo', 'Horns');
@@ -31,4 +37,4 @@ class Application extends Control {
   }
 }
 
-module.exports = Application;
+export default Application;

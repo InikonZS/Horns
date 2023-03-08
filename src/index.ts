@@ -1,5 +1,5 @@
-const Application = require('./application/application.js');
-const config = require('./config.js');
+import Application from './application/application';
+import config from './config';
 const rootNode = document.getElementById('app');
 import "./style.css";
 import "./styles/game.css";
