@@ -44,6 +44,7 @@ class Game {
   onNext: (player:Player, timer: number)=>void;
   shoted: boolean;
   nextLock: boolean;
+  onFinish: () => void;
 
   constructor() {
     this.camera = new Camera(new Vector(0, 0));
@@ -66,9 +67,6 @@ class Game {
       this.next();
     };
     this.parts = new Particles(100);
-  }
-  onFinish() {
-    throw new Error('Method not implemented.');
   }
 
   start(options: any, onStart:()=>void) {
@@ -109,7 +107,7 @@ class Game {
 
     if (this.teams.currentTeam.isComputer) {
       this.getCurrentPlayer()
-        .setTargetPoint(this.teams.getPlayersToHit(), this.camera, this.map, this.wind);
+        .setTargetPoint(this.teams.getPlayersToHit(), this.camera.position, this.map, this.wind);
       this.computerShotTimer.start(15);
     }
   }
@@ -124,11 +122,11 @@ class Game {
     this.computerShotTimer.tick(deltaTime);
   }
 
-  react(bullets: BulletList, deltaTime: number) {
+  /*react(bullets: BulletList, deltaTime: number) {
     this.teams.forEach((it) => {
       it.react(bullets, deltaTime);
     });
-  }
+  }*/
 
   render(context: CanvasRenderingContext2D, deltaTime: number) {
     if (this.bullets.list[0]) {

@@ -21,7 +21,7 @@ import av1 from "../assets/avatar_1.jpg";
 import av2 from "../assets/avatar_2.jpg";
 import av3 from "../assets/avatar_3.jpg";
 import Player from './core/player.js';
-import { IKeyboardState } from './core/IKeyboardState.js';
+import { IKeyboardState } from './core/IKeyboardState';
 import { ITeamItemData } from './ITeamItemData';
 import TeamIndicatorItem from './playpanel/teamIndicatorItem';
 
@@ -128,7 +128,7 @@ export default class GameScreen extends Control implements IPage{
       this.playPanel.teamIndicator.clear();
       this.game.start(defaultGameConfig, ()=>{
         this.game.teams.list.forEach((it, i) => {
-          this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: it.color });
+          this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i.toString(), color: it.color });
         })
         this.renderer.start();
       });
@@ -165,7 +165,7 @@ export default class GameScreen extends Control implements IPage{
       this.game.start(defaultGameConfig, ()=>{
         this.playPanel.teamIndicator.clear();
         this.game.teams.list.forEach((it, i) => {
-          this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i, color: it.color });
+          this.playPanel.teamIndicator.addTeam({ name: it.name, avatar: it.avatar || i.toString(), color: it.color });
         })
         this.renderer.start();
       });

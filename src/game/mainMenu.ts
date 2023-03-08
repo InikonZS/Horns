@@ -1,4 +1,4 @@
-import Control from 'common/control.js';
+import Control from 'common/control';
 
 class MainMenu extends Control {
   name: string;

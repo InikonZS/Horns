@@ -1,4 +1,4 @@
-import Control from 'common/control.js';
+import Control from 'common/control';
 import { IPage } from '../IPage';
 
 class AboutPage extends Control implements IPage {

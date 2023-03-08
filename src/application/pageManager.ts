@@ -1,6 +1,6 @@
-import Control from 'common/control.js';
-import AboutPage from './about/aboutPage.js';
-import GamePage from './game/gamePage.js';
+import Control from 'common/control';
+import AboutPage from './about/aboutPage';
+import GamePage from './game/gamePage';
 import { IPage } from  './IPage';
 
 export default class PageManager extends Control{

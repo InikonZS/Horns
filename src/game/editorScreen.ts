@@ -1,4 +1,4 @@
-import Control from 'common/control.js';
+import Control from 'common/control';
 
 import Vector from '../modules/vector';
 import SceneManager from './sceneManager';

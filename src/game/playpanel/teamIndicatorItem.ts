@@ -1,4 +1,4 @@
-import Control from 'common/control.js';
+import Control from 'common/control';
 import TeamIndicatorProgress from './teamProgress';
 
 class TeamIndicatorItem extends Control {
@@ -23,7 +23,7 @@ class TeamIndicatorItem extends Control {
       color: data.color,
     }
     this.teamAvatar = new TeamIndicatorProgress(this.node, options);
-    this.node.style['border-color'] = data.color;
+    this.node.style['border'] = data.color;
   }
 
   setHealth(health: number, absHealth: string){

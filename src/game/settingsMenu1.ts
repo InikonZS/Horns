@@ -169,7 +169,7 @@ class MapItem extends Control {
 }
 
 
-class MapChoice extends Control {
+class MapChoice extends Control<HTMLSelectElement> {
   items: MapItem[];
   onChange: (data: IMapItemData)=>void;
 
