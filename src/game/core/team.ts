@@ -1,5 +1,13 @@
-class Team{
-  constructor(name, avatar, isComputer, color){
+export default class Team{
+  players: any[];
+  name: string;
+  avatar: string;
+  currentPlayer: any;
+  isComputer: boolean;
+  color: string;
+  onKilled: any;
+
+  constructor(name: string, avatar: string, isComputer: boolean, color: string){
     this.players = [];
     this.name = name;
     this.avatar = avatar;
@@ -44,5 +52,3 @@ class Team{
     })
   }
 }
-
-module.exports = Team;

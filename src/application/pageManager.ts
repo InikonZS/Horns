@@ -1,9 +1,16 @@
-const Control = require('common/control.js');
-const AboutPage = require('./about/aboutPage.js');
-const GamePage = require('./game/gamePage.js');
+import Control from 'common/control.js';
+import AboutPage from './about/aboutPage.js';
+import GamePage from './game/gamePage.js';
+import { IPage } from  './IPage';
 
-class PageManager extends Control{
-  constructor (parentNode, className){
+export default class PageManager extends Control{
+  logo: Control;
+  pages: IPage[];
+  marks: any[];
+  currentPage: any;
+  currentIndex: number;
+
+  constructor (parentNode: HTMLElement, className: string){
     super(parentNode, 'div', className);
     this.logo = new Control(this.node, 'div', 'logo', 'Horns');
     this.pages = [];
@@ -12,7 +19,7 @@ class PageManager extends Control{
     this.currentIndex = -1;
   }
 
-  add(page, name){
+  add(page: IPage, name: string){
     page.hide();
     this.pages.push(page);
     let mark = new Control(this.node, 'div', 'navi_item', name);
@@ -22,17 +29,17 @@ class PageManager extends Control{
     this.marks.push(mark);
   }
 
-  selectByName(name){
+  selectByName(name:string){
     let index = this.pages.findIndex(it=>it.name == name);
     this.select(index);
   }
 
-  selectByScene(page){
+  selectByScene(page:IPage){
     let index = this.pages.indexOf(page);
     this.select(index);
   }
 
-  select(index){
+  select(index:number){
     this.pages.forEach((it, i)=>{
       if (i!=index){
         it.hide();
@@ -44,7 +51,3 @@ class PageManager extends Control{
     });
   }
 }
-
-module.exports = PageManager;
-
-module.exports = PageManager;

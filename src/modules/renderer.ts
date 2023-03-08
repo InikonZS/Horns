@@ -1,10 +1,15 @@
-class Renderer {
+export default class Renderer {
+  isStarted: boolean;
+  onRenderFrame: (time: number) => void;
+  start: () => void;
+  stop: () => void;
+
   constructor() {
     this.isStarted = false;
     this.onRenderFrame = () => {};
 
     let lastTime = 0;
-    const renderFrame = (timeStamp) => {
+    const renderFrame = (timeStamp: number) => {
       if (this.isStarted) {
         let deltaTime = 0;
         if (lastTime) {
@@ -30,5 +35,3 @@ class Renderer {
     };
   }
 }
-
-module.exports = Renderer;

@@ -11,7 +11,7 @@ class Application extends Control {
   aboutScreen: AboutScreen;
   footer: any;
 
-  constructor(parentNode, config) {
+  constructor(parentNode:HTMLElement, config?:any) {
     super(parentNode);
     // this.logo = new Control(this.node, 'div', 'logo', 'Horns');
     this.pageManager = new PageManager(this.node, 'navi');

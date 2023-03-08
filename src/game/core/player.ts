@@ -1,10 +1,12 @@
-const { Weapon, WeaponEx, WeaponS } = require('./weapon.js');
-const { GraphicPoint, PhysicPoint, Physical } = require('./primitives.js');
-const Vector = require('common/vector.js');
-const Animation = require('./animation');
+import { Weapon, WeaponEx, WeaponS } from './weapon';
+import { GraphicPoint, PhysicPoint, Physical } from './primitives';
+import Vector from 'common/vector';
+import Animation from './animation';
 
 class GraphicPlayer extends GraphicPoint {
-  constructor(position, radius, color = '#f00') {
+  animation: Animation;
+
+  constructor(position: Vector, radius: number, color = '#f00') {
     super(position, radius, color);
     this.animation = new Animation(
       './assets/worm-walks-100.png',
@@ -15,7 +17,7 @@ class GraphicPlayer extends GraphicPoint {
     );
   }
 
-  render(context, deltaTime, camera, data) {
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, data: { health: any; name: any; }) {
     context.fillStyle = this.color;
     let position = this.position.clone().add(camera);
     context.font = '12px bold "Arial"';
@@ -39,7 +41,23 @@ class GraphicPlayer extends GraphicPoint {
 }
 
 class Player {
-  constructor(name, health, pos, color) {
+  name: string;
+  health: number;
+  weapons: (WeaponEx | Weapon | WeaponS)[];
+  currentWeapon: any;
+  angle: number;
+  angleSpeed: number;
+  physic: PhysicPoint;
+  graphic: GraphicPlayer;
+  target: GraphicPoint;
+  powerIndicator: GraphicPoint;
+  power: number;
+  jumped: boolean;
+  isActive: any;
+  isPower: boolean;
+  onShot: any;
+
+  constructor(name: string, health: number, pos: Vector, color: string) {
     this.name = name;
     this.health = health;
     this.weapons = [
@@ -60,13 +78,13 @@ class Player {
     this.jumped = false;
   }
 
-  setActive(isActive) {
+  setActive(isActive: boolean) {
     this.graphic.radius = isActive ? 15 : 10;
     !isActive && this.setMoveAnimation(false);
     this.isActive = isActive;
   }
 
-  setMoveAnimation(value, keyCode) {
+  setMoveAnimation(value: boolean, keyCode: string) {
     if (value) {
       if (!this.graphic.animation.isStarted) {
         this.graphic.animation.start(keyCode);
@@ -80,15 +98,18 @@ class Player {
     this.currentWeapon = this.weapons[index];
   }
 
-  hurt(damage) {
+  hurt(damage: number) {
     this.health -= damage;
     if (this.health <= 0) {
       this.health = 0;
       this.onKilled();
     }
   }
+  onKilled() {
+    throw new Error('Method not implemented.');
+  }
 
-  cure(damage) {
+  cure(damage: number) {
     this.health += damage;
   }
 
@@ -102,7 +123,7 @@ class Player {
     this.power = 0;
   }
 
-  powerUp(deltaTime) {
+  powerUp(deltaTime: number) {
     if (this.isPower) {
       this.power += deltaTime;
     }
@@ -116,7 +137,7 @@ class Player {
     return new Vector(Math.cos(this.angle / 30), Math.sin(this.angle / 30));
   }
 
-  shot(bullets, wind) {
+  shot(bullets: Array<any>, wind: number) {
     let direction = this.getDirectionVector();
     if (this.currentWeapon) {
       this.currentWeapon.shot(
@@ -131,7 +152,7 @@ class Player {
     }
   }
 
-  setShotOptions(wind) {
+  setShotOptions(wind: number) {
     let direction = this.getDirectionVector();
     if (this.currentWeapon) {
       this.currentWeapon.setShotOptions(
@@ -155,7 +176,7 @@ class Player {
     });
   }
 
-  render(context, deltaTime, camera) {
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector) {
     this.graphic.position = this.physic.position;
     this.powerUp(deltaTime);
 
@@ -297,4 +318,4 @@ function movePlayer(
   player.setMoveAnimation(move || tryJump, keyCode);
 }
 
-module.exports = Player;
+export default Player;

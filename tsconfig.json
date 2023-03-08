@@ -3,7 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "module": "es6",
-    "target": "es5",
+    "target": "ES6",
     "allowJs": true,
     "sourceMap": true,
     "baseUrl": ".",
@@ -12,5 +12,5 @@
       "game/*": ["/src/game/"]
     }
   },
-  "files": ["src/index.ts"],
+  "files": ["src/index.ts", "./module.d.ts"],
 }

@@ -1,18 +1,19 @@
-const Timer = require('./timer.js');
-const { GameMap } = require('./map.js');
-const Player = require('./player.js');
-const Camera = require('./camera.js');
-const Vector = require('common/vector.js');
-const Particles = require('./particles.js');
+import Timer from './timer';
+import { GameMap } from './map';
+import Player from './player';
+import Camera from './camera';
+import Vector from 'common/vector';
+import Particles from './particles';
 
-const Team = require('./team.js');
-const BoxList = require('./boxList.js');
-const BulletList = require('./bulletList.js');
-const TeamList = require('./teamList.js');
+import Team from './team';
+import BoxList from './boxList';
+import BulletList from './bulletList';
+import TeamList from './teamList';
 
 const freeMovement = false;
 
 class SilentWatcher {
+  events: any[];
   constructor() {
     this.events = [];
   }
@@ -27,6 +28,22 @@ function getRandomSpawnVector(){
 }
 
 class Game {
+  camera: Camera;
+  wind: number;
+  teams: TeamList;
+  boxes: BoxList;
+  bullets: BulletList;
+  currentTeam: any;
+  timer: Timer;
+  afterTimer: Timer;
+  computerShotTimer: Timer;
+  map: any;
+  silentWatcher: SilentWatcher;
+  parts: Particles;
+  onNext: any;
+  shoted: any;
+  nextLock: any;
+
   constructor() {
     this.camera = new Camera(new Vector(0, 0));
     this.wind = 0;
@@ -48,6 +65,9 @@ class Game {
       this.next();
     };
     this.parts = new Particles(100);
+  }
+  onFinish() {
+    throw new Error('Method not implemented.');
   }
 
   start(options, onStart) {
@@ -71,7 +91,7 @@ class Game {
     });
   }
 
-  next(teamIndex) {
+  next(teamIndex: number) {
     let timerSpan = 85;
     this.camera.enableAutoMove = true;
     if (this.teams.getActiveTeams().length > 1) {
@@ -97,19 +117,19 @@ class Game {
     this.timer.pause();
   }
 
-  tick(deltaTime) {
+  tick(deltaTime: number) {
     this.timer.tick(deltaTime);
     this.afterTimer.tick(deltaTime);
     this.computerShotTimer.tick(deltaTime);
   }
 
-  react(bullets, deltaTime) {
+  react(bullets, deltaTime: number) {
     this.teams.forEach((it) => {
       it.react(bullets, deltaTime);
     });
   }
 
-  render(context, deltaTime) {
+  render(context: CanvasRenderingContext2D, deltaTime: number) {
     if (this.bullets.list[0]) {
       this.camera.setTargetVector(
         this.bullets.list[0].physic.position
@@ -142,7 +162,7 @@ class Game {
     this.teams.render(context, deltaTime, this.camera);
   }
 
-  processKeyboard(context, keyboardState, deltaTime) {
+  processKeyboard(context: CanvasRenderingContext2D, keyboardState, deltaTime: number) {
     this.camera.move(context, keyboardState, 80, deltaTime);
 
     if (!this.teams.currentTeam.isComputer) {
@@ -238,4 +258,4 @@ class Game {
   }
 }
 
-module.exports = Game;
+export default Game;

@@ -1,7 +1,15 @@
-const Control = require('common/control.js');
+import Control from 'common/control.js';
 
 class MainMenu extends Control {
-  constructor(parentNode, config) {
+  name: string;
+  editorButton: Control;
+  settingsButton: Control;
+  fightButton: Control;
+  onFight: any;
+  onSettings: any;
+  onEditor: any;
+
+  constructor(parentNode:HTMLElement, config?:any) {
     super(parentNode, 'div', 'gamescreen_wrapper_centred main', '');
     this.name = 'mainMenu';
     let menuWrapper = new Control(this.node, 'div', "menu_wrapper");
@@ -27,4 +35,4 @@ class MainMenu extends Control {
 }
 
 
-module.exports = MainMenu;
+export default MainMenu;

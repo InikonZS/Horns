@@ -1,8 +1,11 @@
-const Timer = require('./timer.js');
-const Vector = require('common/vector.js');
+import Timer from './timer.js';
+import Vector from 'common/vector.js';
 
-class GraphicPoint {
-  constructor(position, radius, color = '#f00') {
+export class GraphicPoint {
+  position: Vector;
+  radius: number;
+  color: string;
+  constructor(position: Vector, radius: number, color = '#f00') {
     //super();
     this.position = position.clone();
     //this.physic = new PhysicPoint(position);
@@ -10,7 +13,7 @@ class GraphicPoint {
     this.color = color;
   }
 
-  render(context, deltaTime, camera) {
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector) {
     let position = this.position.clone().add(camera);
     context.fillStyle = this.color;
     context.strokeStyle = '#FFF';
@@ -24,8 +27,13 @@ class GraphicPoint {
   }
 }
 
-class PhysicPoint {
-  constructor(position) {
+export class PhysicPoint {
+  position: Vector;
+  speed: Vector;
+  acceleration: Vector;
+  forceList: any[];
+  friction: number;
+  constructor(position: Vector) {
     this.position = position.clone();
     this.speed = new Vector(0, 0);
     this.acceleration = new Vector(0, 0);
@@ -46,7 +54,7 @@ class PhysicPoint {
     this.position.y = value;
   }
 
-  getNextPosition(deltaTime) {
+  getNextPosition(deltaTime: number) {
     let resultAcceleration = this.acceleration.clone();
     this.forceList.forEach((it) => resultAcceleration.add(it));
     this.speed
@@ -56,7 +64,7 @@ class PhysicPoint {
     return this.position.clone().add(this.speed.clone().scale(deltaTime));
   }
 
-  getPosition(deltaTime) {
+  getPosition(deltaTime: number) {
     let resultAcceleration = this.acceleration.clone();
     this.forceList.forEach((it) => resultAcceleration.add(it));
     // this.speed.clone().add(resultAcceleration.clone().scale(deltaTime)).scale(this.friction);
@@ -66,7 +74,7 @@ class PhysicPoint {
       .add(resultAcceleration.scale(deltaTime ** 2 / 2));
   }
 
-  process(deltaTime) {
+  process(deltaTime: number) {
     let resultAcceleration = this.acceleration.clone();
     this.forceList.forEach((it) => resultAcceleration.add(it));
     this.speed
@@ -75,7 +83,7 @@ class PhysicPoint {
     this.position.add(this.speed.clone().scale(deltaTime));
   }
 
-  reflect(normal, scaler=1){
+  reflect(normal: Vector, scaler=1){
     if (!normal || normal.abs() == 0) {
       this.speed.scale(-1);
     } else {
@@ -84,8 +92,12 @@ class PhysicPoint {
   }
 }
 
-class Physical {
-  constructor(pos, radius, color) {
+export class Physical {
+  graphic: GraphicPoint;
+  physic: PhysicPoint;
+  timer: Timer;
+  isReflectable: boolean;
+  constructor(pos: Vector, radius: number, color: string) {
     this.graphic = new GraphicPoint(pos, radius, color);
     this.physic = new PhysicPoint(pos);
     //this.physic1 = new PhysicPoint(pos);
@@ -94,7 +106,7 @@ class Physical {
     this.isReflectable = false;
   }
 
-  render(context, deltaTime, camera, proc) {
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, proc: boolean) {
     this.timer.tick(deltaTime);
     !proc && this.physic.process(deltaTime);
     this.graphic.position = this.physic.position;
@@ -103,4 +115,3 @@ class Physical {
 
 }
 
-module.exports = { GraphicPoint, PhysicPoint, Physical };

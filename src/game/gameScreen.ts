@@ -1,25 +1,27 @@
-const Control = require('common/control.js');
-const SceneManager = require('./sceneManager.js');
-const PlayPanel = require('./playpanel/playPanel.js');
-const MainMenu = require('./mainMenu.js');
+import Control from 'common/control.js';
+import SceneManager from './sceneManager.js';
+import PlayPanel from './playpanel/playPanel.js';
+import MainMenu from './mainMenu';
 
 const SettingsMenu = require('./settingsMenu1.js').default;
 console.log(SettingsMenu);
-const EditorScreen = require('./editorScreen.js');
-const Renderer = require('common/renderer.js');
-const Vector = require('common/vector.js');
-const Preloader = require('./preloader.js');
+import EditorScreen from './editorScreen.js';
+import Renderer from 'common/renderer';
+import Vector from 'common/vector.js';
+import Preloader from './preloader.js';
 
-const Game = require('./core/game.js');
+import Game from './core/game';
 
 const names = `Lorem Ipsum Dolor Sit Amet Erat Morbi Lectus Finibus Mollis Mauris Eros Sed Felis Dabius Turpis Elemus Genus Proin Covan Grat Coin Jaggo Netus Inos Beler Ogos Frago`.split(
   ' ',
 );
 const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff', '#f8468d', '#ff7a51'];
 
+import { IPage } from "src/application/IPage";
 import av1 from "../assets/avatar_1.jpg";
 import av2 from "../assets/avatar_2.jpg";
 import av3 from "../assets/avatar_3.jpg";
+
 const defaultGameConfig = {
   format: 'easycount',
   mapURL: './assets/bitmap3.png',
@@ -53,8 +55,22 @@ const defaultGameConfig = {
       },
   ]
 }
-export default class GameScreen extends Control {
-  constructor(parentNode, config) {
+export default class GameScreen extends Control implements IPage{
+  canvas: Control;
+  context: any;
+  renderer: Renderer;
+  panel: SceneManager;
+  fps: number;
+  preloader: Preloader;
+  playPanel: PlayPanel;
+  game: any;
+  editorScreen: EditorScreen;
+  settings: any;
+  allHealth: any;
+  menu: MainMenu;
+  keyboardState: any;
+
+  constructor(parentNode:HTMLElement, config?:any) {
     super(parentNode, 'div', 'gamescreen_wrapper');
     this.canvas = new Control(this.node, 'canvas');
     this.canvas.node.style.position = 'absolute';

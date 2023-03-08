@@ -1,7 +1,8 @@
-const Control = require('common/control.js');
+import Control from 'common/control.js';
+import { IPage } from '../IPage';
 
-class AboutPage extends Control {
-  constructor(parentNode, config) {
+class AboutPage extends Control implements IPage {
+  constructor(parentNode:HTMLElement, config?:any) {
     super(parentNode, 'div', 'gamescreen_wrapper about');
     new Control(this.node, 'div', 'about_wrapper', `
     <div class="about_item">
@@ -30,4 +31,4 @@ class AboutPage extends Control {
   }
 }
 
-module.exports = AboutPage;
+export default AboutPage;
