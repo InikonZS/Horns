@@ -3,7 +3,8 @@ const SceneManager = require('./sceneManager.js');
 const PlayPanel = require('./playpanel/playPanel.js');
 const MainMenu = require('./mainMenu.js');
 
-const SettingsMenu = require('./settingsMenu1.js');
+const SettingsMenu = require('./settingsMenu1.js').default;
+console.log(SettingsMenu);
 const EditorScreen = require('./editorScreen.js');
 const Renderer = require('common/renderer.js');
 const Vector = require('common/vector.js');
@@ -15,6 +16,10 @@ const names = `Lorem Ipsum Dolor Sit Amet Erat Morbi Lectus Finibus Mollis Mauri
   ' ',
 );
 const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff', '#f8468d', '#ff7a51'];
+
+import av1 from "../assets/avatar_1.jpg";
+import av2 from "../assets/avatar_2.jpg";
+import av3 from "../assets/avatar_3.jpg";
 const defaultGameConfig = {
   format: 'easycount',
   mapURL: './assets/bitmap3.png',
@@ -24,7 +29,7 @@ const defaultGameConfig = {
   teams: [
       {
           name: 'Progers',
-          avatar: './assets/avatar_1.jpg',
+          avatar: av1,
           playersNumber: 1,
           playersHealts: 100,
           isComputer: false,
@@ -32,7 +37,7 @@ const defaultGameConfig = {
       },
       {
           name: 'Killers',
-          avatar: './assets/avatar_2.jpg',
+          avatar: av2,
           playersNumber: 1,
           playersHealts: 50,
           isComputer: true,
@@ -40,7 +45,7 @@ const defaultGameConfig = {
       },
       {
           name: 'Cloners',
-          avatar: './assets/avatar_3.jpg',
+          avatar: av3,
           playersNumber: 1,
           playersHealts: 200,
           isComputer: true,
@@ -48,7 +53,7 @@ const defaultGameConfig = {
       },
   ]
 }
-class GameScreen extends Control {
+export default class GameScreen extends Control {
   constructor(parentNode, config) {
     super(parentNode, 'div', 'gamescreen_wrapper');
     this.canvas = new Control(this.node, 'canvas');
@@ -210,4 +215,4 @@ class GameScreen extends Control {
   }
 }
 
-module.exports = GameScreen;
+//module.exports = GameScreen;

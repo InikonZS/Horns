@@ -173,10 +173,15 @@ class MapChoice extends Control {
 
 
 const colors = ['#fd434f', '#ffe00d', '#40d04f', '#007bff', '#7b5dfa', '#1abcff', '#f8468d', '#ff7a51'];
+
+import av4 from "../assets/avatar_4.jpg";
+import av5 from "../assets/avatar_5.png";
+import av6 from "../assets/avatar_6.jpg";
+
 const teams = [
   {
       name: 'Winners',
-      avatar: './assets/avatar_4.jpg',
+      avatar: av4,
       playersNumber: 3,
       playersHealts: 200,
       isComputer: true,
@@ -184,7 +189,7 @@ const teams = [
   },
   {
       name: 'Gamers',
-      avatar: './assets/avatar_5.png',
+      avatar: av5,
       playersNumber: 1,
       playersHealts: 200,
       isComputer: true,
@@ -192,33 +197,38 @@ const teams = [
   },
   {
       name: 'Horns',
-      avatar: './assets/avatar_6.jpg',
+      avatar: av6,
       playersNumber: 1,
       playersHealts: 200,
       isComputer: true,
       color: '#1abcff',
   },
-]
+];
+
+import map1 from "../assets/bitmap3.png";
+import map2 from "../assets/bitmap1.png";
+import map3 from "../assets/bitmap2.png";
+import map4 from "../assets/bitmap.png";
 
 const mapList = [
   {
       name: 'Island',
-      url: './assets/bitmap3.png'
+      url: map1
   },
   {
       name: 'Desert',
-      url: './assets/bitmap1.png'
+      url: map2
   },
   {
       name: 'City',
-      url: './assets/bitmap2.png'
+      url: map3
   },
   {
       name: 'Underground',
-      url: './assets/bitmap.png'
+      url: map4
   }
 ];
-class SettingsMenu extends Control {
+export default class SettingsMenu extends Control {
     constructor(parentNode, sceneManager, config) {
         super(parentNode, 'div', 'gamescreen_wrapper_centred gamescreen_wrapper-settings', '');
         let settingsItemTeam = new Control(this.node, 'div', 'settings_item settings_team');
@@ -261,5 +271,3 @@ class SettingsMenu extends Control {
       this.team.loadTeams(teamsConfig);
     }
 }
-
-module.exports = SettingsMenu;

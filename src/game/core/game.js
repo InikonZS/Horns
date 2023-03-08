@@ -1,5 +1,5 @@
 const Timer = require('./timer.js');
-const GameMap = require('./map.js');
+const { GameMap } = require('./map.js');
 const Player = require('./player.js');
 const Camera = require('./camera.js');
 const Vector = require('common/vector.js');

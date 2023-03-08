@@ -1,6 +1,6 @@
 const Control = require('common/control.js');
 const PageManager = require('./pageManager.js');
-const GameScreen = require('game/gameScreen.js');
+const GameScreen = require('game/gameScreen.js').default;
 const AboutScreen = require('./about/aboutPage.js');
 const AnotherScreen = require('./another/anotherPage.js');
 

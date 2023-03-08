@@ -194,7 +194,7 @@ class Player {
     let speed = 0;
     for (let p = 0; p < playersToHit.length; p++) {
       let player = playersToHit[p];
-      for (s = 0; s <= 5; s += 1) {
+      for (let s = 0; s <= 5; s += 1) {
         this.power = s;
         for (let i = 0; i < Math.PI * 30 * 2; i += (Math.PI * 30 * 2) / 190) {
           this.moveTarget(i);

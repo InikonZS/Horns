@@ -40,7 +40,11 @@ class TeamIndicatorProgress extends Control {
   render() {
     this.ctx.clearRect(0, 0, this.options.size, this.options.size);
     this.ctx.save();
-    this.drawAvatar();
+    try{
+      this.drawAvatar();
+    } catch(e){
+      
+    }
     this.ctx.restore();
     this.drawCircle('rgba(255, 255, 255, 0.3)');
     this.drawCircle(this.options.color, this.options.part);

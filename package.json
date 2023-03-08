@@ -1,32 +1,38 @@
 {
-  "name": "worms",
+  "name": "my-webpack-project",
   "version": "1.0.0",
   "description": "WormsClone by Inikon",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "npx jest ./test/test.js",
-    "lint": "npx eslint ./src",
-    "fix": "npx eslint ./src --fix",
-    "prod": "npx sass ./src/scss/main.scss style-build/main.css && npx webpack --mode production",
-    "dev": " npx sass ./src/scss/main.scss style-build/main.css && npx webpack --mode development",
-    "start": "npx sass ./src/scss/main.scss style-build/main.css && npx webpack-dev-server"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode=production --node-env=production",
+    "build:dev": "webpack --mode=development",
+    "build:prod": "webpack --mode=production --node-env=production",
+    "watch": "webpack --watch",
+    "start": "webpack serve"
   },
-  "author": "Inikon",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InikonZS/Horns.git"
+  },
+  "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.5",
-    "babel-loader": "^8.1.0",
-    "copy-webpack-plugin": "^5.1.1",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.1.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-prettier": "^3.1.2",
-    "jest": "^26.0.1",
-    "sass": "^1.32.4",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+  "bugs": {
+    "url": "https://github.com/InikonZS/Horns/issues"
   },
-  "dependencies": {}
+  "homepage": "https://github.com/InikonZS/Horns#readme",
+  "devDependencies": {
+    "@webpack-cli/generators": "^3.0.1",
+    "css-loader": "^6.7.3",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.7.2",
+    "sass": "^1.58.3",
+    "sass-loader": "^13.0.2",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.5",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  }
 }

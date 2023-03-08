@@ -1,6 +1,10 @@
 const {inBox, loadBitmap, readImageData} = require('common/utils.js');
 const Vector = require('../../modules/vector');
 
+import water from "../../assets/water.png";
+import waterNT from "../../assets/water_nt.png";
+import back from "../../assets/back.png";
+
 function mapToImage(map, color){
   let canvas = document.createElement('canvas');
   let size=2;
@@ -65,18 +69,18 @@ function roundImageAll(image, rounds){
   image.src = context.canvas.toDataURL();
 }
 
-class GameMap{
+export class GameMap{
   constructor(mapURL, onLoad){
     this.map = [];
     this.roundList = [];
     this.size = 2;
     this.waterLineX = 800;
     this.waterImage = new Image();
-    this.waterImage.src = './assets/water.png';
+    this.waterImage.src = water;
     this.waterNImage = new Image();
-    this.waterNImage.src = './assets/water_nt.png';
+    this.waterNImage.src = waterNT;
     this.backImage = new Image();
-    this.backImage.src = './assets/back.png';
+    this.backImage.src = back;
     this.image = new Image();
     this.hImage = new Image();
     loadBitmap(mapURL, (data)=>{
@@ -132,7 +136,7 @@ class GameMap{
   }
 
   renderGradient(context, deltaTime, camera){
-    gradient = context.createLinearGradient(0, camera.y-500, 0, camera.y+context.canvas.height+100);
+    const gradient = context.createLinearGradient(0, camera.y-500, 0, camera.y+context.canvas.height+100);
     gradient.addColorStop(0, "blue");
     gradient.addColorStop(1, "white");
     context.fillStyle = gradient;
@@ -206,5 +210,3 @@ class GameMap{
     roundCanvas(this.imc, center, radius);
   }
 }
-
-module.exports = GameMap;

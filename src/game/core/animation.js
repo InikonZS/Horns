@@ -65,11 +65,15 @@ class Animation {
                       x - (this.width / this.numberOfFrames / this.scale) / 2,
                       y - (this.height / this.scale) / 2,
                       (this.width / this.numberOfFrames) / this.scale,
-                      this.height / this.scale)
+                      this.height / this.scale)  
   }
 
-  drawCurrentFrame(context, x, y){
-    this.drawFrame(context, Math.trunc(this.frameIndex), x, y)
+  drawCurrentFrame(context, x, y){ 
+    try{
+      this.drawFrame(context, Math.trunc(this.frameIndex), x, y)
+    } catch(e){
+
+    }
   }
 
   render(context, deltaTime, position){
