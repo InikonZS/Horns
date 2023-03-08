@@ -22,6 +22,8 @@ import av2 from "../assets/avatar_2.jpg";
 import av3 from "../assets/avatar_3.jpg";
 import Player from './core/player.js';
 import { IKeyboardState } from './core/IKeyboardState.js';
+import { ITeamItemData } from './ITeamItemData';
+import TeamIndicatorItem from './playpanel/teamIndicatorItem';
 
 const defaultGameConfig = {
   format: 'easycount',
@@ -67,7 +69,7 @@ export default class GameScreen extends Control implements IPage{
   game: Game;
   editorScreen: EditorScreen;
   settings: SettingsMenu;
-  allHealth: any;
+  allHealth: number;
   menu: MainMenu;
   keyboardState: IKeyboardState;
 
@@ -146,7 +148,7 @@ export default class GameScreen extends Control implements IPage{
       this.panel.selectByScene(this.editorScreen);
     }
 
-    this.settings.onFight = (config) => {
+    this.settings.onFight = (config: Array<ITeamItemData>) => {
       this.panel.selectByScene(this.playPanel);
       this.game = new Game();//newGame();
       this.game.onNext = (player) => {
@@ -204,7 +206,7 @@ export default class GameScreen extends Control implements IPage{
   }
 
   getTeamIndicatorItems() {
-    let list = [];
+    let list: TeamIndicatorItem[] = [];
     this.game.teams.list.forEach((it, i) => {
       let tm = this.playPanel.teamIndicator.teams.find(jt => jt.name == it.name);
       list.push(tm);

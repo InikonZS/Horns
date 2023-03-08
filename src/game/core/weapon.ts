@@ -58,7 +58,7 @@ export class Bullet {
 }
 
 export class Weapon {
-  bulletSpeed: any;
+  bulletSpeed: number;
   gravitable: boolean;
   isDeleted: boolean;
   constructor(bulletSpeed: number, gravitable = false) {
@@ -99,7 +99,7 @@ export class Weapon {
 }
 
 export class WeaponS {
-  bulletSpeed: any;
+  bulletSpeed: number;
   gravitable: boolean;
   isDeleted: boolean;
   constructor(bulletSpeed: number, gravitable = false) {
@@ -131,7 +131,7 @@ export class WeaponS {
 }
 
 export class WeaponEx {
-  bulletSpeed: any;
+  bulletSpeed: number;
   gravitable: boolean;
   isDeleted: boolean;
   tracer: Bullet;

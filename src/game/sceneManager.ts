@@ -1,11 +1,12 @@
 import Control from 'common/control';
+import { IPage } from 'src/application/IPage';
 
 class SceneManager extends Control{
-  scenes: any[];
-  currentScene: any;
+  scenes: IPage[];
+  currentScene: IPage;
   currentIndex: number;
-  history: any[];
-  
+  history: IPage[];
+
   constructor (parentNode: HTMLElement){
     super(parentNode);
     this.node.style.position = 'relative';
@@ -15,17 +16,17 @@ class SceneManager extends Control{
     this.history = [];
   }
 
-  add(scene){
+  add(scene: IPage){
     scene.hide();
     this.scenes.push(scene);
   }
 
-  selectByName(name){
+  selectByName(name: string){
     let index = this.scenes.findIndex(it=>it.name == name);
     this.select(index);
   }
 
-  selectByScene(scene){
+  selectByScene(scene: IPage){
     let index = this.scenes.indexOf(scene);
     this.select(index);
   }
@@ -36,7 +37,7 @@ class SceneManager extends Control{
     this.history.pop();
   }
 
-  select(index){
+  select(index: number){
     this.history.push(this.currentScene);
     this.scenes.forEach((it, i)=>{
       if (i!=index){

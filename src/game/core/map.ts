@@ -43,7 +43,7 @@ function roundCanvas(context: CanvasRenderingContext2D, center: Vector, radius: 
   }
 }
 
-function roundImage(image, center, radius){
+function roundImage(image: HTMLImageElement, center: Vector, radius: number){
   let context = imageToCanvas(image);
   context.beginPath();
   context.arc(center.x, center.y, radius, 0, Math.PI * 2);
@@ -54,7 +54,7 @@ function roundImage(image, center, radius){
   image.src = context.canvas.toDataURL();
 }
 
-function roundImageAll(image, rounds){
+function roundImageAll(image: HTMLImageElement, rounds: Array<{center: Vector, radius: number}>){
   let context = imageToCanvas(image);
   rounds.forEach(it=>{
     let center = it.center;
@@ -71,7 +71,7 @@ function roundImageAll(image, rounds){
 
 export class GameMap{
   map: any[];
-  roundList: any[];
+  roundList: Array<{center: Vector, radius: number}>;
   size: number;
   waterLineX: number;
   waterImage: HTMLImageElement;
@@ -79,7 +79,7 @@ export class GameMap{
   backImage: HTMLImageElement;
   image: HTMLImageElement;
   hImage: HTMLImageElement;
-  imc: any;
+  imc: CanvasRenderingContext2D;
   constructor(mapURL: string, onLoad: ()=>void){
     this.map = [];
     this.roundList = [];

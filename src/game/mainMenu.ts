@@ -5,9 +5,9 @@ class MainMenu extends Control {
   editorButton: Control;
   settingsButton: Control;
   fightButton: Control;
-  onFight: any;
-  onSettings: any;
-  onEditor: any;
+  onFight: () => void;
+  onSettings: () => void;
+  onEditor: () => void;
 
   constructor(parentNode:HTMLElement, config?:any) {
     super(parentNode, 'div', 'gamescreen_wrapper_centred main', '');

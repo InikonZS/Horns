@@ -19,13 +19,13 @@ class GraphicPlayer extends GraphicPoint {
     );
   }
 
-  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, data: { health: any; name: any; }) {
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, data: { health: number; name: string; }) {
     context.fillStyle = this.color;
     let position = this.position.clone().add(camera);
     context.font = '12px bold "Arial"';
     context.fillText(
-      data.health,
-      position.x - context.measureText(data.health).width / 2,
+      data.health.toString(),
+      position.x - context.measureText(data.health.toString()).width / 2,
       position.y - 20,
     );
     context.fillText(
@@ -46,7 +46,7 @@ class Player {
   name: string;
   health: number;
   weapons: (WeaponEx | Weapon | WeaponS)[];
-  currentWeapon: any;
+  currentWeapon: WeaponEx | Weapon | WeaponS;
   angle: number;
   angleSpeed: number;
   physic: PhysicPoint;
@@ -55,9 +55,9 @@ class Player {
   powerIndicator: GraphicPoint;
   power: number;
   jumped: boolean;
-  isActive: any;
+  isActive: boolean;
   isPower: boolean;
-  onShot: any;
+  onShot: () => void;
 
   constructor(name: string, health: number, pos: Vector, color: string) {
     this.name = name;

@@ -1,14 +1,23 @@
 import Control from 'common/control';
 
 // options {part, nextPart, size, lineWidth, decrease = true, src, color}
+interface ITeamIndicatorOptions {
+  part: number; 
+  nextPart: number; 
+  size: number; 
+  lineWidth: number; 
+  decrease: boolean; 
+  src: string; 
+  color: string; 
+}
 class TeamIndicatorProgress extends Control {
   radius: number;
-  options: any;
+  options: ITeamIndicatorOptions;
   ctx: CanvasRenderingContext2D;
   center: number;
   image: HTMLImageElement;
 
-  constructor(parentNode: HTMLElement, options: { part: number; nextPart: number; size: number; lineWidth: number; decrease: boolean; src: string; color: string; }) {
+  constructor(parentNode: HTMLElement, options: ITeamIndicatorOptions) {
     super(parentNode, 'canvas', 'team_progress-avatar', '');
     this.options = options;
     this.ctx = this.node.getContext('2d');
@@ -22,7 +31,7 @@ class TeamIndicatorProgress extends Control {
     };
   }
 
-  drawCircle(color, part = 1) {
+  drawCircle(color: string, part = 1) {
     this.ctx.beginPath();
     this.ctx.arc(this.center, this.center, this.radius,
             -(Math.PI * 0.5), (Math.PI * 2) * part - Math.PI * 0.5, false);

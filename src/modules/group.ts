@@ -36,8 +36,8 @@ export class Toggle extends Control {
 }
 
 export class RadioGroup extends Control {
-  activeItemClass: any;
-  inactiveItemClass: any;
+  activeItemClass: string;
+  inactiveItemClass: string;
   buttons: Toggle[];
   onSelect: (index: number)=>void;
 

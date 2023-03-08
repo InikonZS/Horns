@@ -9,8 +9,8 @@ const timeIndicatorNodes = {
 
 class TimeIndicator extends Control {
   timerDuration: number;
-  progressBar: any;
-  progressBarShadow: any;
+  progressBar: Control;
+  progressBarShadow: Control;
   timeLeft: number;
 
   constructor(parentNode: HTMLElement) {

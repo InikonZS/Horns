@@ -2,6 +2,7 @@ import { GraphicPoint, PhysicPoint, Physical } from './primitives';
 import Vector from 'common/vector';
 import Animation from './animation';
 import { GameMap } from './map';
+import Player from './player';
 
 class Box{
   graphic: GraphicPoint;
@@ -17,7 +18,7 @@ class Box{
     this.animation.start();
   }
 
-  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, map: GameMap, players: any[]){
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, map: GameMap, players: Player[]){
     if (this.physic.position.y>map.waterLineX){ this.isDeleted = true; return;}
     if (this.isDeleted){ return false;}
     players.forEach(it=>{

@@ -6,8 +6,8 @@ import { IPage } from  './IPage';
 export default class PageManager extends Control{
   logo: Control;
   pages: IPage[];
-  marks: any[];
-  currentPage: any;
+  marks: Control[];
+  currentPage: IPage;
   currentIndex: number;
 
   constructor (parentNode: HTMLElement, className: string){

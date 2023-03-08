@@ -1,3 +1,4 @@
+import Vector from "common/vector";
 import Camera from "./camera";
 import { GameMap } from "./map";
 import Player from "./player";
@@ -5,7 +6,7 @@ import Team from "./team";
 
 export default class TeamList {
   list: Team[];
-  currentTeam: any;
+  currentTeam: Team;
   onLastTeam: () => void;
 
   constructor (){
@@ -47,7 +48,7 @@ export default class TeamList {
     return playerList;
   }
 
-  nextTeam(teamIndex: number){
+  nextTeam(teamIndex?: number){
     let nextTeamIndex = teamIndex;
     if (teamIndex === undefined) {
       nextTeamIndex =
@@ -72,7 +73,7 @@ export default class TeamList {
     });
   }
 
-  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Camera){
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector){
     this.list.forEach((it) => {
       it.render(context, deltaTime, camera);
     });

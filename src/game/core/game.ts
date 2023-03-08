@@ -34,16 +34,16 @@ class Game {
   teams: TeamList;
   boxes: BoxList;
   bullets: BulletList;
-  currentTeam: any;
+  //currentTeam: any;
   timer: Timer;
   afterTimer: Timer;
   computerShotTimer: Timer;
-  map: any;
+  map: GameMap;
   silentWatcher: SilentWatcher;
   parts: Particles;
-  onNext: any;
-  shoted: any;
-  nextLock: any;
+  onNext: (player:Player, timer: number)=>void;
+  shoted: boolean;
+  nextLock: boolean;
 
   constructor() {
     this.camera = new Camera(new Vector(0, 0));
@@ -52,7 +52,7 @@ class Game {
     this.teams.onLastTeam = ()=>{this.onFinish();}
     this.boxes = new BoxList();
     this.bullets = new BulletList();
-    this.currentTeam = null;
+    //this.currentTeam = null;
     this.timer = new Timer();
     this.afterTimer = new Timer();
     this.computerShotTimer = new Timer();
@@ -92,7 +92,7 @@ class Game {
     });
   }
 
-  next(teamIndex: number) {
+  next(teamIndex?: number) {
     let timerSpan = 85;
     this.camera.enableAutoMove = true;
     if (this.teams.getActiveTeams().length > 1) {

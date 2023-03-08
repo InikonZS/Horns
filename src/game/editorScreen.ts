@@ -94,7 +94,7 @@ class EditorScreen extends Control {
       sceneManager.back(); //selectByName('mainMenu');
     };
 
-    const getCursorVector = (event) => {
+    const getCursorVector = (event: MouseEvent) => {
       return new Vector(
         event.layerX - this.canvas.node.offsetLeft,
         event.layerY - this.canvas.node.offsetTop

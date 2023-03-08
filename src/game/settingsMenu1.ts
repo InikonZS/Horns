@@ -1,16 +1,16 @@
 import Control from "common/control";
-
+import { ITeamItemData } from "./ITeamItemData";
 class TeamItem extends Control {
   name: Control;
   teamColor: Control;
   teamStatus: Control;
-  data: any;
+  data: ITeamItemData;
   removeButton: Control;
   teamAmountPlayers: Control;
   addButton: Control;
   teamPlayerHealts: Control;
   deleteButton: Control;
-  onDelete: any;
+  onDelete: () => void;
   choose() {
     throw new Error("Method not implemented.");
   }
@@ -68,7 +68,8 @@ class TeamItem extends Control {
       this.onDelete && this.onDelete();
     }
   }
-  setData(data) {
+
+  setData(data: ITeamItemData) {
     this.data = JSON.parse(JSON.stringify(data));
     this.refresh();
   }
@@ -103,7 +104,7 @@ class TeamChoice extends Control {
     }
   }
 
-  chooseItem(data) {
+  chooseItem(data: ITeamItemData) {
     let item = new TeamItem(this.node);
     item.setData(data);
     item.onDelete = () => {
@@ -112,7 +113,7 @@ class TeamChoice extends Control {
     }
   }
 
-  addItem(data) {
+  addItem(data: ITeamItemData) {
     if (this.items.length < 6) {
       let item = new TeamItem(this.node);
       item.setData(data);
@@ -127,7 +128,7 @@ class TeamChoice extends Control {
   }
 
 
-  loadTeams(array) {
+  loadTeams(array: Array<ITeamItemData>) {
     array.forEach(element => {
       this.addItem(element);
     });
@@ -139,16 +140,20 @@ class TeamChoice extends Control {
 
 }
 
+interface IMapItemData{
+   name: string; 
+}
 class MapItem extends Control {
   name: Control;
-  data: any;
+  data: IMapItemData;
+
   constructor(parentNode: HTMLElement) {
     super(parentNode);
     this.name = new Control(parentNode, 'option', ' map_name', ' map');
 
   }
 
-  setData(data) {
+  setData(data: IMapItemData) {
     this.data = JSON.parse(JSON.stringify(data));
     this.refresh();
   }
@@ -165,6 +170,8 @@ class MapItem extends Control {
 
 class MapChoice extends Control {
   items: MapItem[];
+  onChange: (data: IMapItemData)=>void;
+
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'select', 'styled-select');
     this.items = [];
@@ -172,18 +179,15 @@ class MapChoice extends Control {
       this.onChange(this.items[this.node.selectedIndex].getData());
     };
   }
-  onChange(arg0: any) {
-    throw new Error("Method not implemented.");
-  }
 
-  addItem(data) {
+  addItem(data: IMapItemData) {
     let item = new MapItem(this.node);
     item.setData(data);
     this.items.push(item);
     return item;
   }
 
-  loadMaps(array) {
+  loadMaps(array: Array<IMapItemData>) {
     array.forEach(element => {
         this.addItem(element);
     });
@@ -255,10 +259,10 @@ export default class SettingsMenu extends Control {
     itemMapTitle: Control;
     map: MapChoice;
     drawMapButton: Control;
-    onEditor: any;
+    onEditor: () => void;
     backButton: Control;
     startGameButton: Control;
-    onFight: any;
+    onFight: () => void;
 
     constructor(parentNode: HTMLElement, sceneManager: SceneManager, config: any) {
         super(parentNode, 'div', 'gamescreen_wrapper_centred gamescreen_wrapper-settings', '');
@@ -298,7 +302,7 @@ export default class SettingsMenu extends Control {
       return this.team.getTeamsData();
     }
 
-    setConfig(teamsConfig) {
+    setConfig(teamsConfig: Array<ITeamItemData>) {
       this.team.loadTeams(teamsConfig);
     }
 }

@@ -6,10 +6,9 @@ import AnotherScreen from './another/anotherPage';
 
 class Application extends Control {
   pageManager: PageManager;
-  node: any;
   gameScreen: GameScreen;
   aboutScreen: AboutScreen;
-  footer: any;
+  footer: Control;
 
   constructor(parentNode:HTMLElement, config?:any) {
     super(parentNode);

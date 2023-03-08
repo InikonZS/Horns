@@ -1,15 +1,16 @@
+import Vector from "common/vector";
 import BulletList from "./bulletList";
 import Camera from "./camera";
 import Player from "./player";
 
 export default class Team{
-  players: any[];
+  players: Player[];
   name: string;
   avatar: string;
-  currentPlayer: any;
+  currentPlayer: Player;
   isComputer: boolean;
   color: string;
-  onKilled: any;
+  onKilled: () => void;
 
   constructor(name: string, avatar: string, isComputer: boolean, color: string){
     this.players = [];
@@ -50,7 +51,7 @@ export default class Team{
     })
   }
 
-  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Camera){
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector){
     this.players.forEach(it=>{
       it.render(context, deltaTime, camera);
     })
