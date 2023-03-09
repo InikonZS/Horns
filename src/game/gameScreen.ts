@@ -3,7 +3,7 @@ import SceneManager from './sceneManager';
 import PlayPanel from './playpanel/playPanel';
 import MainMenu from './mainMenu';
 
-import SettingsMenu from './settingsMenu1';
+import SettingsMenu from './settingsMenu/settingsMenu';
 import EditorScreen from './editorScreen';
 import Renderer from 'common/renderer';
 import Vector from 'common/vector';
