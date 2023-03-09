@@ -1,10 +1,11 @@
-import { Weapon, WeaponEx, WeaponS, IWeapon } from './weapon';
+import { getWeaponList } from './weaponList';
 import { GraphicPoint, PhysicPoint, Physical } from './primitives';
 import Vector from 'common/vector';
 import Animation from './animation';
 import { GameMap } from './map';
 import BulletList from './bulletList';
 import walksAni from '../../assets/worm-walks-100.png';
+import { IWeapon } from './weapons/IWeapon';
 
 class GraphicPlayer extends GraphicPoint {
   animation: Animation;
@@ -66,12 +67,7 @@ class Player {
   constructor(name: string, health: number, pos: Vector, color: string) {
     this.name = name;
     this.health = health;
-    this.weapons = [
-      new WeaponEx(10, true, 40),
-      new Weapon(10, true),
-      new WeaponS(10, true),
-      new WeaponEx(10, true, 15),
-    ];
+    this.weapons = getWeaponList();
     this.currentWeapon = this.weapons[0];
     this.angle = 0;
     this.angleSpeed = 0;
