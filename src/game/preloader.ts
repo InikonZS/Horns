@@ -1,7 +1,7 @@
 import Control from 'common/control';
 
 class Preloader extends Control{
-  startButton: Control;
+  private startButton: Control;
   onStart: ()=>void;
 
   constructor(parentNode: HTMLElement, config?: any){

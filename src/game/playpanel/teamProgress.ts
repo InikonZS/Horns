@@ -11,11 +11,11 @@ interface ITeamIndicatorOptions {
   color: string; 
 }
 class TeamIndicatorProgress extends Control<HTMLCanvasElement> {
-  radius: number;
-  options: ITeamIndicatorOptions;
-  ctx: CanvasRenderingContext2D;
-  center: number;
-  image: HTMLImageElement;
+  private radius: number;
+  private options: ITeamIndicatorOptions;
+  private ctx: CanvasRenderingContext2D;
+  private center: number;
+  private image: HTMLImageElement;
 
   constructor(parentNode: HTMLElement, options: ITeamIndicatorOptions) {
     super(parentNode, 'canvas', 'team_progress-avatar', '');

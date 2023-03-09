@@ -7,19 +7,20 @@ import renderer from 'common/renderer';
 import SceneManager from '../sceneManager';
 
 class PlayPanel extends Control {
-  gameScreenEl: HTMLElement;
-  renderer: renderer;
+  private gameScreenEl: HTMLElement;
+  private renderer: renderer;
   timeIndicator: TimeIndicator;
   teamIndicator: TeamIndicator;
-  pause: Control;
-  pauseScreen: ModalWindow;
-  weaponButton: Control;
+  private pause: Control;
+  private pauseScreen: ModalWindow;
+  private weaponButton: Control;
   openWeapon: WeaponMenu;
-  weaponScreen: Control;
-  fullScreenButton: Control;
-  backButton: Control;
-  resumeButton: Control;
+  private weaponScreen: Control;
+  private fullScreenButton: Control;
+  private backButton: Control;
+  private resumeButton: Control;
   windIndicator: Control;
+  onBack: ()=>void;
 
   constructor(parentNode: HTMLElement, sceneManager: SceneManager, gameScreenEl: HTMLElement, renderer: renderer) {
     super(parentNode, 'div', 'gamescreen_wrapper', `
@@ -135,7 +136,7 @@ class PlayPanel extends Control {
     this.pauseScreen.node.addEventListener( 'click', (e) => {
       this.renderer.start();
     });
-    this.backButton = new Control(this.pauseScreen.footer.node, 'div', 'load_button', 'Back');
+    this.backButton = new Control(this.pauseScreen.footer.node, 'div', 'load_button', 'Back'); //bad
     this.backButton.node.onclick = () => {
       this.pauseScreen.close();
       this.onBack();
@@ -147,9 +148,6 @@ class PlayPanel extends Control {
     };
     this.windIndicator = new Control(this.node.querySelector('.gamescreen_wind'),
       'div', 'wind-indicator', '0');
-  }
-  onBack() {
-    throw new Error('Method not implemented.');
   }
 }
 

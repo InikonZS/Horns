@@ -47,16 +47,16 @@ class GraphicPlayer extends GraphicPoint {
 }
 
 class Player {
-  name: string;
-  health: number;
+  private name: string;
+  private _health: number;
   weapons: (IWeapon)[];
   currentWeapon: IWeapon;
   angle: number;
   angleSpeed: number;
   physic: PhysicPoint;
   graphic: GraphicPlayer;
-  target: GraphicPoint;
-  powerIndicator: GraphicPoint;
+  private target: GraphicPoint;
+  private powerIndicator: GraphicPoint;
   power: number;
   jumped: boolean;
   isActive: boolean;
@@ -64,9 +64,13 @@ class Player {
   onShot: () => void;
   onKilled: () => void;
 
-  constructor(name: string, health: number, pos: Vector, color: string) {
+  get health(){
+    return this._health;
+  }
+
+  constructor(name: string, _health: number, pos: Vector, color: string) {
     this.name = name;
-    this.health = health;
+    this._health = _health;
     this.weapons = getWeaponList();
     this.currentWeapon = this.weapons[0];
     this.angle = 0;
@@ -101,15 +105,15 @@ class Player {
   }
 
   hurt(damage: number) {
-    this.health -= damage;
-    if (this.health <= 0) {
-      this.health = 0;
+    this._health -= damage;
+    if (this._health <= 0) {
+      this._health = 0;
       this.onKilled();
     }
   }
 
   cure(damage: number) {
-    this.health += damage;
+    this._health += damage;
   }
 
   powerStart() {
@@ -186,7 +190,7 @@ class Player {
     this.target.position = this.getDirectionVector()
       .scale(100)
       .add(this.graphic.position);
-    this.graphic.health = this.health;
+    this.graphic.health = this._health;
     this.graphic.name = this.name;
     this.graphic.render(context, deltaTime, camera);
     this.powerIndicator.render(context, deltaTime, camera);
@@ -243,7 +247,7 @@ class Player {
 
 function fallPlayer(player: Player, map: GameMap, deltaTime: number) {
   let it = player;
-  if (it.physic.position.y > map.waterLineX) {
+  if (map.isUnderWater(it.physic.position)) {
     it.hurt(1000);
   }
   it.physic.acceleration.y = 1;

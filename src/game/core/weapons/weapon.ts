@@ -5,9 +5,10 @@ import { GameMap } from '../map';
 import { IWeapon } from './IWeapon';
 
 export class Weapon implements IWeapon {
-    bulletSpeed: number;
-    gravitable: boolean;
-    isDeleted: boolean;
+    private bulletSpeed: number;
+    private gravitable: boolean;
+    private isDeleted: boolean;
+
     constructor(bulletSpeed: number, gravitable = false) {
       this.bulletSpeed = bulletSpeed;
       this.gravitable = gravitable;
@@ -28,7 +29,7 @@ export class Weapon implements IWeapon {
         bullet.physic.speed = direction
           .clone()
           .scale(this.bulletSpeed * ((5 + 1 + Math.random() * 3) / 2));
-        bullets.list.push(bullet);
+        bullets.add(bullet);
         bullet.timer.counter = 40;
         bullet.magnitude = 5;
         bullet.timer.onTimeout = () => {

@@ -3,8 +3,8 @@ import TeamIndicatorProgress from './teamProgress';
 
 class TeamIndicatorItem extends Control {
   name: string;
-  teamName: Control;
-  teamHealth: Control;
+  private teamName: Control;
+  private teamHealth: Control;
   teamAvatar: TeamIndicatorProgress;
 
   constructor(parentNode: HTMLElement, data: { name: string; avatar: string; color: string; }) {

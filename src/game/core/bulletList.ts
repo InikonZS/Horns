@@ -13,13 +13,17 @@ class BulletList{
     this.allowTrace = false;
   }
 
+  isEmpty(){
+    return this.list.length == 0;
+  }
+
   add(bullet: Bullet){
     this.list.push(bullet);
   }
 
   process(deltaTime: number, map: GameMap, playerList: Array<Player>){
     this.list.forEach((it) => {
-      if (it.physic.position.y > map.waterLineX) {
+      if (map.isUnderWater(it.physic.position)) {
         it.isDeleted=true;
       }
       let preNearest = map.getNearIntersection(

@@ -70,16 +70,17 @@ function roundImageAll(image: HTMLImageElement, rounds: Array<{center: Vector, r
 }
 
 export class GameMap{
-  map: any[];
-  roundList: Array<{center: Vector, radius: number}>;
+  map: Array<number>[];
+  private roundList: Array<{center: Vector, radius: number}>;
   size: number;
-  waterLineX: number;
-  waterImage: HTMLImageElement;
-  waterNImage: HTMLImageElement;
-  backImage: HTMLImageElement;
+  private waterLineX: number;
+  private waterImage: HTMLImageElement;
+  private waterNImage: HTMLImageElement;
+  private backImage: HTMLImageElement;
   private image: HTMLImageElement;
-  hImage: HTMLImageElement;
-  imc: CanvasRenderingContext2D;
+  private hImage: HTMLImageElement;
+  private imc: CanvasRenderingContext2D;
+
   constructor(mapURL: string, onLoad: ()=>void){
     this.map = [];
     this.roundList = [];
@@ -120,6 +121,10 @@ export class GameMap{
 
   get height(){
     return this.map.length;
+  }
+
+  isUnderWater(position: Vector){
+    return position.y > this.waterLineX;
   }
 
   isEmpty(x: number, y: number){

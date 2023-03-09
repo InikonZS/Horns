@@ -25,7 +25,7 @@ export default class TeamList {
   }
 
   getActiveTeams() {
-    return this.list.filter((it) => it.players.length);
+    return this.list.filter((it) => it.isAlive());
   }
 
   getPlayersToHit() {
@@ -53,7 +53,7 @@ export default class TeamList {
     if (teamIndex === undefined) {
       nextTeamIndex =
         (this.list.indexOf(this.currentTeam) + 1) % this.list.length;
-      while (!this.list[nextTeamIndex].players.length) {
+      while (!this.list[nextTeamIndex].isAlive()) {
         nextTeamIndex = (nextTeamIndex + 1) % this.list.length;
       }
     }

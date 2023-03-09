@@ -3,7 +3,7 @@ import Camera from './camera';
 import { GraphicPoint, PhysicPoint, Physical } from './primitives';
 
 class Particles{
-  parts: Array<Physical>;
+  private parts: Array<Physical>;
   
   constructor(count: number){
     this.parts = [];

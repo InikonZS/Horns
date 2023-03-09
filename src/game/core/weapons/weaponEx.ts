@@ -43,7 +43,7 @@ export class WeaponEx implements IWeapon {
         .clone()
         .scale(this.bulletSpeed * (power + 1));
   
-      bullets.list.push(bullet);
+      bullets.add(bullet);
       bullet.timer.counter = this.timerTime;
       bullet.timer.onTimeout = () => {
         for (let i = 0; i < 5; i++) {
@@ -57,7 +57,7 @@ export class WeaponEx implements IWeapon {
           bull.physic.acceleration.y = 1;
           // bull.physic.acceleration.x = wind/3;
           bull.physic.speed = direction.clone().scale(0.1 + 2 * i);
-          bullets.list.push(bull);
+          bullets.add(bull);
           bull.timer.counter = 80;
           bull.timer.onTimeout = () => {
             bull.isDeleted = true;

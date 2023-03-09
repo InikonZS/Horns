@@ -27,7 +27,7 @@ export class WeaponS implements IWeapon {
       bullet.physic.speed = direction
         .clone()
         .scale(this.bulletSpeed * ((power + 1) / 2));
-      bullets.list.push(bullet);
+      bullets.add(bullet);
       bullet.timer.counter = 30;
       bullet.magnitude = 50;
       bullet.timer.onTimeout = () => {

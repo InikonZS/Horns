@@ -4,7 +4,7 @@ import Camera from './camera';
 import { GameMap } from './map';
 
 class BoxList{
-  list: Box[];
+  private list: Box[];
 
   constructor(){
     this.list = [];

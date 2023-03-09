@@ -4,18 +4,19 @@ import Vector from '../modules/vector';
 import SceneManager from './sceneManager';
 
 class EditorScreen extends Control {
-  canvasWrapper: Control;
-  canvas: Control<HTMLCanvasElement>;
-  brushColor: string;
-  brushButton: Control;
-  brushSize: Control<HTMLInputElement>;
-  eraserButton: Control;
-  cleanButton: Control;
-  context: CanvasRenderingContext2D;
-  mousePrevPos: Vector;
-  saveButton: Control;
+  private canvasWrapper: Control;
+  private canvas: Control<HTMLCanvasElement>;
+  private brushColor: string;
+  private brushButton: Control;
+  private brushSize: Control<HTMLInputElement>;
+  private eraserButton: Control;
+  private cleanButton: Control;
+  private context: CanvasRenderingContext2D;
+  private mousePrevPos: Vector;
+  private saveButton: Control;
   onSave: (dataURL: string)=>void;
-  backButton: Control;
+  private backButton: Control;
+  
   constructor(parentNode: HTMLElement, sceneManager: SceneManager) {
     super(
       parentNode,

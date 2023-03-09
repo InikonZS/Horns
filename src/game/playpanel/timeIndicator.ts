@@ -8,10 +8,10 @@ const timeIndicatorNodes = {
 };
 
 class TimeIndicator extends Control {
-  timerDuration: number;
-  progressBar: Control;
-  progressBarShadow: Control;
-  timeLeft: Control;
+  private timerDuration: number;
+  private progressBar: Control;
+  private progressBarShadow: Control;
+  private timeLeft: Control;
 
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'div', 'gamescreen__clock clock-next', '');

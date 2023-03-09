@@ -5,10 +5,10 @@ import AboutScreen from './about/aboutPage';
 import AnotherScreen from './another/anotherPage';
 
 class Application extends Control {
-  pageManager: PageManager;
-  gameScreen: GameScreen;
-  aboutScreen: AboutScreen;
-  footer: Control;
+  private pageManager: PageManager;
+  private gameScreen: GameScreen;
+  private aboutScreen: AboutScreen;
+  private footer: Control;
 
   constructor(parentNode:HTMLElement, config?:any) {
     super(parentNode);

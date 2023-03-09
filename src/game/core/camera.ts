@@ -3,10 +3,10 @@ import { IKeyboardState } from './IKeyboardState';
 import { GraphicPoint, PhysicPoint, Physical } from './primitives';
 
 class Camera extends PhysicPoint{
-  targetVector: Vector;
-  cameraAutoMode: number;
-  enableAutoMove: boolean;
-  scaler: number;
+  private targetVector: Vector;
+  private cameraAutoMode: number;
+  public enableAutoMove: boolean;
+  private scaler: number;
 
   constructor (pos: Vector){
     super(pos);

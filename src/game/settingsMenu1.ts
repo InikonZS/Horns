@@ -1,15 +1,15 @@
 import Control from "common/control";
 import { ITeamItemData } from "./ITeamItemData";
 class TeamItem extends Control {
-  name: Control;
-  teamColor: Control;
-  teamStatus: Control;
-  data: ITeamItemData;
-  removeButton: Control;
-  teamAmountPlayers: Control;
-  addButton: Control;
-  teamPlayerHealts: Control;
-  deleteButton: Control;
+  public name: Control;
+  private teamColor: Control;
+  private teamStatus: Control;
+  private data: ITeamItemData;
+  private removeButton: Control;
+  private teamAmountPlayers: Control;
+  private addButton: Control;
+  private teamPlayerHealts: Control;
+  private deleteButton: Control;
   onDelete: () => void;
   choose() {
     throw new Error("Method not implemented.");
@@ -59,9 +59,6 @@ class TeamItem extends Control {
       this.node.classList.toggle('settings_active_team');
     }
 
-
-
-
     this.deleteButton = new Control(this.node, 'div', 'team_btn delete', '✕');
 
     this.deleteButton.node.onclick = () => {
@@ -92,8 +89,9 @@ class TeamItem extends Control {
 }
 
 class TeamChoice extends Control {
-  items: TeamItem[];
-  addButton: Control;
+  private items: TeamItem[];
+  private addButton: Control;
+
   constructor(parentNode: HTMLElement, wrapper: HTMLElement) {
     super(parentNode);
     this.items = [];
@@ -145,8 +143,8 @@ interface IMapItemData{
    url?: string;
 }
 class MapItem extends Control {
-  name: Control;
-  data: IMapItemData;
+  private name: Control;
+  private data: IMapItemData;
 
   constructor(parentNode: HTMLElement) {
     super(parentNode);
@@ -170,7 +168,7 @@ class MapItem extends Control {
 
 
 class MapChoice extends Control<HTMLSelectElement> {
-  items: MapItem[];
+  private items: MapItem[];
   onChange: (data: IMapItemData)=>void;
 
   constructor(parentNode: HTMLElement) {
@@ -255,14 +253,14 @@ const mapList = [
   }
 ];
 export default class SettingsMenu extends Control {
-    itemTeamTitle: Control;
-    team: TeamChoice;
-    itemMapTitle: Control;
+    private itemTeamTitle: Control;
+    private team: TeamChoice;
+    private itemMapTitle: Control;
     map: MapChoice;
-    drawMapButton: Control;
+    private drawMapButton: Control;
     onEditor: () => void;
-    backButton: Control;
-    startGameButton: Control;
+    private backButton: Control;
+    private startGameButton: Control;
     onFight: (data: Array<ITeamItemData>) => void;
 
     constructor(parentNode: HTMLElement, sceneManager: SceneManager, config: any) {

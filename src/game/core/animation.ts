@@ -31,13 +31,13 @@ const options = [
 ]
 
 class Animation {
-  spritesheet: HTMLImageElement;
-  width: number;
-  height: number;
-  numberOfFrames: number;
-  frameIndex: number;
-  isStarted: boolean;
-  scale: number;
+  private spritesheet: HTMLImageElement;
+  private width: number;
+  private height: number;
+  private numberOfFrames: number;
+  private frameIndex: number;
+  public isStarted: boolean;
+  private scale: number;
 
   constructor(imageURL: string, width: number, height: number, numberOfFrames: number, scale = 1) {
     let spritesheet = new Image();

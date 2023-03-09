@@ -1,10 +1,10 @@
 import Control from 'common/control';
 
 class MainMenu extends Control {
-  name: string;
-  editorButton: Control;
-  settingsButton: Control;
-  fightButton: Control;
+  public name: string;
+  private editorButton: Control;
+  private settingsButton: Control;
+  private fightButton: Control;
   onFight: () => void;
   onSettings: () => void;
   onEditor: () => void;

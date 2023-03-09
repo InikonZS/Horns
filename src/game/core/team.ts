@@ -45,11 +45,15 @@ export default class Team{
     }
   }
 
-  react(bullets: BulletList, deltaTime: number){
+  isAlive(){
+    return this.players.length != 0;
+  }
+
+  /*react(bullets: BulletList, deltaTime: number){
     this.players.forEach(it=>{
       it.react(bullets, deltaTime);
     })
-  }
+  }*/
 
   render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector){
     this.players.forEach(it=>{

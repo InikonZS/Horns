@@ -60,19 +60,18 @@ const defaultGameConfig = {
   ]
 }
 export default class GameScreen extends Control implements IPage{
-  canvas: Control<HTMLCanvasElement>;
-  context: CanvasRenderingContext2D;
-  renderer: Renderer;
-  panel: SceneManager;
-  fps: number;
-  preloader: Preloader;
-  playPanel: PlayPanel;
-  game: Game;
-  editorScreen: EditorScreen;
-  settings: SettingsMenu;
-  allHealth: number;
-  menu: MainMenu;
-  keyboardState: IKeyboardState;
+  private canvas: Control<HTMLCanvasElement>;
+  private context: CanvasRenderingContext2D;
+  private renderer: Renderer;
+  private panel: SceneManager;
+  private fps: number;
+  private preloader: Preloader;
+  private playPanel: PlayPanel;
+  private game: Game;
+  private editorScreen: EditorScreen;
+  private settings: SettingsMenu;
+  private menu: MainMenu;
+  private keyboardState: IKeyboardState;
 
   constructor(parentNode:HTMLElement, config?:any) {
     super(parentNode, 'div', 'gamescreen_wrapper');
@@ -182,10 +181,11 @@ export default class GameScreen extends Control implements IPage{
       this.game.render(this.context, deltaTime / 100);
       this.game.processKeyboard(this.context, this.keyboardState, deltaTime / 100);
 
-      this.setTeamValues();
+      this.playPanel.teamIndicator.update(this.game.teams);
+      /*this.setTeamValues();
       this.getTeamIndicatorItems().forEach(it => {
         it.teamAvatar.render();
-      });
+      });*/
 
       let averager = 128;
       this.fps = (this.fps * (averager - 1) + deltaTime) / averager;
@@ -206,7 +206,7 @@ export default class GameScreen extends Control implements IPage{
     });
   }
 
-  getTeamIndicatorItems() {
+  /*getTeamIndicatorItems() {
     let list: TeamIndicatorItem[] = [];
     this.game.teams.list.forEach((it, i) => {
       let tm = this.playPanel.teamIndicator.teams.find(jt => jt.name == it.name);
@@ -224,7 +224,7 @@ export default class GameScreen extends Control implements IPage{
         tm.setHealth(100 * it.getSumHealth() / allHealth, '' + it.getSumHealth() + '&nbsp;/&nbsp;' + allHealth);
       });
     }
-  }
+  }*/
 
   autoSize() {
     let scaler = 1.4;

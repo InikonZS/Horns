@@ -6,10 +6,10 @@ import Player from './player';
 import boxAni from '../..//assets/aid-100.png';
 
 class Box{
-  graphic: GraphicPoint;
-  physic: PhysicPoint;
-  animation: Animation;
-  isDeleted: boolean;
+  private graphic: GraphicPoint;
+  private physic: PhysicPoint;
+  private animation: Animation;
+  public isDeleted: boolean;
 
   constructor(pos: Vector){
     this.graphic = new GraphicPoint(pos, 0, '#999');
@@ -20,7 +20,7 @@ class Box{
   }
 
   render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, map: GameMap, players: Player[]){
-    if (this.physic.position.y>map.waterLineX){ this.isDeleted = true; return;}
+    if (map.isUnderWater(this.physic.position)){ this.isDeleted = true; return;}
     if (this.isDeleted){ return false;}
     players.forEach(it=>{
       let lvec = this.physic.position.clone().sub(it.graphic.position);

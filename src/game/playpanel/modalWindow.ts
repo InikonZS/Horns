@@ -3,10 +3,10 @@ import TeamIndicator from './teamIndicator';
 import TeamIndicatorItem from './teamIndicatorItem';
 
 class ModalWindow extends Control {
-  dropDownBox: Control;
-  header: Control;
-  main: Control;
-  footer: Control;
+  private dropDownBox: Control;
+  private header: Control;
+  private main: Control;
+  footer: Control; //bad
 
   constructor(parentNode: HTMLElement, wrapperClass: string, headerText: string) {
     super(parentNode, 'div', wrapperClass + " dropdown-overlay");

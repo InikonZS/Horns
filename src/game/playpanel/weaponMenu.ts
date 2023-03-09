@@ -2,7 +2,7 @@ import Control from 'common/control';
 import { RadioGroup, Toggle } from 'common/group';
 
 class WeaponItem extends Toggle {
-  itemW: Control;
+  private itemW: Control;
   
   constructor(parentNode: HTMLElement, activeClass: string, inactiveClass: string, caption: string, onClick: ()=>void) {
     super(parentNode, activeClass, inactiveClass, caption, onClick);
@@ -12,9 +12,9 @@ class WeaponItem extends Toggle {
 }
 
 class WeaponMenu extends RadioGroup {
-  header: Control;
-  main: Control;
-  footer: Control;
+  private header: Control;
+  private main: Control;
+  private footer: Control;
 
   constructor(parentNode: HTMLElement, wrapperClass: string, activeItemClass: string, inactiveItemClass: string) {
     super(parentNode, wrapperClass, activeItemClass, inactiveItemClass);

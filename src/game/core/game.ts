@@ -239,7 +239,7 @@ class Game {
 
       this.afterTimer.start(10);
       this.afterTimer.onTimeout = () => {
-        if (!this.bullets.list.length) {
+        if (!this.bullets.isEmpty()) {
           this.afterTimer.pause();
           this.shoted = false;
           this.next();
