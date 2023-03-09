@@ -1,10 +1,13 @@
 import Vector from "common/vector";
+import walksAni from '../../assets/worm-walks-100.png';
+import walkAniLeft from '../../assets/worm-walks-left-100.png';
+import jump from '../../assets/worm-jump-100.png';
 
 const options = [
   {
     name: 'right',
     keyCode: 'KeyD',
-    src: './assets/worm-walks-100.png',
+    src: walksAni,
     width: 1442,
     height: 100,
     numberOfFrames: 15,
@@ -12,7 +15,7 @@ const options = [
   {
     name: 'left',
     keyCode: 'KeyA',
-    src: './assets/worm-walks-left-100.png',
+    src: walkAniLeft,
     width: 1442,
     height: 100,
     numberOfFrames: 15,
@@ -20,7 +23,7 @@ const options = [
   {
     name: 'jump',
     keyCode: 'KeyW',
-    src: './assets/worm-jump-100.png',
+    src: jump,
     width: 107,
     height: 100,
     numberOfFrames: 2,

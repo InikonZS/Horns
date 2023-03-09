@@ -96,8 +96,10 @@ class EditorScreen extends Control {
 
     const getCursorVector = (event: MouseEvent) => {
       return new Vector(
-        event.layerX - this.canvas.node.offsetLeft,
-        event.layerY - this.canvas.node.offsetTop
+        //event.layerX - this.canvas.node.offsetLeft,
+        //event.layerY - this.canvas.node.offsetTop
+        event.clientX - this.canvas.node.offsetLeft,
+        event.clientY - this.canvas.node.offsetTop
       ).scale(this.canvas.node.width / this.canvasWrapper.node.clientWidth);
     }
 

@@ -20,6 +20,7 @@ import { IPage } from "src/application/IPage";
 import av1 from "../assets/avatar_1.jpg";
 import av2 from "../assets/avatar_2.jpg";
 import av3 from "../assets/avatar_3.jpg";
+import defaultMap from "../assets/bitmap3.png";
 import Player from './core/player.js';
 import { IKeyboardState } from './core/IKeyboardState';
 import { ITeamItemData } from './ITeamItemData';
@@ -27,7 +28,7 @@ import TeamIndicatorItem from './playpanel/teamIndicatorItem';
 
 const defaultGameConfig = {
   format: 'easycount',
-  mapURL: './assets/bitmap3.png',
+  mapURL: defaultMap,
 
   nameList: names,
   colorList: colors,

@@ -2,7 +2,7 @@ import Vector from 'common/vector';
 import Camera from './camera';
 import { GameMap } from './map';
 import Player from './player';
-import { Bullet } from './weapon';
+import { Bullet } from './bullet';
 
 class BulletList{
   list: Bullet[];

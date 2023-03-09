@@ -77,7 +77,7 @@ export class GameMap{
   waterImage: HTMLImageElement;
   waterNImage: HTMLImageElement;
   backImage: HTMLImageElement;
-  image: HTMLImageElement;
+  private image: HTMLImageElement;
   hImage: HTMLImageElement;
   imc: CanvasRenderingContext2D;
   constructor(mapURL: string, onLoad: ()=>void){
@@ -106,7 +106,7 @@ export class GameMap{
       });
       this.image.onload = ()=>{
         this.imc = imageToCanvas(this.image);
-        this.image = this.imc.canvas;
+        //this.image = this.imc.canvas;
       }
       this.image.src = mapToImage(this, '#cc3');
       this.hImage.src = mapToImage(this, '#663');

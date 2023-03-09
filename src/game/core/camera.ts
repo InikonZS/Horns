@@ -35,7 +35,8 @@ class Camera extends PhysicPoint{
     }
   }
 
-  limit(context: CanvasRenderingContext2D, nextPosition: Vector){
+  limit(context: CanvasRenderingContext2D, _nextPosition?: Vector){
+      const nextPosition = _nextPosition || this.position;
       let minX = 800;
       if (nextPosition.x>minX){ nextPosition.x = minX }
       let limX = -800-2000+context.canvas.width;
@@ -47,7 +48,7 @@ class Camera extends PhysicPoint{
       this.position.from(nextPosition);
   }
 
-  process(context: CanvasRenderingContext2D, deltaTime: number){
+  process(deltaTime: number){
     if (this.enableAutoMove && this.targetVector){
       let cameraAutoMode = this.cameraAutoMode;
       let toTarget = this.position.clone().scale(-1).sub(this.targetVector);
@@ -66,7 +67,7 @@ class Camera extends PhysicPoint{
       this.speed.scale(0);
     }
     super.process(deltaTime);
-    this.limit(context, this.position);
+    //this.limit(context, this.position);
   }
 }
 

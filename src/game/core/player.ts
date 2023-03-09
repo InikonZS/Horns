@@ -1,17 +1,20 @@
-import { Bullet, Weapon, WeaponEx, WeaponS } from './weapon';
+import { Weapon, WeaponEx, WeaponS, IWeapon } from './weapon';
 import { GraphicPoint, PhysicPoint, Physical } from './primitives';
 import Vector from 'common/vector';
 import Animation from './animation';
 import { GameMap } from './map';
 import BulletList from './bulletList';
+import walksAni from '../../assets/worm-walks-100.png';
 
 class GraphicPlayer extends GraphicPoint {
   animation: Animation;
+  health: number;
+  name: string;
 
   constructor(position: Vector, radius: number, color = '#f00') {
     super(position, radius, color);
     this.animation = new Animation(
-      './assets/worm-walks-100.png',
+      walksAni,
       1442,
       100,
       15,
@@ -19,18 +22,18 @@ class GraphicPlayer extends GraphicPoint {
     );
   }
 
-  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, data: { health: number; name: string; }) {
+  render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector) {
     context.fillStyle = this.color;
     let position = this.position.clone().add(camera);
     context.font = '12px bold "Arial"';
     context.fillText(
-      data.health.toString(),
-      position.x - context.measureText(data.health.toString()).width / 2,
+      this.health.toString(),
+      position.x - context.measureText(this.health.toString()).width / 2,
       position.y - 20,
     );
     context.fillText(
-      data.name,
-      position.x - context.measureText(data.name).width / 2,
+      this.name,
+      position.x - context.measureText(this.name).width / 2,
       position.y - 33,
     );
     super.render(context, deltaTime, camera);
@@ -45,8 +48,8 @@ class GraphicPlayer extends GraphicPoint {
 class Player {
   name: string;
   health: number;
-  weapons: (WeaponEx | Weapon | WeaponS)[];
-  currentWeapon: WeaponEx | Weapon | WeaponS;
+  weapons: (IWeapon)[];
+  currentWeapon: IWeapon;
   angle: number;
   angleSpeed: number;
   physic: PhysicPoint;
@@ -87,7 +90,7 @@ class Player {
     this.isActive = isActive;
   }
 
-  setMoveAnimation(value: boolean, keyCode: string) {
+  setMoveAnimation(value: boolean, keyCode?: string) {
     if (value) {
       if (!this.graphic.animation.isStarted) {
         this.graphic.animation.start(keyCode);
@@ -187,10 +190,9 @@ class Player {
     this.target.position = this.getDirectionVector()
       .scale(100)
       .add(this.graphic.position);
-    this.graphic.render(context, deltaTime, camera, {
-      health: this.health,
-      name: this.name,
-    });
+    this.graphic.health = this.health;
+    this.graphic.name = this.name;
+    this.graphic.render(context, deltaTime, camera);
     this.powerIndicator.render(context, deltaTime, camera);
     if (this.isActive) {
       this.target.render(context, deltaTime, camera);
@@ -220,7 +222,7 @@ class Player {
         for (let i = 0; i < Math.PI * 30 * 2; i += (Math.PI * 30 * 2) / 190) {
           this.moveTarget(i);
           this.setShotOptions(wind);
-          let targetPoint = this.currentWeapon.tracer.trace(map, camera);
+          let targetPoint = this.currentWeapon.trace(map, camera);
 
           if (targetPoint) {
 

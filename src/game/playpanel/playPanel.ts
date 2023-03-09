@@ -56,7 +56,7 @@ class PlayPanel extends Control {
       } else {
         this.renderer.start();
       }
-      this.pauseScreen.toggle();
+      this.pauseScreen.toggle(this.teamIndicator);
     }
 
     this.weaponButton = new Control(this.node.querySelector('.gamescreen_top'),

@@ -147,7 +147,8 @@ class Game {
         0.25,
       );
     }
-    this.camera.process(context, deltaTime);
+    this.camera.process(deltaTime);
+    this.camera.limit(context);
 
     this.map.renderGradient(context, deltaTime, this.camera.position);
     this.parts.render(context, deltaTime, this.camera.position, this.wind);
