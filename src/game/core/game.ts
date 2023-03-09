@@ -129,7 +129,7 @@ class Game {
     });
   }*/
 
-  render(context: CanvasRenderingContext2D, deltaTime: number) {
+  private cameraTargetLogic(context: CanvasRenderingContext2D){
     if (this.bullets.list[0]) {
       this.camera.setTargetVector(
         this.bullets.list[0].physic.position
@@ -147,6 +147,10 @@ class Game {
         0.25,
       );
     }
+  }
+
+  render(context: CanvasRenderingContext2D, deltaTime: number) {
+    this.cameraTargetLogic(context);
     this.camera.process(deltaTime);
     this.camera.limit(context);
 
