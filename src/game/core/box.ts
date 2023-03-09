@@ -3,6 +3,7 @@ import Vector from 'common/vector';
 import Animation from './animation';
 import { GameMap } from './map';
 import Player from './player';
+import boxAni from '../..//assets/aid-100.png';
 
 class Box{
   graphic: GraphicPoint;
@@ -14,7 +15,7 @@ class Box{
     this.graphic = new GraphicPoint(pos, 0, '#999');
     this.physic = new PhysicPoint(pos);
     this.physic.acceleration.y=1;
-    this.animation = new Animation('./assets/aid-100.png', 4000, 100, 40, 1.5);
+    this.animation = new Animation(boxAni, 4000, 100, 40, 1.5);
     this.animation.start();
   }
 
