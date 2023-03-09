@@ -233,6 +233,7 @@ import map2 from "../assets/bitmap1.png";
 import map3 from "../assets/bitmap2.png";
 import map4 from "../assets/bitmap.png";
 import SceneManager from "./sceneManager";
+import { IStartOptions } from "./core/IStartOptions";
 
 const mapList = [
   {
@@ -263,7 +264,7 @@ export default class SettingsMenu extends Control {
     private startGameButton: Control;
     onFight: (data: Array<ITeamItemData>) => void;
 
-    constructor(parentNode: HTMLElement, sceneManager: SceneManager, config: any) {
+    constructor(parentNode: HTMLElement, sceneManager: SceneManager, config: IStartOptions) {
         super(parentNode, 'div', 'gamescreen_wrapper_centred gamescreen_wrapper-settings', '');
         let settingsItemTeam = new Control(this.node, 'div', 'settings_item settings_team');
         this.itemTeamTitle = new Control(settingsItemTeam.node, 'div', 'settings_item_title', 'TEAMS');
