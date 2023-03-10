@@ -7,9 +7,11 @@ import boxAni from '../..//assets/aid-100.png';
 
 class Box{
   private graphic: GraphicPoint;
-  private physic: PhysicPoint;
+  public physic: PhysicPoint;
   private animation: Animation;
   public isDeleted: boolean;
+  public isSpawned: boolean = true;
+  public onStop: () => void;
 
   constructor(pos: Vector){
     this.graphic = new GraphicPoint(pos, 0, '#999');
@@ -20,7 +22,10 @@ class Box{
   }
 
   render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, map: GameMap, players: Player[]){
-    if (map.isUnderWater(this.physic.position)){ this.isDeleted = true; return;}
+    if (map.isUnderWater(this.physic.position)){ 
+      this.isDeleted = true; 
+      this.isSpawned = false;
+      return;}
     if (this.isDeleted){ return false;}
     players.forEach(it=>{
       let lvec = this.physic.position.clone().sub(it.graphic.position);
@@ -37,6 +42,10 @@ class Box{
       this.physic.speed.y=0;
       this.physic.speed.x=0;
       this.animation.stop();
+      if (this.isSpawned){
+        this.isSpawned = false;
+        this.onStop?.();
+      }
     }
     //this.physic.process(deltaTime);
     this.graphic.position = this.physic.position;

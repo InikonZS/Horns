@@ -65,7 +65,11 @@ class Game {
         
       }
     }
-    //this.teams.onLastTeam = ()=>{this.onFinish();}
+    this.teams.onLastTeam = ()=>{
+      if (this.bullets.isStarted == false){
+        this.onFinish();
+      }
+    }
     this.boxes = new BoxList();
    
     //this.currentTeam = null;
@@ -111,22 +115,26 @@ class Game {
     let timerSpan = 85;
     this.camera.enableAutoMove = true;
     if (this.teams.getActiveTeams().length > 1) {
-      this.boxes.spawnRandom();
+      const spawned = this.boxes.spawnRandom();
+      const spawnedTask = spawned || Promise.resolve();
+      spawnedTask.then(()=>{
+        this.timer.start(timerSpan);
+        this.wind = Math.random() * 11 - 5;
 
-      this.timer.start(timerSpan);
-      this.wind = Math.random() * 11 - 5;
-
-      let currentPlayer = this.teams.nextTeam(teamIndex);
-      this.onNext && this.onNext(currentPlayer, timerSpan);
+        let currentPlayer = this.teams.nextTeam(teamIndex); 
+        if (this.teams.currentTeam.isComputer) {
+          this.getCurrentPlayer()
+            .setTargetPoint(this.teams.getPlayersToHit(), this.camera.position, this.map, this.wind);
+          this.computerShotTimer.start(15);
+        }
+        this.onNext && this.onNext(currentPlayer, timerSpan);
+      });
+      
     } else {
       this.finish();
     }
 
-    if (this.teams.currentTeam.isComputer) {
-      this.getCurrentPlayer()
-        .setTargetPoint(this.teams.getPlayersToHit(), this.camera.position, this.map, this.wind);
-      this.computerShotTimer.start(15);
-    }
+   
   }
 
   finish() {
@@ -149,6 +157,14 @@ class Game {
     if (this.bullets.list[0]) {
       this.camera.setTargetVector(
         this.bullets.list[0].physic.position
+          .clone()
+          .sub(this.getCenterVector(context)),
+        1,
+        50,
+      );
+    } else if (this.boxes.getActive()) {
+      this.camera.setTargetVector(
+        this.boxes.getActive().physic.position
           .clone()
           .sub(this.getCenterVector(context)),
         1,
