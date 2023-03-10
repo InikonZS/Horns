@@ -111,7 +111,27 @@ class Game {
     });
   }
 
-  next(teamIndex?: number) {
+  resolveDamagedPlayers(){
+    const damagedList = this.teams.getPlayerList().filter(it=> it.sumDamage);
+    const handleDamaged = (damaged: Player)=>{
+      return new Promise<void>(resolve=>{
+        setTimeout(()=>{
+          damaged.applyDamage();
+          resolve();
+        }, 1000);
+      })
+    }
+    const resolveList = async ()=>{
+      for (const damaged of damagedList){
+        await handleDamaged(damaged);
+      }
+    }
+
+    return resolveList();
+  }
+
+  async next(teamIndex?: number) {
+    await this.resolveDamagedPlayers();
     let timerSpan = 85;
     this.camera.enableAutoMove = true;
     if (this.teams.getActiveTeams().length > 1) {

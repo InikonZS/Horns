@@ -63,6 +63,7 @@ class Player {
   isPower: boolean;
   onShot: () => void;
   onKilled: () => void;
+  sumDamage: number = 0;
 
   get health(){
     return this._health;
@@ -105,7 +106,13 @@ class Player {
   }
 
   hurt(damage: number) {
-    this._health -= damage;
+    this.sumDamage +=damage;
+    
+  }
+
+  applyDamage(){
+    this._health -= this.sumDamage;
+    this.sumDamage = 0;
     if (this._health <= 0) {
       this._health = 0;
       this.onKilled();

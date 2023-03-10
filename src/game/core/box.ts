@@ -24,7 +24,10 @@ class Box{
   render(context: CanvasRenderingContext2D, deltaTime: number, camera: Vector, map: GameMap, players: Player[]){
     if (map.isUnderWater(this.physic.position)){ 
       this.isDeleted = true; 
-      this.isSpawned = false;
+      if (this.isSpawned){
+        this.isSpawned = false;
+        this.onStop?.();
+      }
       return;}
     if (this.isDeleted){ return false;}
     players.forEach(it=>{
