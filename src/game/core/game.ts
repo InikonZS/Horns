@@ -236,7 +236,7 @@ class Game {
   processKeyboard(context: CanvasRenderingContext2D, keyboardState: IKeyboardState, deltaTime: number) {
     this.camera.move(context, keyboardState, 80, deltaTime);
 
-    if (!this.teams.currentTeam.isComputer) {
+    if (this.teams.currentTeam && !this.teams.currentTeam.isComputer) {
       let c = new Vector(0, 0);
       let move = false;
       let tryJump = false;
