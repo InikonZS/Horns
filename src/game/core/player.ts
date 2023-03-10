@@ -111,12 +111,23 @@ class Player {
   }
 
   applyDamage(){
-    this._health -= this.sumDamage;
-    this.sumDamage = 0;
-    if (this._health <= 0) {
-      this._health = 0;
-      this.onKilled();
-    }
+    return new Promise<void>(resolve=>{
+      let sum = this.sumDamage;
+      const int = setInterval(it=>{
+        const dec = Math.min(sum, 5);
+        this._health -= dec;
+        sum -= dec;
+        if (sum <=0){
+          this.sumDamage = 0;
+          if (this._health <= 0) {
+            this._health = 0;
+            this.onKilled();
+          }
+          clearInterval(int);
+          resolve();
+        }
+      }, 100);
+    }) 
   }
 
   cure(damage: number) {

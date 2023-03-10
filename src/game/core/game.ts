@@ -45,6 +45,7 @@ class Game {
   onNext: (player:Player, timer: number)=>void;
   shoted: boolean;
   nextLock: boolean;
+  cameraTarget: Vector;
   onFinish: () => void;
 
   constructor() {
@@ -115,10 +116,15 @@ class Game {
     const damagedList = this.teams.getPlayerList().filter(it=> it.sumDamage);
     const handleDamaged = (damaged: Player)=>{
       return new Promise<void>(resolve=>{
+        this.cameraTarget = damaged.physic.position;
         setTimeout(()=>{
-          damaged.applyDamage();
-          resolve();
-        }, 1000);
+          damaged.applyDamage().then(()=>{
+            setTimeout(()=>{
+              this.cameraTarget = null;
+              resolve();
+            }, 100);
+          });
+        }, 2400);
       })
     }
     const resolveList = async ()=>{
@@ -177,6 +183,14 @@ class Game {
     if (this.bullets.list[0]) {
       this.camera.setTargetVector(
         this.bullets.list[0].physic.position
+          .clone()
+          .sub(this.getCenterVector(context)),
+        1,
+        50,
+      );
+    } else if (this.cameraTarget) {
+      this.camera.setTargetVector(
+        this.cameraTarget
           .clone()
           .sub(this.getCenterVector(context)),
         1,
