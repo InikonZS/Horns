@@ -7,10 +7,13 @@ import { Bullet } from './bullet';
 class BulletList{
   list: Bullet[];
   allowTrace: boolean;
+  isStarted: boolean;
+  onEmpty: ()=>void;
   
   constructor(){
     this.list = [];
     this.allowTrace = false;
+    this.isStarted = false;
   }
 
   isEmpty(){
@@ -19,6 +22,16 @@ class BulletList{
 
   add(bullet: Bullet){
     this.list.push(bullet);
+    if (this.isStarted == false){
+      this.isStarted = true;
+    }
+  }
+
+  checkEmpty(){
+    if (this.isStarted && this.isEmpty()){
+      this.isStarted = false;
+      this.onEmpty?.();
+    }
   }
 
   process(deltaTime: number, map: GameMap, playerList: Array<Player>){
@@ -57,6 +70,7 @@ class BulletList{
         it.render(context, deltaTime, camera, process);
         this.allowTrace && it.trace(map, camera, context);
     });  
+    this.checkEmpty();
   }
 }
 

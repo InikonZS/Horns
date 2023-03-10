@@ -37,7 +37,7 @@ class Game {
   bullets: BulletList;
   //currentTeam: any;
   timer: Timer;
-  afterTimer: Timer;
+  //afterTimer: Timer;
   computerShotTimer: Timer;
   map: GameMap;
   silentWatcher: SilentWatcher;
@@ -50,13 +50,27 @@ class Game {
   constructor() {
     this.camera = new Camera(new Vector(0, 0));
     this.wind = 0;
-    this.teams = new TeamList();
-    this.teams.onLastTeam = ()=>{this.onFinish();}
-    this.boxes = new BoxList();
+    this.teams = new TeamList(); 
     this.bullets = new BulletList();
+    this.bullets.onEmpty = ()=>{
+      if (this.teams.getActiveTeams().length <= 1){
+        setTimeout(()=>{
+          this.onFinish();
+        }, 2000);
+      } else {
+        setTimeout(()=>{
+          this.shoted = false;
+          this.next();
+        }, 2000);
+        
+      }
+    }
+    //this.teams.onLastTeam = ()=>{this.onFinish();}
+    this.boxes = new BoxList();
+   
     //this.currentTeam = null;
     this.timer = new Timer();
-    this.afterTimer = new Timer();
+    //this.afterTimer = new Timer();
     this.computerShotTimer = new Timer();
     this.computerShotTimer.onTimeout = () => {
       this.timer.pause();
@@ -65,7 +79,9 @@ class Game {
     this.map;
     this.silentWatcher = new SilentWatcher();
     this.timer.onTimeout = () => {
-      this.next();
+      if (this.bullets.isStarted == false){
+        this.next();
+      }
     };
     this.parts = new Particles(100);
   }
@@ -119,7 +135,7 @@ class Game {
 
   tick(deltaTime: number) {
     this.timer.tick(deltaTime);
-    this.afterTimer.tick(deltaTime);
+    //this.afterTimer.tick(deltaTime);
     this.computerShotTimer.tick(deltaTime);
   }
 
@@ -241,7 +257,7 @@ class Game {
       this.shoted = true;
       this.getCurrentPlayer().shot(this.bullets, this.wind);
 
-      this.afterTimer.start(10);
+      /*this.afterTimer.start(10);
       this.afterTimer.onTimeout = () => {
         if (this.bullets.isEmpty()) {
           this.afterTimer.pause();
@@ -250,7 +266,7 @@ class Game {
         } else {
           this.afterTimer.start(10);
         }
-      };
+      };*/
     }
   }
 
