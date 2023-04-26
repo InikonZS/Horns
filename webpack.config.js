@@ -1,47 +1,76 @@
-const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// Generated using webpack-cli https://github.com/webpack/webpack-cli
 
-console.log(__dirname, './src/modules')
-module.exports = (env, options) => {
-  const isProd = options.mode === 'production';
-  const config = {
-    mode: isProd ? 'production' : 'development',
-    devtool: isProd ? 'none' : 'source-map',
-    entry: './src/index.js',
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const isProduction = process.env.NODE_ENV == 'production';
+
+
+const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
+
+
+
+const config = {
+    entry: './src/index.ts',
+    devtool: 'source-map',
     output: {
-      filename: 'script.js',
-      path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
     },
-    resolve: {
-      alias: {
-        'common': path.resolve(__dirname+ '/src/modules/'),
-        'game': path.resolve(__dirname+ '/src/game/')
-      }
-    },
-    module: {
-      rules: [
-        {
-          test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env']
-            }
-          }
-        }
-      ]
+    devServer: {
+        open: true,
+        host: 'localhost',
     },
     plugins: [
-      new CopyWebpackPlugin([
-        { from: `src/styles`, to: `styles` },
-        { from: `src/style.css`, to: `style.css` },
-        { from: `style-build/main.css`, to: `styles/main.css` },
-        { from: `src/index.html`, to: `index.html` },
-        { from: `src/assets`, to: `assets` },
-      ]),
-    ],
-  };
+        new HtmlWebpackPlugin({
+            template: 'index.html',
+        }),
 
-  return config;
-}
+        // Add your plugins here
+        // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    ],
+    module: {
+        rules: [
+            {
+                test: /\.(ts|tsx)$/i,
+                loader: 'ts-loader',
+                exclude: ['/node_modules/'],
+            },
+            {
+                test: /\.css$/i,
+                use: [stylesHandler,'css-loader'],
+            },
+            {
+                test: /\.s[ac]ss$/i,
+                use: [stylesHandler, 'css-loader', 'sass-loader'],
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+                type: 'asset',
+            },
+
+            // Add your rules for custom modules here
+            // Learn more about loaders from https://webpack.js.org/loaders/
+        ],
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
+        alias: {
+            'common': path.resolve(__dirname+ '/src/modules/'),
+            'game': path.resolve(__dirname+ '/src/game/')
+        }
+    },
+};
+
+module.exports = () => {
+    if (isProduction) {
+        config.mode = 'production';
+        
+        config.plugins.push(new MiniCssExtractPlugin());
+        
+        
+    } else {
+        config.mode = 'development';
+    }
+    return config;
+};
